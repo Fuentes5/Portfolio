@@ -38,6 +38,9 @@ ts =na.omit(ts)
 test = tail(ts,max(nrow(ts)*0.2,4))
 training = head(ts, nrow(ts)-nrow(test))
 
+
+
+
 #create Model
 model_lag0 =tslm(Sales ~ AdBudget, training)
 summary(model_lag0)
@@ -65,5 +68,8 @@ accuracy(pred_lag8,test[,"Sales"])[2,]
 
 #predict future records
 New = data.frame(AdBudget =c(650,700,550,500))
-forecast(model_lag0, New)
+prediction = forecast(model_lag0, New)
 time(ts)
+
+
+autoplot(prediction)
