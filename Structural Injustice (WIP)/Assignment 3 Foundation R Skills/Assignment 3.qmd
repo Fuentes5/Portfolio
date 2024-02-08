@@ -1,0 +1,183 @@
+---
+title: "Assignment 3: Foundational R"
+author: Jose Fuentes
+date: January 2023
+format: html
+editor: source
+theme: united
+toc: true
+toc-depth: 2
+---
+
+# Questions
+
+Instructions: As you work through each of the following questions, make sure to Comment out the question number and describe what you are doing. This is in general good practice.
+
+```{r setup, include=FALSE}
+knitr::opts_knit$set(root.dir = 'C:/Users/jfuentes1/Documents/myrstudio(Structural Injustice)/Datasets')
+```
+
+## Question 1
+
+-   In the YAML, make sure to write your name under "author."
+
+-   Set your working directory in the r setup chunk of code provided above.
+
+## Question 2
+
+-   In the code chunk provided below, clear your global environment (the memory of your data frames and other objects) by using the function rm(list=ls()). It is good practice to clear your global environment prior to starting a new project.
+
+```{r}
+rm(list=ls())
+
+```
+
+## Question 3
+
+Import the BostonHousing.csv data set. Name this data frame as "housing." Write the proper code in the provided chunk below.
+
+-   Note: It is good practice to try to render after importing your data (and also periodically). This ensures that your working directory as you typed it and your data set locations are aligned. It also helps to check the box that says "Render on Save," so that you save and render at the same time periodically.
+
+```{r}
+housing <- read.csv("BostonHousing.csv")
+```
+
+## Question 4
+
+View the first few roes of data. Write the proper code.
+
+```{r}
+head(housing)
+```
+
+## Question 5
+
+What is the data type of *AGE*? Use the proper function in R and answer the question below.
+
+Answer: The data type of *AGE* is "NUM". By using command "str(housing\$AGE)" I was able to figure it out.
+
+```{r}
+str(housing$AGE)
+```
+
+## Question 6
+
+What is the data type of *CHAS*? Use the proper function in R.
+
+Answer: The data type of *CHAS* is "INT". By using command "str(housing\$CHAS)" I was able to figure it out.
+
+```{r}
+str(housing$CHAS)
+```
+
+## Question 7
+
+Are there any variables with the data type "CHAR"?
+
+Answer: From the looks of it, there doesn't seem to be any variables with the data type "CHAR".
+
+## Question 8
+
+Are there any variables that looks like it might be appropriate to be converted to a factor variable? Which ones and why? Convert them to factors in the gray space below.
+
+Answer: Yes, I might be wrong on this, but I believe that CHAS, RAD, and ISHIGHVAL should be turned into factors because they represent different states.
+
+```{r}
+housing$CHAS <- as.factor(housing$CHAS)
+housing$RAD <- as.factor(housing$RAD)
+housing$ISHIGHVAL <- as.factor(housing$ISHIGHVAL)
+
+```
+
+## Question 9
+
+What is the data point located in row 233, column 6? Use the proper code.
+
+Answer:8.337
+
+```{r}
+housing[233,6]
+
+```
+
+## Question 10
+
+What is the data point located in row 378, column 4? Use the proper code.
+
+Answer: 0
+
+```{r}
+housing[378,4]
+```
+
+## Question 11
+
+Use the proper R function to view only rows 202 through 204.Use the proper code.
+
+```{r}
+housing[202:204,]
+```
+
+## Question 12
+
+Keep only data for the columns *CRIM*, *CHAS*, *AGE*, and *MEDV*. Create a new data frame for this set of columns called "housing_subset."
+
+```{r}
+housing_subset = housing[,c("CRIM","CHAS","AGE","MEDV")]
+```
+
+## Question 13
+
+Using housing_subset, plot the relationship between the *CRIM* and *MEDV* variables using ggplot.
+
+```{r}
+library(ggplot2)
+
+
+ggplot()+ geom_point(data=housing_subset,aes(x=CRIM, y=MEDV))
+
+```
+
+## Question 14
+
+Using housing_subset, make sure to typecast *CHAS* as a factor variable (if you didn't already do it before).
+
+```{r}
+housing_subset$CHAS = as.factor(housing_subset$CHAS)
+```
+
+## Question 15
+
+Using housing_subset, how many locations are are within census tract bounds of the river (see the *CHAS* variable). Use the table() function.
+
+Answer: the answer is 35
+
+```{r}
+table(housing_subset$CHAS)
+```
+
+## Question 16
+
+Using housing_subset, create a new variable that is the ratio of *MEDV* to *CRIM*. Call this variable "RATIO" and make sure it is added as a column in the housing_subset data frame.
+
+Answer: \#
+
+```{r}
+
+housing_subset$RATIO <- housing_subset$MEDV/housing_subset$CRIM
+
+```
+
+## Question 17
+
+Examine the descriptive statistics using the datasummary_skim() function.
+
+```{r}
+summary(housing_subset)
+summary(housing)
+
+```
+
+## Question 18
+
+Now, try to render your entire document to HTML prior to submitted. Submit the HTML file, which should be located in the same directory (folder) as your .qmd file. Do not provide an HTML hyperlink, as this can only be retrived in your local drive only. You must upload the HTML file itself onto Canvas.
