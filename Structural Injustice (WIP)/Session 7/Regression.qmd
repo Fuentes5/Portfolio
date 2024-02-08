@@ -1,0 +1,303 @@
+---
+title: "Regression Review"
+author: Eric Chan
+date: January 30, 2023
+theme: lumen
+format: html
+editor: source
+toc: true
+toc-expand: true
+toc-depth: 3
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_knit$set(root.dir = 'C:/Users/jfuentes1/Documents/myrstudio(Structural Injustice)/0.Datasets')
+```
+
+# Data Management
+
+## Import Data
+
+```{r}
+schools <- read.csv("sch_quality.csv")
+```
+
+# Check out the data
+
+Let's look at the data frame
+
+```{r}
+#View(schools) # View the data frame
+rmarkdown::paged_table(head(schools)) # see first rows
+names(schools) # See variable names
+str(schools) # see variable data types
+```
+
+# See Distributions
+
+## Categorical or Ordinal or Binary Variable
+
+Here are some examples of categorical distributions we can look at.
+
+```{r}
+library(ggplot2)
+# categorical
+table(schools$type)
+ggplot(schools,aes(x=type)) + geom_bar()
+# binary
+table(schools$elem)
+ggplot(schools,aes(x=elem)) + geom_bar()
+# ordinal
+table(schools$rating)
+ggplot(schools,aes(x=rating)) + geom_bar()
+```
+
+
+## Continuous or Integer Variables
+
+Here are some examples of numerical variable distributions we can look at.
+
+```{r}
+# continuous
+ggplot(schools, aes(x=free_reduced_lunch)) + geom_histogram()
+# integer
+ggplot(schools,aes(x=schools$rating)) + geom_bar()
+```
+
+## Density Distribution
+
+Here is an example of a density distribution. This helps us examine the "shape" of the numerical distribution.
+
+```{r}
+ggplot(schools,aes(x=free_reduced_lunch)) + geom_density()
+```
+
+
+
+# Summarizing Data
+
+Let's summarize the numerical data, at least! 
+
+Remember, we have already somewhat summarized the categorical data (i.e., frequency tables)
+
+```{r}
+#Useful package for summarizing variables in data frame
+  # install.packages("modelsummary") # if you need it, un-hashtag it, run it, then re-hashtag it
+library(modelsummary)
+datasummary_skim(schools, fmt = "%.3f",) # the fmt determines how many decimal places
+```
+
+
+
+# Simple Linear Regression
+
+## Running the Linear Regression Model
+
+```{r}
+reg1 <- lm(rating~free_reduced_lunch, data=schools)
+summary(reg1)
+
+```
+
+## Plot a linear model
+
+### Use ggplot
+
+```{r}
+ggplot(data=schools, aes(x = free_reduced_lunch, y = rating)) +  
+  geom_point(alpha = .1)
+```
+
+### Use binned means in ggplot
+
+```{r}
+ggplot(data=schools, aes(x = free_reduced_lunch, y = rating)) +  
+  geom_point(alpha = .1) +   
+  stat_summary_bin(fun='mean', bins=10,
+                   color='orange', size=2, geom='point')
+```
+
+bin mean is the average y value on a ranged category
+
+### Use binned means and lm line in ggplot
+
+```{r}
+ggplot(data = schools, aes(x = free_reduced_lunch, y = rating)) + 
+  stat_summary_bin(fun='mean', bins=10,
+                   color='orange', size=2, geom='point') + 
+  geom_smooth(method = "lm") 
+```
+
+
+# Multiple Linear Regression
+
+```{r}
+reg2 <- lm(rating~free_reduced_lunch+black, data=schools)
+summary(reg2)
+```
+# Storing all your models
+
+The modelsummary package is also very useful for storing multiple (multiple) regression models!
+
+```{r}
+
+library(modelsummary)
+models<- list()
+models[['(1)']] <- reg1
+models[['(2)']] <- reg2
+
+modelsummary(models, stars=TRUE, title="Linear Models (DV = School Rating")
+```
+
+
+# Generate a dummy variable
+
+Often, we deal with categorical variables that should be turned into one or more dummy variables.
+
+However, other times, we may want to turn a numeric variable into a dummy variable too! For example, school ratings come from 1 to 10. While 99% of the time we would want to keep it as numeric, in some contexts it may be easier to deal with a categorical variable.
+
+Let's say that a school district defines a "good school" as one with a rating of at least 6. Let's create a dummy variable for "good school."
+
+We first take a look at the distribution of school ratings to get a sense of the variable. 
+
+Then we create the dummy!
+
+```{r}
+table(schools$rating) # see frequency table of ratings
+hist(schools$rating) # see distribution of ratings
+
+# generate a dummy variable for if rating is above 5
+schools$goodschool <- ifelse(schools$rating>=6, 1, 0)
+```
+# Regression with a dummy variable
+
+```{r}
+reg3 <- lm(free_reduced_lunch~goodschool, data=schools)
+summary(reg3)
+```
+
+# Linear Probability Model (LPM)
+
+What happens if we want to run a binary (dummy) variable as an outcome?
+
+## Running an LPM
+
+Let's flip the dependent and independent variables now so that we have a dummy as a dependent variable.
+
+```{r}
+# A linear probability model
+reg4 <- lm(goodschool~free_reduced_lunch, data=schools)
+
+#good school is a 1,0 binary, this should't work, but it's calle linear probability model
+summary(reg4)
+```
+For every 100 percentage pt increase in % frpl students, 
+the probability that a school is "good decreases by 1005 percentage pts
+on avg. All else hekd constant
+
+
+
+
+
+
+## Visualizing an LPM
+
+```{r}
+ggplot(data=schools, aes(x = free_reduced_lunch, y = goodschool)) +  
+  geom_point(alpha = .1) +   
+  geom_smooth(method = "lm")
+```
+
+Idea behind this
+
+1st let's talk about the problems
+ doesn't look like you can run a regression line because it doesn't explain
+ the data
+ 
+ If instead find conditional mean we are able to run a line through it
+ 
+  
+
+
+
+
+## Visualizing LPM with binned means and lm
+
+```{r}
+ggplot(data=schools, aes(x = free_reduced_lunch, y = goodschool)) +  
+  geom_point(alpha = .1) +   
+  stat_summary_bin(fun='mean', bins=10,
+                   color='orange', size=2, geom='point') + 
+  geom_smooth(method = "lm")
+```
+
+# The Logistic Function
+
+Logistic Function uses a curve that can help us solve our issue! This is what the Logistic Function looks like:
+
+```{r}
+# The Logistic Regression Model
+curve((exp(x) / (1 + exp(x))),
+      from=-5, to=5,
+      ylab="f(x)", main="Logistic Function")
+```
+
+## The opposite of S-shaped curve
+
+Our data looks more like this, though, which is the case when there is a negative relationship between your variables as we have here. Doesn't this look like it could help us describe the relationship between free_reduced_lunch and school ratings better?
+
+```{r}
+curve((exp(-x) / (1 + exp(-x))),
+      from=-5, to=5,
+      ylab="f(x)", main="Logistic Function")
+```
+
+
+# Logistic Model
+
+## Running a logistic model
+
+```{r}
+log1 <- glm(goodschool~free_reduced_lunch, data = schools, family = "binomial")
+summary(log1)
+```
+For every 100pp increase in FRPL,
+the odds of the school being a "good" school
+decreases by a multiplicative dactor e^-5.55
+on avg. All else hend constant
+
+
+
+# Interpreting the logistic model coefficients
+
+The coefficients are in "log-odds."
+
+To calculate the odds, we can easily find it by finding the natural log of the coefficient, or in other words taking e^{beta}. This will be referred to as the "odds," but it is still difficult to interpret. 
+
+```{r}
+exp(-5.55)
+```
+
+The interpretation of the odds here is that "a one unit change (really, 100% change) in the percentage of students receiving free or reduced lunch in school multiplies the probability by 0.003887457 the probability of being in a school considered to be "good." You can think of this as going from 0% FRPL to 100% FRPL would substantially lessen the probability of being a good school.
+
+To translate the odds, take:
+
+* exp^{beta} - 1 if beta is positive
+
+* 1- exp^{beta} if beta is negative
+
+```{r}
+#In this case, we have a negative beta, so do the following:
+1-exp(-5.55)
+```
+
+* To interpret the resulting number, it is that "there is x% more (if positive beta) or x% less (if negative beta) relative probability of being a 1 (whatever 1 is) in the dependent variable."
+
+* In other words, "A one-unit change (really, 100% change) in Free or Reduced priced lunch would mean a 99.61125% less relative probability of being a good school."
+
+* Notice that these interpretations are very clunky!!! And difficult!! And so, sometimes, if we don't get extreme interpretations in a Linear Probability Model (LPM), we can use LPM more to interpret.
+
+* The benefit of logistic regression lies in times when you do not have to interpret the coefficients and only need an idea of the relationship. But the LPM is much simpler at interpretation and can be used to convey a relatively good idea of size of relationships when the coefficients you receive are not extreme! (i.e., over 100% changes.)
+

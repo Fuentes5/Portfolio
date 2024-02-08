@@ -1,0 +1,1272 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Eric W. Chan">
+<meta name="dcterms.date" content="2024-01-22">
+
+<title>R Review</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="review_R_files/libs/clipboard/clipboard.min.js"></script>
+<script src="review_R_files/libs/quarto-html/quarto.js"></script>
+<script src="review_R_files/libs/quarto-html/popper.min.js"></script>
+<script src="review_R_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="review_R_files/libs/quarto-html/anchor.min.js"></script>
+<link href="review_R_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="review_R_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="review_R_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="review_R_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="review_R_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+<script src="review_R_files/libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="review_R_files/libs/lightable-0.0.1/lightable.css" rel="stylesheet">
+
+
+</head>
+
+<body>
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#change-working-directory" id="toc-change-working-directory" class="nav-link active" data-scroll-target="#change-working-directory">Change Working Directory</a></li>
+  <li><a href="#importing-and-viewing-data-frames" id="toc-importing-and-viewing-data-frames" class="nav-link" data-scroll-target="#importing-and-viewing-data-frames">Importing and Viewing Data Frames</a></li>
+  <li><a href="#typecasting" id="toc-typecasting" class="nav-link" data-scroll-target="#typecasting">Typecasting</a></li>
+  <li><a href="#slicing-and-viewing-data-points" id="toc-slicing-and-viewing-data-points" class="nav-link" data-scroll-target="#slicing-and-viewing-data-points">Slicing and Viewing Data Points</a></li>
+  <li><a href="#keep-only-certain-columns-or-rows" id="toc-keep-only-certain-columns-or-rows" class="nav-link" data-scroll-target="#keep-only-certain-columns-or-rows">Keep only certain columns or rows</a></li>
+  <li><a href="#basic-plots" id="toc-basic-plots" class="nav-link" data-scroll-target="#basic-plots">Basic Plots</a></li>
+  <li><a href="#storing-variables-as-objects" id="toc-storing-variables-as-objects" class="nav-link" data-scroll-target="#storing-variables-as-objects">Storing variables as objects</a></li>
+  <li><a href="#basic-descriptive-statistics" id="toc-basic-descriptive-statistics" class="nav-link" data-scroll-target="#basic-descriptive-statistics">Basic Descriptive Statistics</a></li>
+  <li><a href="#practice" id="toc-practice" class="nav-link" data-scroll-target="#practice">Practice</a></li>
+  </ul>
+</nav>
+</div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">R Review</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Eric W. Chan </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">January 22, 2024</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+</header>
+
+<p><strong>Notebook Information:</strong></p>
+<ul>
+<li>RMarkdown File Written by: Professor Eric W. Chan</li>
+<li>Last Amended: Eric W. Chan 01.25.2022</li>
+</ul>
+<section id="change-working-directory" class="level1">
+<h1>Change Working Directory</h1>
+<p>Prior to doing anything in a Quarto file, make sure to change the working directory in the first chunk of gray space.</p>
+</section>
+<section id="importing-and-viewing-data-frames" class="level1">
+<h1>Importing and Viewing Data Frames</h1>
+<p>We first learn to import the data as an R object. Then we will view the data in the data frame and assess what types of data R has imported.</p>
+<section id="import-from-csv" class="level2">
+<h2 class="anchored" data-anchor-id="import-from-csv">Import from CSV</h2>
+<p>We first import from CSV (one of the better formats to import data…and you can open CSV files in Excel also.)</p>
+<ul>
+<li>Note that you can import from many types of data files (i.e., .txt, .xlsx, .dta, etc.)</li>
+<li>Below, note that “df” is a shorthand for data frame and often used as a quick was of naming data frame. However, you can name the data frame object anything you want!Best to name it something useful.
+<ul>
+<li>For example, if you do: schools &lt;- read.csv(“sch_quality.csv”), then you should refer to your data frame as “schools” instead of “df”</li>
+</ul></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"sch_quality.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="view-the-data-frame" class="level2">
+<h2 class="anchored" data-anchor-id="view-the-data-frame">View the data frame</h2>
+<p>There are multiple ways to view the data in your data frame.</p>
+<ul>
+<li>One uses the View() function, where you can view all your data in a separate window.</li>
+<li>Another uses the head() function, where you can view the first several rows of your data frame.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># view the data -- notice the capital V!</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="do">## This will open in a separate window</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">View</span>(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># View only at the first few rows of data</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  universalid    ncescode                          schoolname   type
+1      100005 10000500870            Ala Avenue Middle School public
+2      100006 10000500871             Albertville High School public
+3      100007 10000500879             Evans Elementary School public
+4      100009 10000500889       Albertville Elementary School public
+5      100012 10000600193 Kate Duncan Smith Dar Middle School public
+6      100013 10000600872                       Asbury School public
+                            subtype elem middle high levelcode rating
+1                            middle    0      1    0         m      6
+2                              high    0      1    1       m,h      6
+3                            middle    0      1    0         m      4
+4                        elementary    1      0    0         e      6
+5                            middle    1      1    0       e,m      8
+6 combined_elementary_and_secondary    1      1    1     e,m,h      6
+  free_reduced_lunch enrollment    white      black  hispanic      asian
+1           0.644737        608 0.672697 0.02467110 0.2944080 0.00328947
+2           0.490215       1022 0.760274 0.02348340 0.2123290 0.00195695
+3           0.673877        601 0.603993 0.01497500 0.3677200 0.00499168
+4           0.683881        639 0.568075 0.01095460 0.3881060 0.00469484
+5           0.563851        509 0.980354 0.00589391 0.0137525 0.00000000
+6           0.806604        424 0.768868 0.00471698 0.2169810 0.00000000
+  multiracial native_american                street        city state   zip
+1 0.001644740     0.003289470  600 East Alabama Ave Albertville    AL 35950
+2 0.000978474     0.000978474   402 East McCord Ave Albertville    AL 35950
+3 0.008319470     0.000000000 901 West McKinney Ave Albertville    AL 35950
+4 0.025039100     0.003129890        1100 Horton Rd Albertville    AL 35950
+5 0.000000000     0.000000000          6077 Main St       Grant    AL 35747
+6 0.004716980     0.004716980        1990 Asbury Rd Albertville    AL 35950
+    county fipscounty districtid                     districtname
+1 Marshall       1095          5 Albertville City School District
+2 Marshall       1095          5 Albertville City School District
+3 Marshall       1095          5 Albertville City School District
+4 Marshall       1095          5 Albertville City School District
+5 Marshall       1095          6  Marshall County School District
+6 Marshall       1095          6  Marshall County School District</code></pre>
+</div>
+</div>
+</section>
+<section id="look-at-structure-of-the-data-frame" class="level2">
+<h2 class="anchored" data-anchor-id="look-at-structure-of-the-data-frame">Look at structure of the data frame</h2>
+<p>Now let’s examine the data types (i.e., numeric, character, factor, integer etc.)</p>
+<ul>
+<li>Here, you will notice that each column (or variable) contain a variable type along with some example of the data.</li>
+<li>For example, the variable <em>free_reduced_lunch</em> is a numeric (<em>num</em>) variable, whereas <em>type</em> is a character (<em>chr</em>) variable.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>'data.frame':   83239 obs. of  26 variables:
+ $ universalid       : int  100005 100006 100007 100009 100012 100013 100015 100016 100017 100018 ...
+ $ ncescode          : num  1e+10 1e+10 1e+10 1e+10 1e+10 ...
+ $ schoolname        : chr  "Ala Avenue Middle School" "Albertville High School" "Evans Elementary School" "Albertville Elementary School" ...
+ $ type              : chr  "public" "public" "public" "public" ...
+ $ subtype           : chr  "middle" "high" "middle" "elementary" ...
+ $ elem              : int  0 0 0 1 1 1 1 1 0 1 ...
+ $ middle            : int  1 1 1 0 1 1 1 0 1 0 ...
+ $ high              : int  0 1 0 0 0 1 0 0 1 0 ...
+ $ levelcode         : chr  "m" "m,h" "m" "e" ...
+ $ rating            : int  6 6 4 6 8 6 8 6 8 3 ...
+ $ free_reduced_lunch: num  0.645 0.49 0.674 0.684 0.564 ...
+ $ enrollment        : int  608 1022 601 639 509 424 137 473 526 348 ...
+ $ white             : num  0.673 0.76 0.604 0.568 0.98 ...
+ $ black             : num  0.02467 0.02348 0.01498 0.01095 0.00589 ...
+ $ hispanic          : num  0.2944 0.2123 0.3677 0.3881 0.0138 ...
+ $ asian             : num  0.00329 0.00196 0.00499 0.00469 0 ...
+ $ multiracial       : num  0.001645 0.000978 0.008319 0.025039 0 ...
+ $ native_american   : num  0.003289 0.000978 0 0.00313 0 ...
+ $ street            : chr  "600 East Alabama Ave" "402 East McCord Ave" "901 West McKinney Ave" "1100 Horton Rd" ...
+ $ city              : chr  "Albertville" "Albertville" "Albertville" "Albertville" ...
+ $ state             : chr  "AL" "AL" "AL" "AL" ...
+ $ zip               : int  35950 35950 35950 35950 35747 35950 35976 35964 35964 35016 ...
+ $ county            : chr  "Marshall" "Marshall" "Marshall" "Marshall" ...
+ $ fipscounty        : int  1095 1095 1095 1095 1095 1095 1095 1095 1095 1095 ...
+ $ districtid        : int  5 5 5 5 6 6 6 6 6 6 ...
+ $ districtname      : chr  "Albertville City School District" "Albertville City School District" "Albertville City School District" "Albertville City School District" ...</code></pre>
+</div>
+</div>
+<p>If you only want the structure of one particular variable, you can specify the column:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(df<span class="sc">$</span>zip)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> int [1:83239] 35950 35950 35950 35950 35747 35950 35976 35964 35964 35016 ...</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="typecasting" class="level1">
+<h1>Typecasting</h1>
+<p>For binary variables, sometimes you might want to set them up to be “logical” variables. For reasons of visualizing or running models, you may sometimes make modifications to data points; perhaps you want a character variable to become numeric, etc. There are many reasons why you might want to change variable types.</p>
+<section id="the-table-function-for-single-variable" class="level2">
+<h2 class="anchored" data-anchor-id="the-table-function-for-single-variable">The table() function for single variable</h2>
+<p>One example here is the <em>elem</em> variable/column, which shows data for whether a school includes elementary grades (1) or not (0).The table function shows a frequency table, where we can see the 1’s and 0’s. This can help us know whether we can make it a “logical” (TRUE, FALSE) variable type. If we choose do do so, anything not 0 is changed to a TRUE, and any 0’s become FALSE.</p>
+<p>First, let’s look at the frequency table:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(df<span class="sc">$</span>elem)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    0     1 
+32914 50325 </code></pre>
+</div>
+</div>
+</section>
+<section id="the-as.logical-function" class="level2">
+<h2 class="anchored" data-anchor-id="the-as.logical-function">The as.logical() function</h2>
+<p>Then, if we want to typecast as a logical variable, the “as.logical”” function typecasts your X (which is df$elem here) as a logical (TRUE or FALSE)</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>elem <span class="ot">&lt;-</span> <span class="fu">as.logical</span>(df<span class="sc">$</span>elem)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="the-as.factor-function" class="level2">
+<h2 class="anchored" data-anchor-id="the-as.factor-function">The as.factor() function</h2>
+<p>We can also convert categorical variables to factors rather than a numeric or char. For example, the “rating” variable/feature is a number from 1 to 10 (see frequency table), but you can treat it as an ordinal categorical variable instead of a discrete numeric variable.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(df<span class="sc">$</span>rating)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    1     2     3     4     5     6     7     8     9    10 
+ 3962  7091  8411  9750 10815 11068 10748  9469  7689  4236 </code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>rating <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(df<span class="sc">$</span>rating)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="check-data-type" class="level2">
+<h2 class="anchored" data-anchor-id="check-data-type">Check data type</h2>
+<p>We can now double check on whether each are logical or factor or niether using the is.logical() and is.factor() functions! They return either TRUE or FALSE.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">is.logical</span>(df<span class="sc">$</span>elem)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">is.logical</span>(df<span class="sc">$</span>rating)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] FALSE</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">is.factor</span>(df<span class="sc">$</span>rating)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="slicing-and-viewing-data-points" class="level1">
+<h1>Slicing and Viewing Data Points</h1>
+<section id="by-row-and-column" class="level2">
+<h2 class="anchored" data-anchor-id="by-row-and-column">By Row and Column</h2>
+<p>There are many ways to view the specific data points.</p>
+<ul>
+<li>We often want to deal with data in terms of rows (usually cases/observations) and columns (usually variables).</li>
+<li>Here, we find the row 2, column 3 of the data frame df gives us “Albertville High School”</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="do">## look for specific data points using rows and columns</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>df[<span class="dv">2</span>,<span class="dv">3</span>] <span class="co"># data for row 2, column 3 of the data frame df -- verify in View</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Albertville High School"</code></pre>
+</div>
+</div>
+<ul>
+<li>Here, we find the row 1, column 8 of the data frame df gives us the number 0</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="do">## look for specific data points using rows and columns</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>df[<span class="dv">1</span>,<span class="dv">8</span>] <span class="co"># data for row 1, column 8 of the data frame df -- verify in View</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0</code></pre>
+</div>
+</div>
+</section>
+<section id="view-entire-rows" class="level2">
+<h2 class="anchored" data-anchor-id="view-entire-rows">View entire row(s)</h2>
+<p>We can view entire row(s).</p>
+<ul>
+<li>First we look for the entirety of row 1 of data frame df.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>df[<span class="dv">1</span>,] <span class="co"># row 1, and no restrictions on columns</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  universalid    ncescode               schoolname   type subtype  elem middle
+1      100005 10000500870 Ala Avenue Middle School public  middle FALSE      1
+  high levelcode rating free_reduced_lunch enrollment    white     black
+1    0         m      6           0.644737        608 0.672697 0.0246711
+  hispanic      asian multiracial native_american               street
+1 0.294408 0.00328947  0.00164474      0.00328947 600 East Alabama Ave
+         city state   zip   county fipscounty districtid
+1 Albertville    AL 35950 Marshall       1095          5
+                      districtname
+1 Albertville City School District</code></pre>
+</div>
+</div>
+<ul>
+<li>Then, we look for columns 1 through 3 of data frame df.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>df[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>,] <span class="co"># rows 1 through 10, no restrictions on columns</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   universalid    ncescode                          schoolname   type
+1       100005 10000500870            Ala Avenue Middle School public
+2       100006 10000500871             Albertville High School public
+3       100007 10000500879             Evans Elementary School public
+4       100009 10000500889       Albertville Elementary School public
+5       100012 10000600193 Kate Duncan Smith Dar Middle School public
+6       100013 10000600872                       Asbury School public
+7       100015 10000600876           Claysville Jr High School public
+8       100016 10000600877           Douglas Elementary School public
+9       100017 10000600878                 Douglas High School public
+10      100018 10000600880            Grassy Elementary School public
+                             subtype  elem middle high levelcode rating
+1                             middle FALSE      1    0         m      6
+2                               high FALSE      1    1       m,h      6
+3                             middle FALSE      1    0         m      4
+4                         elementary  TRUE      0    0         e      6
+5                             middle  TRUE      1    0       e,m      8
+6  combined_elementary_and_secondary  TRUE      1    1     e,m,h      6
+7                         elementary  TRUE      1    0     p,e,m      8
+8                         elementary  TRUE      0    0         e      6
+9                               high FALSE      1    1       m,h      8
+10                        elementary  TRUE      0    0       p,e      3
+   free_reduced_lunch enrollment    white      black  hispanic      asian
+1            0.644737        608 0.672697 0.02467110 0.2944080 0.00328947
+2            0.490215       1022 0.760274 0.02348340 0.2123290 0.00195695
+3            0.673877        601 0.603993 0.01497500 0.3677200 0.00499168
+4            0.683881        639 0.568075 0.01095460 0.3881060 0.00469484
+5            0.563851        509 0.980354 0.00589391 0.0137525 0.00000000
+6            0.806604        424 0.768868 0.00471698 0.2169810 0.00000000
+7            0.489051        137 0.810219 0.02189780 0.1094890 0.01459850
+8            0.822410        473 0.682875 0.00845666 0.2917550 0.00000000
+9            0.642586        526 0.790875 0.01520910 0.1920150 0.00000000
+10           0.772989        348 0.928161 0.01436780 0.0545977 0.00000000
+   multiracial native_american                   street         city state
+1  0.001644740     0.003289470     600 East Alabama Ave  Albertville    AL
+2  0.000978474     0.000978474      402 East McCord Ave  Albertville    AL
+3  0.008319470     0.000000000    901 West McKinney Ave  Albertville    AL
+4  0.025039100     0.003129890           1100 Horton Rd  Albertville    AL
+5  0.000000000     0.000000000             6077 Main St        Grant    AL
+6  0.004716980     0.004716980           1990 Asbury Rd  Albertville    AL
+7  0.036496400     0.007299270 140 Claysville School Rd Guntersville    AL
+8  0.010570800     0.006342490                   Hwy 75      Douglas    AL
+9  0.000000000     0.001901140                   Hwy 75      Douglas    AL
+10 0.000000000     0.002873560      2233 Shoal Creek Rd         Arab    AL
+     zip   county fipscounty districtid                     districtname
+1  35950 Marshall       1095          5 Albertville City School District
+2  35950 Marshall       1095          5 Albertville City School District
+3  35950 Marshall       1095          5 Albertville City School District
+4  35950 Marshall       1095          5 Albertville City School District
+5  35747 Marshall       1095          6  Marshall County School District
+6  35950 Marshall       1095          6  Marshall County School District
+7  35976 Marshall       1095          6  Marshall County School District
+8  35964 Marshall       1095          6  Marshall County School District
+9  35964 Marshall       1095          6  Marshall County School District
+10 35016 Marshall       1095          6  Marshall County School District</code></pre>
+</div>
+</div>
+</section>
+<section id="view-entire-columns" class="level2">
+<h2 class="anchored" data-anchor-id="view-entire-columns">View entire column(s)</h2>
+<p>We can view entire column(s).</p>
+<ul>
+<li>First we look for the entirety of column 1 of data frame df.</li>
+</ul>
+<p>Note: Results hidden due to space constraints.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>df[,<span class="dv">1</span>] <span class="co"># column 1, and no restrictions on rows</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>Then, we look for columns 1 through 3 of data frame df.</li>
+</ul>
+<p>Note: Results hidden on HTML file due to space restrictions. To do this, we include the option “{results=‘hide’}” in the first line of the gray space.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>df[,<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>] <span class="co"># column 1 through 3, and no restrictions on rows</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>We can also view entire column(s) by using their column name(s)</li>
+</ul>
+<p>Note: Results hidden on HTML file due to space restrictions. To do this, we include the option “{results=‘hide’}” in the first line of the gray space.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>rating <span class="co"># column named rating -- don't have to know it column number!</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>We can also view entire set of columns by using multiple column names!</li>
+</ul>
+<p>Note: Results hidden on HTML file due to space restrictions. To do this, we include the option “{results=‘hide’}” in the first line of the gray space.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>df[,<span class="fu">c</span>(<span class="st">"schoolname"</span>,<span class="st">"rating"</span>, <span class="st">"free_reduced_lunch"</span> , <span class="st">"black"</span>)] <span class="co"># we can also select noncontiguous columns by name</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="keep-only-certain-columns-or-rows" class="level1">
+<h1>Keep only certain columns or rows</h1>
+<p>We can keep only certain columns and assign it to be a new data frame object.</p>
+<section id="keep-some-columns" class="level2">
+<h2 class="anchored" data-anchor-id="keep-some-columns">Keep some columns</h2>
+<p>We can keep only certain columns and assign it to be a new data frame object called “df_columns” (below) * Notice that the data frame “df_columns” contains only 4 variables/features, which is a subset of df! * Also note in your Global Environment (Top right) that you now have 2 data frames, df and df_columns.</p>
+<p>Note: Results hidden on HTML file due to space restrictions. To do this, we include the option “{results=‘hide’}” in the first line of the gray space.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="do">## keep only certain columns by creating a new "data frame"</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>df_columns <span class="ot">&lt;-</span> df[,<span class="fu">c</span>(<span class="st">"schoolname"</span>,<span class="st">"rating"</span>, <span class="st">"free_reduced_lunch"</span> , <span class="st">"black"</span>)]</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="fu">View</span>(df_columns)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="keep-some-rows" class="level2">
+<h2 class="anchored" data-anchor-id="keep-some-rows">Keep some rows</h2>
+<ul>
+<li>Alternatively, we can keep only certain rows and assign it to be a new data frame object called “df_rows” (below)</li>
+<li>Notice that the data frame “df_rows” contains only 3 observations/cases, which is a subset of df!</li>
+<li>Also note in your Global Environment (Top right) that you now have 3 data frames, df and df_columns abd df_rows.</li>
+</ul>
+<p>Note: Results hidden due to space constraints.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="do">## keep only certain rows by creating a new "data frame"</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>df_rows <span class="ot">&lt;-</span> df[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>,]</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="fu">View</span>(df_rows)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="basic-plots" class="level1">
+<h1>Basic Plots</h1>
+<p>Now, let’s plot some of the data. Prior to using any R package, we must install and load it prior to using its available functions.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Install ggplot2, which is very popular package for visualizations</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages("ggplot2")</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>Then load:</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Load the package for ggplot2</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Let’s plot two plots with simple data.</p>
+<ul>
+<li>First, we can plot two continuous variables the percentage of students with free or reduced priced lunch against the percentage of students who identify as hispanic as a basic scatter plot:</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>df,<span class="fu">aes</span>(<span class="at">x=</span>free_reduced_lunch, <span class="at">y=</span>hispanic))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 3704 rows containing missing values (`geom_point()`).</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="review_R_files/figure-html/unnamed-chunk-24-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<ul>
+<li>Second, we use a factor (categorical) variable, school rating from 1-10 (with 10 being the highest), to plot the boxplots of percentage of students with free or reduced priced lunch at each school by each school rating:</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">data=</span>df,<span class="fu">aes</span>(<span class="at">x=</span>free_reduced_lunch, <span class="at">y=</span>rating))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 1471 rows containing non-finite values (`stat_boxplot()`).</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="review_R_files/figure-html/unnamed-chunk-25-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="storing-variables-as-objects" class="level1">
+<h1>Storing variables as objects</h1>
+<p>Alternatively, we can also store the column/variable as a named object (in this case, x). Then we can just refer to x:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> df<span class="sc">$</span>elem</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>x
+FALSE  TRUE 
+32914 50325 </code></pre>
+</div>
+</div>
+</section>
+<section id="basic-descriptive-statistics" class="level1">
+<h1>Basic Descriptive Statistics</h1>
+<p>One (out of many) ways to examine descriptive (summary) statistics is to use the modelsummary package. Let’s make sure to install this package and run the datasummary_skim() function from it.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages("modelsummary")</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(modelsummary)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'modelsummary' was built under R version 4.3.2</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">datasummary_skim</span>(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th"></th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Unique (#)</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Missing (%)</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Mean</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">SD</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Min</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Median</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Max</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">universalid</td>
+<td style="text-align: right;">83239</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2829448.2</td>
+<td style="text-align: right;">1598126.1</td>
+<td style="text-align: right;">100005.0</td>
+<td style="text-align: right;">2800753.0</td>
+<td style="text-align: right;">5505988.0</td>
+<td style="text-align: right;"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiBjbGFzcz0ic3ZnbGl0ZSIgd2lkdGg9IjQ4LjAwcHQiIGhlaWdodD0iMTIuMDBwdCIgdmlld2JveD0iMCAwIDQ4LjAwIDEyLjAwIj48ZGVmcz48c3R5bGUgdHlwZT0idGV4dC9jc3MiPgogICAgLnN2Z2xpdGUgbGluZSwgLnN2Z2xpdGUgcG9seWxpbmUsIC5zdmdsaXRlIHBvbHlnb24sIC5zdmdsaXRlIHBhdGgsIC5zdmdsaXRlIHJlY3QsIC5zdmdsaXRlIGNpcmNsZSB7CiAgICAgIGZpbGw6IG5vbmU7CiAgICAgIHN0cm9rZTogIzAwMDAwMDsKICAgICAgc3Ryb2tlLWxpbmVjYXA6IHJvdW5kOwogICAgICBzdHJva2UtbGluZWpvaW46IHJvdW5kOwogICAgICBzdHJva2UtbWl0ZXJsaW1pdDogMTAuMDA7CiAgICB9CiAgICAuc3ZnbGl0ZSB0ZXh0IHsKICAgICAgd2hpdGUtc3BhY2U6IHByZTsKICAgIH0KICA8L3N0eWxlPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBzdHlsZT0ic3Ryb2tlOiBub25lOyBmaWxsOiBub25lOyI+PC9yZWN0PjxkZWZzPjxjbGlwcGF0aCBpZD0iY3BNQzR3TUh3ME9DNHdNSHd3TGpBd2ZERXlMakF3Ij48cmVjdCB4PSIwLjAwIiB5PSIwLjAwIiB3aWR0aD0iNDguMDAiIGhlaWdodD0iMTIuMDAiPjwvcmVjdD48L2NsaXBwYXRoPjwvZGVmcz48ZyBjbGlwLXBhdGg9InVybCgjY3BNQzR3TUh3ME9DNHdNSHd3TGpBd2ZERXlMakF3KSI+CjwvZz48ZGVmcz48Y2xpcHBhdGggaWQ9ImNwTUM0d01IdzBPQzR3TUh3eUxqZzRmREV5TGpBdyI+PHJlY3QgeD0iMC4wMCIgeT0iMi44OCIgd2lkdGg9IjQ4LjAwIiBoZWlnaHQ9IjkuMTIiPjwvcmVjdD48L2NsaXBwYXRoPjwvZGVmcz48ZyBjbGlwLXBhdGg9InVybCgjY3BNQzR3TUh3ME9DNHdNSHd5TGpnNGZERXlMakF3KSI+PHJlY3QgeD0iMC45NiIgeT0iOS40MyIgd2lkdGg9IjQuMTEiIGhlaWdodD0iMi4yNCIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSI1LjA3IiB5PSIzLjIyIiB3aWR0aD0iNC4xMSIgaGVpZ2h0PSI4LjQ0IiBzdHlsZT0ic3Ryb2tlLXdpZHRoOiAwLjM4OyBmaWxsOiAjMDAwMDAwOyI+PC9yZWN0PjxyZWN0IHg9IjkuMTgiIHk9IjcuNjIiIHdpZHRoPSI0LjExIiBoZWlnaHQ9IjQuMDQiIHN0eWxlPSJzdHJva2Utd2lkdGg6IDAuMzg7IGZpbGw6ICMwMDAwMDA7Ij48L3JlY3Q+PHJlY3QgeD0iMTMuMjkiIHk9IjYuNTEiIHdpZHRoPSI0LjExIiBoZWlnaHQ9IjUuMTUiIHN0eWxlPSJzdHJva2Utd2lkdGg6IDAuMzg7IGZpbGw6ICMwMDAwMDA7Ij48L3JlY3Q+PHJlY3QgeD0iMTcuNDAiIHk9IjcuODIiIHdpZHRoPSI0LjExIiBoZWlnaHQ9IjMuODQiIHN0eWxlPSJzdHJva2Utd2lkdGg6IDAuMzg7IGZpbGw6ICMwMDAwMDA7Ij48L3JlY3Q+PHJlY3QgeD0iMjEuNTEiIHk9IjUuNTUiIHdpZHRoPSI0LjExIiBoZWlnaHQ9IjYuMTEiIHN0eWxlPSJzdHJva2Utd2lkdGg6IDAuMzg7IGZpbGw6ICMwMDAwMDA7Ij48L3JlY3Q+PHJlY3QgeD0iMjUuNjIiIHk9IjguNTMiIHdpZHRoPSI0LjExIiBoZWlnaHQ9IjMuMTMiIHN0eWxlPSJzdHJva2Utd2lkdGg6IDAuMzg7IGZpbGw6ICMwMDAwMDA7Ij48L3JlY3Q+PHJlY3QgeD0iMjkuNzMiIHk9IjQuNjMiIHdpZHRoPSI0LjExIiBoZWlnaHQ9IjcuMDQiIHN0eWxlPSJzdHJva2Utd2lkdGg6IDAuMzg7IGZpbGw6ICMwMDAwMDA7Ij48L3JlY3Q+PHJlY3QgeD0iMzMuODQiIHk9IjcuNjAiIHdpZHRoPSI0LjExIiBoZWlnaHQ9IjQuMDYiIHN0eWxlPSJzdHJva2Utd2lkdGg6IDAuMzg7IGZpbGw6ICMwMDAwMDA7Ij48L3JlY3Q+PHJlY3QgeD0iMzcuOTUiIHk9IjMuNjIiIHdpZHRoPSI0LjExIiBoZWlnaHQ9IjguMDQiIHN0eWxlPSJzdHJva2Utd2lkdGg6IDAuMzg7IGZpbGw6ICMwMDAwMDA7Ij48L3JlY3Q+PHJlY3QgeD0iNDIuMDYiIHk9IjguNDgiIHdpZHRoPSI0LjExIiBoZWlnaHQ9IjMuMTgiIHN0eWxlPSJzdHJva2Utd2lkdGg6IDAuMzg7IGZpbGw6ICMwMDAwMDA7Ij48L3JlY3Q+PHJlY3QgeD0iNDYuMTciIHk9IjEwLjM4IiB3aWR0aD0iNC4xMSIgaGVpZ2h0PSIxLjI4IiBzdHlsZT0ic3Ryb2tlLXdpZHRoOiAwLjM4OyBmaWxsOiAjMDAwMDAwOyI+PC9yZWN0PjwvZz48L3N2Zz4=" class="svglite img-fluid"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ncescode</td>
+<td style="text-align: right;">15730</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">283444139218.9</td>
+<td style="text-align: right;">159823138540.6</td>
+<td style="text-align: right;">9067.0</td>
+<td style="text-align: right;">280000000000.0</td>
+<td style="text-align: right;">552000000000.0</td>
+<td style="text-align: right;"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiBjbGFzcz0ic3ZnbGl0ZSIgd2lkdGg9IjQ4LjAwcHQiIGhlaWdodD0iMTIuMDBwdCIgdmlld2JveD0iMCAwIDQ4LjAwIDEyLjAwIj48ZGVmcz48c3R5bGUgdHlwZT0idGV4dC9jc3MiPgogICAgLnN2Z2xpdGUgbGluZSwgLnN2Z2xpdGUgcG9seWxpbmUsIC5zdmdsaXRlIHBvbHlnb24sIC5zdmdsaXRlIHBhdGgsIC5zdmdsaXRlIHJlY3QsIC5zdmdsaXRlIGNpcmNsZSB7CiAgICAgIGZpbGw6IG5vbmU7CiAgICAgIHN0cm9rZTogIzAwMDAwMDsKICAgICAgc3Ryb2tlLWxpbmVjYXA6IHJvdW5kOwogICAgICBzdHJva2UtbGluZWpvaW46IHJvdW5kOwogICAgICBzdHJva2UtbWl0ZXJsaW1pdDogMTAuMDA7CiAgICB9CiAgICAuc3ZnbGl0ZSB0ZXh0IHsKICAgICAgd2hpdGUtc3BhY2U6IHByZTsKICAgIH0KICA8L3N0eWxlPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBzdHlsZT0ic3Ryb2tlOiBub25lOyBmaWxsOiBub25lOyI+PC9yZWN0PjxkZWZzPjxjbGlwcGF0aCBpZD0iY3BNQzR3TUh3ME9DNHdNSHd3TGpBd2ZERXlMakF3Ij48cmVjdCB4PSIwLjAwIiB5PSIwLjAwIiB3aWR0aD0iNDguMDAiIGhlaWdodD0iMTIuMDAiPjwvcmVjdD48L2NsaXBwYXRoPjwvZGVmcz48ZyBjbGlwLXBhdGg9InVybCgjY3BNQzR3TUh3ME9DNHdNSHd3TGpBd2ZERXlMakF3KSI+CjwvZz48ZGVmcz48Y2xpcHBhdGggaWQ9ImNwTUM0d01IdzBPQzR3TUh3eUxqZzRmREV5TGpBdyI+PHJlY3QgeD0iMC4wMCIgeT0iMi44OCIgd2lkdGg9IjQ4LjAwIiBoZWlnaHQ9IjkuMTIiPjwvcmVjdD48L2NsaXBwYXRoPjwvZGVmcz48ZyBjbGlwLXBhdGg9InVybCgjY3BNQzR3TUh3ME9DNHdNSHd5TGpnNGZERXlMakF3KSI+PHJlY3QgeD0iMS43OCIgeT0iOS40OCIgd2lkdGg9IjQuMDMiIGhlaWdodD0iMi4xOCIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSI1LjgwIiB5PSIzLjIyIiB3aWR0aD0iNC4wMyIgaGVpZ2h0PSI4LjQ0IiBzdHlsZT0ic3Ryb2tlLXdpZHRoOiAwLjM4OyBmaWxsOiAjMDAwMDAwOyI+PC9yZWN0PjxyZWN0IHg9IjkuODMiIHk9IjcuNjkiIHdpZHRoPSI0LjAzIiBoZWlnaHQ9IjMuOTciIHN0eWxlPSJzdHJva2Utd2lkdGg6IDAuMzg7IGZpbGw6ICMwMDAwMDA7Ij48L3JlY3Q+PHJlY3QgeD0iMTMuODYiIHk9IjYuNjAiIHdpZHRoPSI0LjAzIiBoZWlnaHQ9IjUuMDYiIHN0eWxlPSJzdHJva2Utd2lkdGg6IDAuMzg7IGZpbGw6ICMwMDAwMDA7Ij48L3JlY3Q+PHJlY3QgeD0iMTcuODgiIHk9IjcuNjgiIHdpZHRoPSI0LjAzIiBoZWlnaHQ9IjMuOTgiIHN0eWxlPSJzdHJva2Utd2lkdGg6IDAuMzg7IGZpbGw6ICMwMDAwMDA7Ij48L3JlY3Q+PHJlY3QgeD0iMjEuOTEiIHk9IjUuOTQiIHdpZHRoPSI0LjAzIiBoZWlnaHQ9IjUuNzIiIHN0eWxlPSJzdHJva2Utd2lkdGg6IDAuMzg7IGZpbGw6ICMwMDAwMDA7Ij48L3JlY3Q+PHJlY3QgeD0iMjUuOTMiIHk9IjguNjYiIHdpZHRoPSI0LjAzIiBoZWlnaHQ9IjMuMDAiIHN0eWxlPSJzdHJva2Utd2lkdGg6IDAuMzg7IGZpbGw6ICMwMDAwMDA7Ij48L3JlY3Q+PHJlY3QgeD0iMjkuOTYiIHk9IjQuNjgiIHdpZHRoPSI0LjAzIiBoZWlnaHQ9IjYuOTgiIHN0eWxlPSJzdHJva2Utd2lkdGg6IDAuMzg7IGZpbGw6ICMwMDAwMDA7Ij48L3JlY3Q+PHJlY3QgeD0iMzMuOTgiIHk9IjcuMDciIHdpZHRoPSI0LjAzIiBoZWlnaHQ9IjQuNTkiIHN0eWxlPSJzdHJva2Utd2lkdGg6IDAuMzg7IGZpbGw6ICMwMDAwMDA7Ij48L3JlY3Q+PHJlY3QgeD0iMzguMDEiIHk9IjQuNDkiIHdpZHRoPSI0LjAzIiBoZWlnaHQ9IjcuMTciIHN0eWxlPSJzdHJva2Utd2lkdGg6IDAuMzg7IGZpbGw6ICMwMDAwMDA7Ij48L3JlY3Q+PHJlY3QgeD0iNDIuMDQiIHk9IjguMjkiIHdpZHRoPSI0LjAzIiBoZWlnaHQ9IjMuMzciIHN0eWxlPSJzdHJva2Utd2lkdGg6IDAuMzg7IGZpbGw6ICMwMDAwMDA7Ij48L3JlY3Q+PHJlY3QgeD0iNDYuMDYiIHk9IjEwLjcyIiB3aWR0aD0iNC4wMyIgaGVpZ2h0PSIwLjk0IiBzdHlsZT0ic3Ryb2tlLXdpZHRoOiAwLjM4OyBmaWxsOiAjMDAwMDAwOyI+PC9yZWN0PjwvZz48L3N2Zz4=" class="svglite img-fluid"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">middle</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.5</td>
+<td style="text-align: right;">0.5</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">1.0</td>
+<td style="text-align: right;"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiBjbGFzcz0ic3ZnbGl0ZSIgd2lkdGg9IjQ4LjAwcHQiIGhlaWdodD0iMTIuMDBwdCIgdmlld2JveD0iMCAwIDQ4LjAwIDEyLjAwIj48ZGVmcz48c3R5bGUgdHlwZT0idGV4dC9jc3MiPgogICAgLnN2Z2xpdGUgbGluZSwgLnN2Z2xpdGUgcG9seWxpbmUsIC5zdmdsaXRlIHBvbHlnb24sIC5zdmdsaXRlIHBhdGgsIC5zdmdsaXRlIHJlY3QsIC5zdmdsaXRlIGNpcmNsZSB7CiAgICAgIGZpbGw6IG5vbmU7CiAgICAgIHN0cm9rZTogIzAwMDAwMDsKICAgICAgc3Ryb2tlLWxpbmVjYXA6IHJvdW5kOwogICAgICBzdHJva2UtbGluZWpvaW46IHJvdW5kOwogICAgICBzdHJva2UtbWl0ZXJsaW1pdDogMTAuMDA7CiAgICB9CiAgICAuc3ZnbGl0ZSB0ZXh0IHsKICAgICAgd2hpdGUtc3BhY2U6IHByZTsKICAgIH0KICA8L3N0eWxlPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBzdHlsZT0ic3Ryb2tlOiBub25lOyBmaWxsOiBub25lOyI+PC9yZWN0PjxkZWZzPjxjbGlwcGF0aCBpZD0iY3BNQzR3TUh3ME9DNHdNSHd3TGpBd2ZERXlMakF3Ij48cmVjdCB4PSIwLjAwIiB5PSIwLjAwIiB3aWR0aD0iNDguMDAiIGhlaWdodD0iMTIuMDAiPjwvcmVjdD48L2NsaXBwYXRoPjwvZGVmcz48ZyBjbGlwLXBhdGg9InVybCgjY3BNQzR3TUh3ME9DNHdNSHd3TGpBd2ZERXlMakF3KSI+CjwvZz48ZGVmcz48Y2xpcHBhdGggaWQ9ImNwTUM0d01IdzBPQzR3TUh3eUxqZzRmREV5TGpBdyI+PHJlY3QgeD0iMC4wMCIgeT0iMi44OCIgd2lkdGg9IjQ4LjAwIiBoZWlnaHQ9IjkuMTIiPjwvcmVjdD48L2NsaXBwYXRoPjwvZGVmcz48ZyBjbGlwLXBhdGg9InVybCgjY3BNQzR3TUh3ME9DNHdNSHd5TGpnNGZERXlMakF3KSI+PHJlY3QgeD0iMS43OCIgeT0iMy4yMiIgd2lkdGg9IjIuMjIiIGhlaWdodD0iOC40NCIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSI0LjAwIiB5PSIxMS42NiIgd2lkdGg9IjIuMjIiIGhlaWdodD0iMC4wMCIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSI2LjIyIiB5PSIxMS42NiIgd2lkdGg9IjIuMjIiIGhlaWdodD0iMC4wMCIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSI4LjQ0IiB5PSIxMS42NiIgd2lkdGg9IjIuMjIiIGhlaWdodD0iMC4wMCIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSIxMC42NyIgeT0iMTEuNjYiIHdpZHRoPSIyLjIyIiBoZWlnaHQ9IjAuMDAiIHN0eWxlPSJzdHJva2Utd2lkdGg6IDAuMzg7IGZpbGw6ICMwMDAwMDA7Ij48L3JlY3Q+PHJlY3QgeD0iMTIuODkiIHk9IjExLjY2IiB3aWR0aD0iMi4yMiIgaGVpZ2h0PSIwLjAwIiBzdHlsZT0ic3Ryb2tlLXdpZHRoOiAwLjM4OyBmaWxsOiAjMDAwMDAwOyI+PC9yZWN0PjxyZWN0IHg9IjE1LjExIiB5PSIxMS42NiIgd2lkdGg9IjIuMjIiIGhlaWdodD0iMC4wMCIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSIxNy4zMyIgeT0iMTEuNjYiIHdpZHRoPSIyLjIyIiBoZWlnaHQ9IjAuMDAiIHN0eWxlPSJzdHJva2Utd2lkdGg6IDAuMzg7IGZpbGw6ICMwMDAwMDA7Ij48L3JlY3Q+PHJlY3QgeD0iMTkuNTYiIHk9IjExLjY2IiB3aWR0aD0iMi4yMiIgaGVpZ2h0PSIwLjAwIiBzdHlsZT0ic3Ryb2tlLXdpZHRoOiAwLjM4OyBmaWxsOiAjMDAwMDAwOyI+PC9yZWN0PjxyZWN0IHg9IjIxLjc4IiB5PSIxMS42NiIgd2lkdGg9IjIuMjIiIGhlaWdodD0iMC4wMCIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSIyNC4wMCIgeT0iMTEuNjYiIHdpZHRoPSIyLjIyIiBoZWlnaHQ9IjAuMDAiIHN0eWxlPSJzdHJva2Utd2lkdGg6IDAuMzg7IGZpbGw6ICMwMDAwMDA7Ij48L3JlY3Q+PHJlY3QgeD0iMjYuMjIiIHk9IjExLjY2IiB3aWR0aD0iMi4yMiIgaGVpZ2h0PSIwLjAwIiBzdHlsZT0ic3Ryb2tlLXdpZHRoOiAwLjM4OyBmaWxsOiAjMDAwMDAwOyI+PC9yZWN0PjxyZWN0IHg9IjI4LjQ0IiB5PSIxMS42NiIgd2lkdGg9IjIuMjIiIGhlaWdodD0iMC4wMCIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSIzMC42NyIgeT0iMTEuNjYiIHdpZHRoPSIyLjIyIiBoZWlnaHQ9IjAuMDAiIHN0eWxlPSJzdHJva2Utd2lkdGg6IDAuMzg7IGZpbGw6ICMwMDAwMDA7Ij48L3JlY3Q+PHJlY3QgeD0iMzIuODkiIHk9IjExLjY2IiB3aWR0aD0iMi4yMiIgaGVpZ2h0PSIwLjAwIiBzdHlsZT0ic3Ryb2tlLXdpZHRoOiAwLjM4OyBmaWxsOiAjMDAwMDAwOyI+PC9yZWN0PjxyZWN0IHg9IjM1LjExIiB5PSIxMS42NiIgd2lkdGg9IjIuMjIiIGhlaWdodD0iMC4wMCIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSIzNy4zMyIgeT0iMTEuNjYiIHdpZHRoPSIyLjIyIiBoZWlnaHQ9IjAuMDAiIHN0eWxlPSJzdHJva2Utd2lkdGg6IDAuMzg7IGZpbGw6ICMwMDAwMDA7Ij48L3JlY3Q+PHJlY3QgeD0iMzkuNTYiIHk9IjExLjY2IiB3aWR0aD0iMi4yMiIgaGVpZ2h0PSIwLjAwIiBzdHlsZT0ic3Ryb2tlLXdpZHRoOiAwLjM4OyBmaWxsOiAjMDAwMDAwOyI+PC9yZWN0PjxyZWN0IHg9IjQxLjc4IiB5PSIxMS42NiIgd2lkdGg9IjIuMjIiIGhlaWdodD0iMC4wMCIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSI0NC4wMCIgeT0iNC42OSIgd2lkdGg9IjIuMjIiIGhlaWdodD0iNi45NyIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48L2c+PC9zdmc+" class="svglite img-fluid"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">high</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.2</td>
+<td style="text-align: right;">0.4</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">1.0</td>
+<td style="text-align: right;"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiBjbGFzcz0ic3ZnbGl0ZSIgd2lkdGg9IjQ4LjAwcHQiIGhlaWdodD0iMTIuMDBwdCIgdmlld2JveD0iMCAwIDQ4LjAwIDEyLjAwIj48ZGVmcz48c3R5bGUgdHlwZT0idGV4dC9jc3MiPgogICAgLnN2Z2xpdGUgbGluZSwgLnN2Z2xpdGUgcG9seWxpbmUsIC5zdmdsaXRlIHBvbHlnb24sIC5zdmdsaXRlIHBhdGgsIC5zdmdsaXRlIHJlY3QsIC5zdmdsaXRlIGNpcmNsZSB7CiAgICAgIGZpbGw6IG5vbmU7CiAgICAgIHN0cm9rZTogIzAwMDAwMDsKICAgICAgc3Ryb2tlLWxpbmVjYXA6IHJvdW5kOwogICAgICBzdHJva2UtbGluZWpvaW46IHJvdW5kOwogICAgICBzdHJva2UtbWl0ZXJsaW1pdDogMTAuMDA7CiAgICB9CiAgICAuc3ZnbGl0ZSB0ZXh0IHsKICAgICAgd2hpdGUtc3BhY2U6IHByZTsKICAgIH0KICA8L3N0eWxlPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBzdHlsZT0ic3Ryb2tlOiBub25lOyBmaWxsOiBub25lOyI+PC9yZWN0PjxkZWZzPjxjbGlwcGF0aCBpZD0iY3BNQzR3TUh3ME9DNHdNSHd3TGpBd2ZERXlMakF3Ij48cmVjdCB4PSIwLjAwIiB5PSIwLjAwIiB3aWR0aD0iNDguMDAiIGhlaWdodD0iMTIuMDAiPjwvcmVjdD48L2NsaXBwYXRoPjwvZGVmcz48ZyBjbGlwLXBhdGg9InVybCgjY3BNQzR3TUh3ME9DNHdNSHd3TGpBd2ZERXlMakF3KSI+CjwvZz48ZGVmcz48Y2xpcHBhdGggaWQ9ImNwTUM0d01IdzBPQzR3TUh3eUxqZzRmREV5TGpBdyI+PHJlY3QgeD0iMC4wMCIgeT0iMi44OCIgd2lkdGg9IjQ4LjAwIiBoZWlnaHQ9IjkuMTIiPjwvcmVjdD48L2NsaXBwYXRoPjwvZGVmcz48ZyBjbGlwLXBhdGg9InVybCgjY3BNQzR3TUh3ME9DNHdNSHd5TGpnNGZERXlMakF3KSI+PHJlY3QgeD0iMS43OCIgeT0iMy4yMiIgd2lkdGg9IjIuMjIiIGhlaWdodD0iOC40NCIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSI0LjAwIiB5PSIxMS42NiIgd2lkdGg9IjIuMjIiIGhlaWdodD0iMC4wMCIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSI2LjIyIiB5PSIxMS42NiIgd2lkdGg9IjIuMjIiIGhlaWdodD0iMC4wMCIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSI4LjQ0IiB5PSIxMS42NiIgd2lkdGg9IjIuMjIiIGhlaWdodD0iMC4wMCIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSIxMC42NyIgeT0iMTEuNjYiIHdpZHRoPSIyLjIyIiBoZWlnaHQ9IjAuMDAiIHN0eWxlPSJzdHJva2Utd2lkdGg6IDAuMzg7IGZpbGw6ICMwMDAwMDA7Ij48L3JlY3Q+PHJlY3QgeD0iMTIuODkiIHk9IjExLjY2IiB3aWR0aD0iMi4yMiIgaGVpZ2h0PSIwLjAwIiBzdHlsZT0ic3Ryb2tlLXdpZHRoOiAwLjM4OyBmaWxsOiAjMDAwMDAwOyI+PC9yZWN0PjxyZWN0IHg9IjE1LjExIiB5PSIxMS42NiIgd2lkdGg9IjIuMjIiIGhlaWdodD0iMC4wMCIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSIxNy4zMyIgeT0iMTEuNjYiIHdpZHRoPSIyLjIyIiBoZWlnaHQ9IjAuMDAiIHN0eWxlPSJzdHJva2Utd2lkdGg6IDAuMzg7IGZpbGw6ICMwMDAwMDA7Ij48L3JlY3Q+PHJlY3QgeD0iMTkuNTYiIHk9IjExLjY2IiB3aWR0aD0iMi4yMiIgaGVpZ2h0PSIwLjAwIiBzdHlsZT0ic3Ryb2tlLXdpZHRoOiAwLjM4OyBmaWxsOiAjMDAwMDAwOyI+PC9yZWN0PjxyZWN0IHg9IjIxLjc4IiB5PSIxMS42NiIgd2lkdGg9IjIuMjIiIGhlaWdodD0iMC4wMCIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSIyNC4wMCIgeT0iMTEuNjYiIHdpZHRoPSIyLjIyIiBoZWlnaHQ9IjAuMDAiIHN0eWxlPSJzdHJva2Utd2lkdGg6IDAuMzg7IGZpbGw6ICMwMDAwMDA7Ij48L3JlY3Q+PHJlY3QgeD0iMjYuMjIiIHk9IjExLjY2IiB3aWR0aD0iMi4yMiIgaGVpZ2h0PSIwLjAwIiBzdHlsZT0ic3Ryb2tlLXdpZHRoOiAwLjM4OyBmaWxsOiAjMDAwMDAwOyI+PC9yZWN0PjxyZWN0IHg9IjI4LjQ0IiB5PSIxMS42NiIgd2lkdGg9IjIuMjIiIGhlaWdodD0iMC4wMCIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSIzMC42NyIgeT0iMTEuNjYiIHdpZHRoPSIyLjIyIiBoZWlnaHQ9IjAuMDAiIHN0eWxlPSJzdHJva2Utd2lkdGg6IDAuMzg7IGZpbGw6ICMwMDAwMDA7Ij48L3JlY3Q+PHJlY3QgeD0iMzIuODkiIHk9IjExLjY2IiB3aWR0aD0iMi4yMiIgaGVpZ2h0PSIwLjAwIiBzdHlsZT0ic3Ryb2tlLXdpZHRoOiAwLjM4OyBmaWxsOiAjMDAwMDAwOyI+PC9yZWN0PjxyZWN0IHg9IjM1LjExIiB5PSIxMS42NiIgd2lkdGg9IjIuMjIiIGhlaWdodD0iMC4wMCIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSIzNy4zMyIgeT0iMTEuNjYiIHdpZHRoPSIyLjIyIiBoZWlnaHQ9IjAuMDAiIHN0eWxlPSJzdHJva2Utd2lkdGg6IDAuMzg7IGZpbGw6ICMwMDAwMDA7Ij48L3JlY3Q+PHJlY3QgeD0iMzkuNTYiIHk9IjExLjY2IiB3aWR0aD0iMi4yMiIgaGVpZ2h0PSIwLjAwIiBzdHlsZT0ic3Ryb2tlLXdpZHRoOiAwLjM4OyBmaWxsOiAjMDAwMDAwOyI+PC9yZWN0PjxyZWN0IHg9IjQxLjc4IiB5PSIxMS42NiIgd2lkdGg9IjIuMjIiIGhlaWdodD0iMC4wMCIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSI0NC4wMCIgeT0iOC45NCIgd2lkdGg9IjIuMjIiIGhlaWdodD0iMi43MiIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48L2c+PC9zdmc+" class="svglite img-fluid"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">free_reduced_lunch</td>
+<td style="text-align: right;">45167</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">0.5</td>
+<td style="text-align: right;">0.3</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.5</td>
+<td style="text-align: right;">1.0</td>
+<td style="text-align: right;"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiBjbGFzcz0ic3ZnbGl0ZSIgd2lkdGg9IjQ4LjAwcHQiIGhlaWdodD0iMTIuMDBwdCIgdmlld2JveD0iMCAwIDQ4LjAwIDEyLjAwIj48ZGVmcz48c3R5bGUgdHlwZT0idGV4dC9jc3MiPgogICAgLnN2Z2xpdGUgbGluZSwgLnN2Z2xpdGUgcG9seWxpbmUsIC5zdmdsaXRlIHBvbHlnb24sIC5zdmdsaXRlIHBhdGgsIC5zdmdsaXRlIHJlY3QsIC5zdmdsaXRlIGNpcmNsZSB7CiAgICAgIGZpbGw6IG5vbmU7CiAgICAgIHN0cm9rZTogIzAwMDAwMDsKICAgICAgc3Ryb2tlLWxpbmVjYXA6IHJvdW5kOwogICAgICBzdHJva2UtbGluZWpvaW46IHJvdW5kOwogICAgICBzdHJva2UtbWl0ZXJsaW1pdDogMTAuMDA7CiAgICB9CiAgICAuc3ZnbGl0ZSB0ZXh0IHsKICAgICAgd2hpdGUtc3BhY2U6IHByZTsKICAgIH0KICA8L3N0eWxlPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBzdHlsZT0ic3Ryb2tlOiBub25lOyBmaWxsOiBub25lOyI+PC9yZWN0PjxkZWZzPjxjbGlwcGF0aCBpZD0iY3BNQzR3TUh3ME9DNHdNSHd3TGpBd2ZERXlMakF3Ij48cmVjdCB4PSIwLjAwIiB5PSIwLjAwIiB3aWR0aD0iNDguMDAiIGhlaWdodD0iMTIuMDAiPjwvcmVjdD48L2NsaXBwYXRoPjwvZGVmcz48ZyBjbGlwLXBhdGg9InVybCgjY3BNQzR3TUh3ME9DNHdNSHd3TGpBd2ZERXlMakF3KSI+CjwvZz48ZGVmcz48Y2xpcHBhdGggaWQ9ImNwTUM0d01IdzBPQzR3TUh3eUxqZzRmREV5TGpBdyI+PHJlY3QgeD0iMC4wMCIgeT0iMi44OCIgd2lkdGg9IjQ4LjAwIiBoZWlnaHQ9IjkuMTIiPjwvcmVjdD48L2NsaXBwYXRoPjwvZGVmcz48ZyBjbGlwLXBhdGg9InVybCgjY3BNQzR3TUh3ME9DNHdNSHd5TGpnNGZERXlMakF3KSI+PHJlY3QgeD0iMS43OCIgeT0iNy43NCIgd2lkdGg9IjIuMjIiIGhlaWdodD0iMy45MiIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSI0LjAwIiB5PSI2Ljk1IiB3aWR0aD0iMi4yMiIgaGVpZ2h0PSI0LjcyIiBzdHlsZT0ic3Ryb2tlLXdpZHRoOiAwLjM4OyBmaWxsOiAjMDAwMDAwOyI+PC9yZWN0PjxyZWN0IHg9IjYuMjIiIHk9IjYuNTgiIHdpZHRoPSIyLjIyIiBoZWlnaHQ9IjUuMDkiIHN0eWxlPSJzdHJva2Utd2lkdGg6IDAuMzg7IGZpbGw6ICMwMDAwMDA7Ij48L3JlY3Q+PHJlY3QgeD0iOC40NCIgeT0iNi4yMSIgd2lkdGg9IjIuMjIiIGhlaWdodD0iNS40NiIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSIxMC42NyIgeT0iNS44NCIgd2lkdGg9IjIuMjIiIGhlaWdodD0iNS44MiIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSIxMi44OSIgeT0iNS4xNSIgd2lkdGg9IjIuMjIiIGhlaWdodD0iNi41MSIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSIxNS4xMSIgeT0iNC4zNiIgd2lkdGg9IjIuMjIiIGhlaWdodD0iNy4zMSIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSIxNy4zMyIgeT0iMy43NiIgd2lkdGg9IjIuMjIiIGhlaWdodD0iNy45MSIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSIxOS41NiIgeT0iMy40NyIgd2lkdGg9IjIuMjIiIGhlaWdodD0iOC4yMCIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSIyMS43OCIgeT0iMy4yMiIgd2lkdGg9IjIuMjIiIGhlaWdodD0iOC40NCIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSIyNC4wMCIgeT0iMy4zOSIgd2lkdGg9IjIuMjIiIGhlaWdodD0iOC4yOCIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSIyNi4yMiIgeT0iMy4yNiIgd2lkdGg9IjIuMjIiIGhlaWdodD0iOC40MCIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSIyOC40NCIgeT0iMy43NCIgd2lkdGg9IjIuMjIiIGhlaWdodD0iNy45MiIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSIzMC42NyIgeT0iNC40NCIgd2lkdGg9IjIuMjIiIGhlaWdodD0iNy4yMiIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSIzMi44OSIgeT0iNC42OCIgd2lkdGg9IjIuMjIiIGhlaWdodD0iNi45OCIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSIzNS4xMSIgeT0iNC43NCIgd2lkdGg9IjIuMjIiIGhlaWdodD0iNi45MiIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSIzNy4zMyIgeT0iNC42NyIgd2lkdGg9IjIuMjIiIGhlaWdodD0iNi45OSIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSIzOS41NiIgeT0iNC43MyIgd2lkdGg9IjIuMjIiIGhlaWdodD0iNi45MyIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSI0MS43OCIgeT0iMy45OCIgd2lkdGg9IjIuMjIiIGhlaWdodD0iNy42OCIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSI0NC4wMCIgeT0iNS4wMyIgd2lkdGg9IjIuMjIiIGhlaWdodD0iNi42MyIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48L2c+PC9zdmc+" class="svglite img-fluid"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">enrollment</td>
+<td style="text-align: right;">2868</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">568.1</td>
+<td style="text-align: right;">437.7</td>
+<td style="text-align: right;">1.0</td>
+<td style="text-align: right;">476.0</td>
+<td style="text-align: right;">10000.0</td>
+<td style="text-align: right;"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiBjbGFzcz0ic3ZnbGl0ZSIgd2lkdGg9IjQ4LjAwcHQiIGhlaWdodD0iMTIuMDBwdCIgdmlld2JveD0iMCAwIDQ4LjAwIDEyLjAwIj48ZGVmcz48c3R5bGUgdHlwZT0idGV4dC9jc3MiPgogICAgLnN2Z2xpdGUgbGluZSwgLnN2Z2xpdGUgcG9seWxpbmUsIC5zdmdsaXRlIHBvbHlnb24sIC5zdmdsaXRlIHBhdGgsIC5zdmdsaXRlIHJlY3QsIC5zdmdsaXRlIGNpcmNsZSB7CiAgICAgIGZpbGw6IG5vbmU7CiAgICAgIHN0cm9rZTogIzAwMDAwMDsKICAgICAgc3Ryb2tlLWxpbmVjYXA6IHJvdW5kOwogICAgICBzdHJva2UtbGluZWpvaW46IHJvdW5kOwogICAgICBzdHJva2UtbWl0ZXJsaW1pdDogMTAuMDA7CiAgICB9CiAgICAuc3ZnbGl0ZSB0ZXh0IHsKICAgICAgd2hpdGUtc3BhY2U6IHByZTsKICAgIH0KICA8L3N0eWxlPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBzdHlsZT0ic3Ryb2tlOiBub25lOyBmaWxsOiBub25lOyI+PC9yZWN0PjxkZWZzPjxjbGlwcGF0aCBpZD0iY3BNQzR3TUh3ME9DNHdNSHd3TGpBd2ZERXlMakF3Ij48cmVjdCB4PSIwLjAwIiB5PSIwLjAwIiB3aWR0aD0iNDguMDAiIGhlaWdodD0iMTIuMDAiPjwvcmVjdD48L2NsaXBwYXRoPjwvZGVmcz48ZyBjbGlwLXBhdGg9InVybCgjY3BNQzR3TUh3ME9DNHdNSHd3TGpBd2ZERXlMakF3KSI+CjwvZz48ZGVmcz48Y2xpcHBhdGggaWQ9ImNwTUM0d01IdzBPQzR3TUh3eUxqZzRmREV5TGpBdyI+PHJlY3QgeD0iMC4wMCIgeT0iMi44OCIgd2lkdGg9IjQ4LjAwIiBoZWlnaHQ9IjkuMTIiPjwvcmVjdD48L2NsaXBwYXRoPjwvZGVmcz48ZyBjbGlwLXBhdGg9InVybCgjY3BNQzR3TUh3ME9DNHdNSHd5TGpnNGZERXlMakF3KSI+PHJlY3QgeD0iMS43NyIgeT0iMy4yMiIgd2lkdGg9IjIuMjIiIGhlaWdodD0iOC40NCIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSI0LjAwIiB5PSI1Ljk0IiB3aWR0aD0iMi4yMiIgaGVpZ2h0PSI1LjczIiBzdHlsZT0ic3Ryb2tlLXdpZHRoOiAwLjM4OyBmaWxsOiAjMDAwMDAwOyI+PC9yZWN0PjxyZWN0IHg9IjYuMjIiIHk9IjEwLjcwIiB3aWR0aD0iMi4yMiIgaGVpZ2h0PSIwLjk3IiBzdHlsZT0ic3Ryb2tlLXdpZHRoOiAwLjM4OyBmaWxsOiAjMDAwMDAwOyI+PC9yZWN0PjxyZWN0IHg9IjguNDQiIHk9IjExLjMxIiB3aWR0aD0iMi4yMiIgaGVpZ2h0PSIwLjM2IiBzdHlsZT0ic3Ryb2tlLXdpZHRoOiAwLjM4OyBmaWxsOiAjMDAwMDAwOyI+PC9yZWN0PjxyZWN0IHg9IjEwLjY2IiB5PSIxMS40OSIgd2lkdGg9IjIuMjIiIGhlaWdodD0iMC4xNyIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSIxMi44OSIgeT0iMTEuNTkiIHdpZHRoPSIyLjIyIiBoZWlnaHQ9IjAuMDcxIiBzdHlsZT0ic3Ryb2tlLXdpZHRoOiAwLjM4OyBmaWxsOiAjMDAwMDAwOyI+PC9yZWN0PjxyZWN0IHg9IjE1LjExIiB5PSIxMS42MyIgd2lkdGg9IjIuMjIiIGhlaWdodD0iMC4wMjkiIHN0eWxlPSJzdHJva2Utd2lkdGg6IDAuMzg7IGZpbGw6ICMwMDAwMDA7Ij48L3JlY3Q+PHJlY3QgeD0iMTcuMzMiIHk9IjExLjY1IiB3aWR0aD0iMi4yMiIgaGVpZ2h0PSIwLjAwODMiIHN0eWxlPSJzdHJva2Utd2lkdGg6IDAuMzg7IGZpbGw6ICMwMDAwMDA7Ij48L3JlY3Q+PHJlY3QgeD0iMTkuNTUiIHk9IjExLjY2IiB3aWR0aD0iMi4yMiIgaGVpZ2h0PSIwLjAwNTIiIHN0eWxlPSJzdHJva2Utd2lkdGg6IDAuMzg7IGZpbGw6ICMwMDAwMDA7Ij48L3JlY3Q+PHJlY3QgeD0iMjEuNzgiIHk9IjExLjY2IiB3aWR0aD0iMi4yMiIgaGVpZ2h0PSIwLjAwMTIiIHN0eWxlPSJzdHJva2Utd2lkdGg6IDAuMzg7IGZpbGw6ICMwMDAwMDA7Ij48L3JlY3Q+PHJlY3QgeD0iMjQuMDAiIHk9IjExLjY2IiB3aWR0aD0iMi4yMiIgaGVpZ2h0PSIwLjAwMDU4IiBzdHlsZT0ic3Ryb2tlLXdpZHRoOiAwLjM4OyBmaWxsOiAjMDAwMDAwOyI+PC9yZWN0PjxyZWN0IHg9IjI2LjIyIiB5PSIxMS42NiIgd2lkdGg9IjIuMjIiIGhlaWdodD0iMC4wMDAxOSIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSIyOC40NCIgeT0iMTEuNjYiIHdpZHRoPSIyLjIyIiBoZWlnaHQ9IjAuMDAiIHN0eWxlPSJzdHJva2Utd2lkdGg6IDAuMzg7IGZpbGw6ICMwMDAwMDA7Ij48L3JlY3Q+PHJlY3QgeD0iMzAuNjciIHk9IjExLjY2IiB3aWR0aD0iMi4yMiIgaGVpZ2h0PSIwLjAwMDE5IiBzdHlsZT0ic3Ryb2tlLXdpZHRoOiAwLjM4OyBmaWxsOiAjMDAwMDAwOyI+PC9yZWN0PjxyZWN0IHg9IjMyLjg5IiB5PSIxMS42NiIgd2lkdGg9IjIuMjIiIGhlaWdodD0iMC4wMCIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSIzNS4xMSIgeT0iMTEuNjYiIHdpZHRoPSIyLjIyIiBoZWlnaHQ9IjAuMDAwMTkiIHN0eWxlPSJzdHJva2Utd2lkdGg6IDAuMzg7IGZpbGw6ICMwMDAwMDA7Ij48L3JlY3Q+PHJlY3QgeD0iMzcuMzMiIHk9IjExLjY2IiB3aWR0aD0iMi4yMiIgaGVpZ2h0PSIwLjAwMDE5IiBzdHlsZT0ic3Ryb2tlLXdpZHRoOiAwLjM4OyBmaWxsOiAjMDAwMDAwOyI+PC9yZWN0PjxyZWN0IHg9IjM5LjU1IiB5PSIxMS42NiIgd2lkdGg9IjIuMjIiIGhlaWdodD0iMC4wMCIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSI0MS43OCIgeT0iMTEuNjYiIHdpZHRoPSIyLjIyIiBoZWlnaHQ9IjAuMDAwMTkiIHN0eWxlPSJzdHJva2Utd2lkdGg6IDAuMzg7IGZpbGw6ICMwMDAwMDA7Ij48L3JlY3Q+PHJlY3QgeD0iNDQuMDAiIHk9IjExLjY2IiB3aWR0aD0iMi4yMiIgaGVpZ2h0PSIwLjAwMDE5IiBzdHlsZT0ic3Ryb2tlLXdpZHRoOiAwLjM4OyBmaWxsOiAjMDAwMDAwOyI+PC9yZWN0PjwvZz48L3N2Zz4=" class="svglite img-fluid"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">white</td>
+<td style="text-align: right;">49390</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">0.6</td>
+<td style="text-align: right;">0.3</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.6</td>
+<td style="text-align: right;">1.0</td>
+<td style="text-align: right;"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiBjbGFzcz0ic3ZnbGl0ZSIgd2lkdGg9IjQ4LjAwcHQiIGhlaWdodD0iMTIuMDBwdCIgdmlld2JveD0iMCAwIDQ4LjAwIDEyLjAwIj48ZGVmcz48c3R5bGUgdHlwZT0idGV4dC9jc3MiPgogICAgLnN2Z2xpdGUgbGluZSwgLnN2Z2xpdGUgcG9seWxpbmUsIC5zdmdsaXRlIHBvbHlnb24sIC5zdmdsaXRlIHBhdGgsIC5zdmdsaXRlIHJlY3QsIC5zdmdsaXRlIGNpcmNsZSB7CiAgICAgIGZpbGw6IG5vbmU7CiAgICAgIHN0cm9rZTogIzAwMDAwMDsKICAgICAgc3Ryb2tlLWxpbmVjYXA6IHJvdW5kOwogICAgICBzdHJva2UtbGluZWpvaW46IHJvdW5kOwogICAgICBzdHJva2UtbWl0ZXJsaW1pdDogMTAuMDA7CiAgICB9CiAgICAuc3ZnbGl0ZSB0ZXh0IHsKICAgICAgd2hpdGUtc3BhY2U6IHByZTsKICAgIH0KICA8L3N0eWxlPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBzdHlsZT0ic3Ryb2tlOiBub25lOyBmaWxsOiBub25lOyI+PC9yZWN0PjxkZWZzPjxjbGlwcGF0aCBpZD0iY3BNQzR3TUh3ME9DNHdNSHd3TGpBd2ZERXlMakF3Ij48cmVjdCB4PSIwLjAwIiB5PSIwLjAwIiB3aWR0aD0iNDguMDAiIGhlaWdodD0iMTIuMDAiPjwvcmVjdD48L2NsaXBwYXRoPjwvZGVmcz48ZyBjbGlwLXBhdGg9InVybCgjY3BNQzR3TUh3ME9DNHdNSHd3TGpBd2ZERXlMakF3KSI+CjwvZz48ZGVmcz48Y2xpcHBhdGggaWQ9ImNwTUM0d01IdzBPQzR3TUh3eUxqZzRmREV5TGpBdyI+PHJlY3QgeD0iMC4wMCIgeT0iMi44OCIgd2lkdGg9IjQ4LjAwIiBoZWlnaHQ9IjkuMTIiPjwvcmVjdD48L2NsaXBwYXRoPjwvZGVmcz48ZyBjbGlwLXBhdGg9InVybCgjY3BNQzR3TUh3ME9DNHdNSHd5TGpnNGZERXlMakF3KSI+PHJlY3QgeD0iMS43OCIgeT0iMy40OSIgd2lkdGg9IjIuMjIiIGhlaWdodD0iOC4xOCIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSI0LjAwIiB5PSI4LjM2IiB3aWR0aD0iMi4yMiIgaGVpZ2h0PSIzLjMwIiBzdHlsZT0ic3Ryb2tlLXdpZHRoOiAwLjM4OyBmaWxsOiAjMDAwMDAwOyI+PC9yZWN0PjxyZWN0IHg9IjYuMjIiIHk9IjkuMjIiIHdpZHRoPSIyLjIyIiBoZWlnaHQ9IjIuNDQiIHN0eWxlPSJzdHJva2Utd2lkdGg6IDAuMzg7IGZpbGw6ICMwMDAwMDA7Ij48L3JlY3Q+PHJlY3QgeD0iOC40NCIgeT0iOS42NCIgd2lkdGg9IjIuMjIiIGhlaWdodD0iMi4wMiIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSIxMC42NyIgeT0iOS43NyIgd2lkdGg9IjIuMjIiIGhlaWdodD0iMS44OSIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSIxMi44OSIgeT0iOS43NSIgd2lkdGg9IjIuMjIiIGhlaWdodD0iMS45MSIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSIxNS4xMSIgeT0iOS43NiIgd2lkdGg9IjIuMjIiIGhlaWdodD0iMS45MCIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSIxNy4zMyIgeT0iOS42MyIgd2lkdGg9IjIuMjIiIGhlaWdodD0iMi4wMyIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSIxOS41NiIgeT0iOS40NiIgd2lkdGg9IjIuMjIiIGhlaWdodD0iMi4yMCIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSIyMS43OCIgeT0iOS4yMSIgd2lkdGg9IjIuMjIiIGhlaWdodD0iMi40NSIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSIyNC4wMCIgeT0iOS4wOCIgd2lkdGg9IjIuMjIiIGhlaWdodD0iMi41OCIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSIyNi4yMiIgeT0iOC44MiIgd2lkdGg9IjIuMjIiIGhlaWdodD0iMi44NCIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSIyOC40NCIgeT0iOC42MyIgd2lkdGg9IjIuMjIiIGhlaWdodD0iMy4wMyIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSIzMC42NyIgeT0iOC4zOCIgd2lkdGg9IjIuMjIiIGhlaWdodD0iMy4yOCIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSIzMi44OSIgeT0iNy45MyIgd2lkdGg9IjIuMjIiIGhlaWdodD0iMy43MyIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSIzNS4xMSIgeT0iNy42NiIgd2lkdGg9IjIuMjIiIGhlaWdodD0iNC4wMCIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSIzNy4zMyIgeT0iNy4xMCIgd2lkdGg9IjIuMjIiIGhlaWdodD0iNC41NiIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSIzOS41NiIgeT0iNi4wOCIgd2lkdGg9IjIuMjIiIGhlaWdodD0iNS41OCIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSI0MS43OCIgeT0iMy4yMiIgd2lkdGg9IjIuMjIiIGhlaWdodD0iOC40NCIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSI0NC4wMCIgeT0iNS42MyIgd2lkdGg9IjIuMjIiIGhlaWdodD0iNi4wMyIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48L2c+PC9zdmc+" class="svglite img-fluid"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">black</td>
+<td style="text-align: right;">36568</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">0.2</td>
+<td style="text-align: right;">0.2</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">1.0</td>
+<td style="text-align: right;"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiBjbGFzcz0ic3ZnbGl0ZSIgd2lkdGg9IjQ4LjAwcHQiIGhlaWdodD0iMTIuMDBwdCIgdmlld2JveD0iMCAwIDQ4LjAwIDEyLjAwIj48ZGVmcz48c3R5bGUgdHlwZT0idGV4dC9jc3MiPgogICAgLnN2Z2xpdGUgbGluZSwgLnN2Z2xpdGUgcG9seWxpbmUsIC5zdmdsaXRlIHBvbHlnb24sIC5zdmdsaXRlIHBhdGgsIC5zdmdsaXRlIHJlY3QsIC5zdmdsaXRlIGNpcmNsZSB7CiAgICAgIGZpbGw6IG5vbmU7CiAgICAgIHN0cm9rZTogIzAwMDAwMDsKICAgICAgc3Ryb2tlLWxpbmVjYXA6IHJvdW5kOwogICAgICBzdHJva2UtbGluZWpvaW46IHJvdW5kOwogICAgICBzdHJva2UtbWl0ZXJsaW1pdDogMTAuMDA7CiAgICB9CiAgICAuc3ZnbGl0ZSB0ZXh0IHsKICAgICAgd2hpdGUtc3BhY2U6IHByZTsKICAgIH0KICA8L3N0eWxlPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBzdHlsZT0ic3Ryb2tlOiBub25lOyBmaWxsOiBub25lOyI+PC9yZWN0PjxkZWZzPjxjbGlwcGF0aCBpZD0iY3BNQzR3TUh3ME9DNHdNSHd3TGpBd2ZERXlMakF3Ij48cmVjdCB4PSIwLjAwIiB5PSIwLjAwIiB3aWR0aD0iNDguMDAiIGhlaWdodD0iMTIuMDAiPjwvcmVjdD48L2NsaXBwYXRoPjwvZGVmcz48ZyBjbGlwLXBhdGg9InVybCgjY3BNQzR3TUh3ME9DNHdNSHd3TGpBd2ZERXlMakF3KSI+CjwvZz48ZGVmcz48Y2xpcHBhdGggaWQ9ImNwTUM0d01IdzBPQzR3TUh3eUxqZzRmREV5TGpBdyI+PHJlY3QgeD0iMC4wMCIgeT0iMi44OCIgd2lkdGg9IjQ4LjAwIiBoZWlnaHQ9IjkuMTIiPjwvcmVjdD48L2NsaXBwYXRoPjwvZGVmcz48ZyBjbGlwLXBhdGg9InVybCgjY3BNQzR3TUh3ME9DNHdNSHd5TGpnNGZERXlMakF3KSI+PHJlY3QgeD0iMS43OCIgeT0iMy4yMiIgd2lkdGg9IjIuMjIiIGhlaWdodD0iOC40NCIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSI0LjAwIiB5PSI5LjY1IiB3aWR0aD0iMi4yMiIgaGVpZ2h0PSIyLjAxIiBzdHlsZT0ic3Ryb2tlLXdpZHRoOiAwLjM4OyBmaWxsOiAjMDAwMDAwOyI+PC9yZWN0PjxyZWN0IHg9IjYuMjIiIHk9IjEwLjQ4IiB3aWR0aD0iMi4yMiIgaGVpZ2h0PSIxLjE4IiBzdHlsZT0ic3Ryb2tlLXdpZHRoOiAwLjM4OyBmaWxsOiAjMDAwMDAwOyI+PC9yZWN0PjxyZWN0IHg9IjguNDQiIHk9IjEwLjg1IiB3aWR0aD0iMi4yMiIgaGVpZ2h0PSIwLjgyIiBzdHlsZT0ic3Ryb2tlLXdpZHRoOiAwLjM4OyBmaWxsOiAjMDAwMDAwOyI+PC9yZWN0PjxyZWN0IHg9IjEwLjY3IiB5PSIxMS4wNSIgd2lkdGg9IjIuMjIiIGhlaWdodD0iMC42MiIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSIxMi44OSIgeT0iMTEuMTkiIHdpZHRoPSIyLjIyIiBoZWlnaHQ9IjAuNDgiIHN0eWxlPSJzdHJva2Utd2lkdGg6IDAuMzg7IGZpbGw6ICMwMDAwMDA7Ij48L3JlY3Q+PHJlY3QgeD0iMTUuMTEiIHk9IjExLjI5IiB3aWR0aD0iMi4yMiIgaGVpZ2h0PSIwLjM4IiBzdHlsZT0ic3Ryb2tlLXdpZHRoOiAwLjM4OyBmaWxsOiAjMDAwMDAwOyI+PC9yZWN0PjxyZWN0IHg9IjE3LjMzIiB5PSIxMS4zNSIgd2lkdGg9IjIuMjIiIGhlaWdodD0iMC4zMSIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSIxOS41NiIgeT0iMTEuNDEiIHdpZHRoPSIyLjIyIiBoZWlnaHQ9IjAuMjYiIHN0eWxlPSJzdHJva2Utd2lkdGg6IDAuMzg7IGZpbGw6ICMwMDAwMDA7Ij48L3JlY3Q+PHJlY3QgeD0iMjEuNzgiIHk9IjExLjQzIiB3aWR0aD0iMi4yMiIgaGVpZ2h0PSIwLjIzIiBzdHlsZT0ic3Ryb2tlLXdpZHRoOiAwLjM4OyBmaWxsOiAjMDAwMDAwOyI+PC9yZWN0PjxyZWN0IHg9IjI0LjAwIiB5PSIxMS40OCIgd2lkdGg9IjIuMjIiIGhlaWdodD0iMC4xOCIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSIyNi4yMiIgeT0iMTEuNTAiIHdpZHRoPSIyLjIyIiBoZWlnaHQ9IjAuMTYiIHN0eWxlPSJzdHJva2Utd2lkdGg6IDAuMzg7IGZpbGw6ICMwMDAwMDA7Ij48L3JlY3Q+PHJlY3QgeD0iMjguNDQiIHk9IjExLjUyIiB3aWR0aD0iMi4yMiIgaGVpZ2h0PSIwLjE0IiBzdHlsZT0ic3Ryb2tlLXdpZHRoOiAwLjM4OyBmaWxsOiAjMDAwMDAwOyI+PC9yZWN0PjxyZWN0IHg9IjMwLjY3IiB5PSIxMS41MiIgd2lkdGg9IjIuMjIiIGhlaWdodD0iMC4xNCIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSIzMi44OSIgeT0iMTEuNTQiIHdpZHRoPSIyLjIyIiBoZWlnaHQ9IjAuMTIiIHN0eWxlPSJzdHJva2Utd2lkdGg6IDAuMzg7IGZpbGw6ICMwMDAwMDA7Ij48L3JlY3Q+PHJlY3QgeD0iMzUuMTEiIHk9IjExLjUzIiB3aWR0aD0iMi4yMiIgaGVpZ2h0PSIwLjEzIiBzdHlsZT0ic3Ryb2tlLXdpZHRoOiAwLjM4OyBmaWxsOiAjMDAwMDAwOyI+PC9yZWN0PjxyZWN0IHg9IjM3LjMzIiB5PSIxMS41MyIgd2lkdGg9IjIuMjIiIGhlaWdodD0iMC4xMyIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSIzOS41NiIgeT0iMTEuNTAiIHdpZHRoPSIyLjIyIiBoZWlnaHQ9IjAuMTYiIHN0eWxlPSJzdHJva2Utd2lkdGg6IDAuMzg7IGZpbGw6ICMwMDAwMDA7Ij48L3JlY3Q+PHJlY3QgeD0iNDEuNzgiIHk9IjExLjQ1IiB3aWR0aD0iMi4yMiIgaGVpZ2h0PSIwLjIxIiBzdHlsZT0ic3Ryb2tlLXdpZHRoOiAwLjM4OyBmaWxsOiAjMDAwMDAwOyI+PC9yZWN0PjxyZWN0IHg9IjQ0LjAwIiB5PSIxMS4yOSIgd2lkdGg9IjIuMjIiIGhlaWdodD0iMC4zNyIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48L2c+PC9zdmc+" class="svglite img-fluid"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">hispanic</td>
+<td style="text-align: right;">42121</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">0.2</td>
+<td style="text-align: right;">0.3</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.1</td>
+<td style="text-align: right;">1.0</td>
+<td style="text-align: right;"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiBjbGFzcz0ic3ZnbGl0ZSIgd2lkdGg9IjQ4LjAwcHQiIGhlaWdodD0iMTIuMDBwdCIgdmlld2JveD0iMCAwIDQ4LjAwIDEyLjAwIj48ZGVmcz48c3R5bGUgdHlwZT0idGV4dC9jc3MiPgogICAgLnN2Z2xpdGUgbGluZSwgLnN2Z2xpdGUgcG9seWxpbmUsIC5zdmdsaXRlIHBvbHlnb24sIC5zdmdsaXRlIHBhdGgsIC5zdmdsaXRlIHJlY3QsIC5zdmdsaXRlIGNpcmNsZSB7CiAgICAgIGZpbGw6IG5vbmU7CiAgICAgIHN0cm9rZTogIzAwMDAwMDsKICAgICAgc3Ryb2tlLWxpbmVjYXA6IHJvdW5kOwogICAgICBzdHJva2UtbGluZWpvaW46IHJvdW5kOwogICAgICBzdHJva2UtbWl0ZXJsaW1pdDogMTAuMDA7CiAgICB9CiAgICAuc3ZnbGl0ZSB0ZXh0IHsKICAgICAgd2hpdGUtc3BhY2U6IHByZTsKICAgIH0KICA8L3N0eWxlPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBzdHlsZT0ic3Ryb2tlOiBub25lOyBmaWxsOiBub25lOyI+PC9yZWN0PjxkZWZzPjxjbGlwcGF0aCBpZD0iY3BNQzR3TUh3ME9DNHdNSHd3TGpBd2ZERXlMakF3Ij48cmVjdCB4PSIwLjAwIiB5PSIwLjAwIiB3aWR0aD0iNDguMDAiIGhlaWdodD0iMTIuMDAiPjwvcmVjdD48L2NsaXBwYXRoPjwvZGVmcz48ZyBjbGlwLXBhdGg9InVybCgjY3BNQzR3TUh3ME9DNHdNSHd3TGpBd2ZERXlMakF3KSI+CjwvZz48ZGVmcz48Y2xpcHBhdGggaWQ9ImNwTUM0d01IdzBPQzR3TUh3eUxqZzRmREV5TGpBdyI+PHJlY3QgeD0iMC4wMCIgeT0iMi44OCIgd2lkdGg9IjQ4LjAwIiBoZWlnaHQ9IjkuMTIiPjwvcmVjdD48L2NsaXBwYXRoPjwvZGVmcz48ZyBjbGlwLXBhdGg9InVybCgjY3BNQzR3TUh3ME9DNHdNSHd5TGpnNGZERXlMakF3KSI+PHJlY3QgeD0iMS43OCIgeT0iMy4yMiIgd2lkdGg9IjIuMjIiIGhlaWdodD0iOC40NCIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSI0LjAwIiB5PSI4LjAxIiB3aWR0aD0iMi4yMiIgaGVpZ2h0PSIzLjY1IiBzdHlsZT0ic3Ryb2tlLXdpZHRoOiAwLjM4OyBmaWxsOiAjMDAwMDAwOyI+PC9yZWN0PjxyZWN0IHg9IjYuMjIiIHk9IjkuNTgiIHdpZHRoPSIyLjIyIiBoZWlnaHQ9IjIuMDgiIHN0eWxlPSJzdHJva2Utd2lkdGg6IDAuMzg7IGZpbGw6ICMwMDAwMDA7Ij48L3JlY3Q+PHJlY3QgeD0iOC40NCIgeT0iMTAuMjUiIHdpZHRoPSIyLjIyIiBoZWlnaHQ9IjEuNDIiIHN0eWxlPSJzdHJva2Utd2lkdGg6IDAuMzg7IGZpbGw6ICMwMDAwMDA7Ij48L3JlY3Q+PHJlY3QgeD0iMTAuNjciIHk9IjEwLjYyIiB3aWR0aD0iMi4yMiIgaGVpZ2h0PSIxLjA0IiBzdHlsZT0ic3Ryb2tlLXdpZHRoOiAwLjM4OyBmaWxsOiAjMDAwMDAwOyI+PC9yZWN0PjxyZWN0IHg9IjEyLjg5IiB5PSIxMC44NCIgd2lkdGg9IjIuMjIiIGhlaWdodD0iMC44MiIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSIxNS4xMSIgeT0iMTAuOTgiIHdpZHRoPSIyLjIyIiBoZWlnaHQ9IjAuNjgiIHN0eWxlPSJzdHJva2Utd2lkdGg6IDAuMzg7IGZpbGw6ICMwMDAwMDA7Ij48L3JlY3Q+PHJlY3QgeD0iMTcuMzMiIHk9IjExLjA4IiB3aWR0aD0iMi4yMiIgaGVpZ2h0PSIwLjU5IiBzdHlsZT0ic3Ryb2tlLXdpZHRoOiAwLjM4OyBmaWxsOiAjMDAwMDAwOyI+PC9yZWN0PjxyZWN0IHg9IjE5LjU2IiB5PSIxMS4xNiIgd2lkdGg9IjIuMjIiIGhlaWdodD0iMC41MCIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSIyMS43OCIgeT0iMTEuMjAiIHdpZHRoPSIyLjIyIiBoZWlnaHQ9IjAuNDYiIHN0eWxlPSJzdHJva2Utd2lkdGg6IDAuMzg7IGZpbGw6ICMwMDAwMDA7Ij48L3JlY3Q+PHJlY3QgeD0iMjQuMDAiIHk9IjExLjI1IiB3aWR0aD0iMi4yMiIgaGVpZ2h0PSIwLjQxIiBzdHlsZT0ic3Ryb2tlLXdpZHRoOiAwLjM4OyBmaWxsOiAjMDAwMDAwOyI+PC9yZWN0PjxyZWN0IHg9IjI2LjIyIiB5PSIxMS4yNyIgd2lkdGg9IjIuMjIiIGhlaWdodD0iMC4zOSIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSIyOC40NCIgeT0iMTEuMjgiIHdpZHRoPSIyLjIyIiBoZWlnaHQ9IjAuMzgiIHN0eWxlPSJzdHJva2Utd2lkdGg6IDAuMzg7IGZpbGw6ICMwMDAwMDA7Ij48L3JlY3Q+PHJlY3QgeD0iMzAuNjciIHk9IjExLjMyIiB3aWR0aD0iMi4yMiIgaGVpZ2h0PSIwLjM0IiBzdHlsZT0ic3Ryb2tlLXdpZHRoOiAwLjM4OyBmaWxsOiAjMDAwMDAwOyI+PC9yZWN0PjxyZWN0IHg9IjMyLjg5IiB5PSIxMS4zNCIgd2lkdGg9IjIuMjIiIGhlaWdodD0iMC4zMiIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSIzNS4xMSIgeT0iMTEuMzYiIHdpZHRoPSIyLjIyIiBoZWlnaHQ9IjAuMzAiIHN0eWxlPSJzdHJva2Utd2lkdGg6IDAuMzg7IGZpbGw6ICMwMDAwMDA7Ij48L3JlY3Q+PHJlY3QgeD0iMzcuMzMiIHk9IjExLjMzIiB3aWR0aD0iMi4yMiIgaGVpZ2h0PSIwLjMzIiBzdHlsZT0ic3Ryb2tlLXdpZHRoOiAwLjM4OyBmaWxsOiAjMDAwMDAwOyI+PC9yZWN0PjxyZWN0IHg9IjM5LjU2IiB5PSIxMS4zNSIgd2lkdGg9IjIuMjIiIGhlaWdodD0iMC4zMSIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSI0MS43OCIgeT0iMTEuMjkiIHdpZHRoPSIyLjIyIiBoZWlnaHQ9IjAuMzciIHN0eWxlPSJzdHJva2Utd2lkdGg6IDAuMzg7IGZpbGw6ICMwMDAwMDA7Ij48L3JlY3Q+PHJlY3QgeD0iNDQuMDAiIHk9IjExLjE2IiB3aWR0aD0iMi4yMiIgaGVpZ2h0PSIwLjUwIiBzdHlsZT0ic3Ryb2tlLXdpZHRoOiAwLjM4OyBmaWxsOiAjMDAwMDAwOyI+PC9yZWN0PjwvZz48L3N2Zz4=" class="svglite img-fluid"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">asian</td>
+<td style="text-align: right;">30426</td>
+<td style="text-align: right;">13</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.1</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">1.0</td>
+<td style="text-align: right;"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiBjbGFzcz0ic3ZnbGl0ZSIgd2lkdGg9IjQ4LjAwcHQiIGhlaWdodD0iMTIuMDBwdCIgdmlld2JveD0iMCAwIDQ4LjAwIDEyLjAwIj48ZGVmcz48c3R5bGUgdHlwZT0idGV4dC9jc3MiPgogICAgLnN2Z2xpdGUgbGluZSwgLnN2Z2xpdGUgcG9seWxpbmUsIC5zdmdsaXRlIHBvbHlnb24sIC5zdmdsaXRlIHBhdGgsIC5zdmdsaXRlIHJlY3QsIC5zdmdsaXRlIGNpcmNsZSB7CiAgICAgIGZpbGw6IG5vbmU7CiAgICAgIHN0cm9rZTogIzAwMDAwMDsKICAgICAgc3Ryb2tlLWxpbmVjYXA6IHJvdW5kOwogICAgICBzdHJva2UtbGluZWpvaW46IHJvdW5kOwogICAgICBzdHJva2UtbWl0ZXJsaW1pdDogMTAuMDA7CiAgICB9CiAgICAuc3ZnbGl0ZSB0ZXh0IHsKICAgICAgd2hpdGUtc3BhY2U6IHByZTsKICAgIH0KICA8L3N0eWxlPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBzdHlsZT0ic3Ryb2tlOiBub25lOyBmaWxsOiBub25lOyI+PC9yZWN0PjxkZWZzPjxjbGlwcGF0aCBpZD0iY3BNQzR3TUh3ME9DNHdNSHd3TGpBd2ZERXlMakF3Ij48cmVjdCB4PSIwLjAwIiB5PSIwLjAwIiB3aWR0aD0iNDguMDAiIGhlaWdodD0iMTIuMDAiPjwvcmVjdD48L2NsaXBwYXRoPjwvZGVmcz48ZyBjbGlwLXBhdGg9InVybCgjY3BNQzR3TUh3ME9DNHdNSHd3TGpBd2ZERXlMakF3KSI+CjwvZz48ZGVmcz48Y2xpcHBhdGggaWQ9ImNwTUM0d01IdzBPQzR3TUh3eUxqZzRmREV5TGpBdyI+PHJlY3QgeD0iMC4wMCIgeT0iMi44OCIgd2lkdGg9IjQ4LjAwIiBoZWlnaHQ9IjkuMTIiPjwvcmVjdD48L2NsaXBwYXRoPjwvZGVmcz48ZyBjbGlwLXBhdGg9InVybCgjY3BNQzR3TUh3ME9DNHdNSHd5TGpnNGZERXlMakF3KSI+PHJlY3QgeD0iMS43OCIgeT0iMy4yMiIgd2lkdGg9IjIuMjIiIGhlaWdodD0iOC40NCIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSI0LjAwIiB5PSIxMC40MyIgd2lkdGg9IjIuMjIiIGhlaWdodD0iMS4yMyIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSI2LjIyIiB5PSIxMS4xOSIgd2lkdGg9IjIuMjIiIGhlaWdodD0iMC40OCIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSI4LjQ0IiB5PSIxMS40MiIgd2lkdGg9IjIuMjIiIGhlaWdodD0iMC4yNCIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSIxMC42NyIgeT0iMTEuNTMiIHdpZHRoPSIyLjIyIiBoZWlnaHQ9IjAuMTMiIHN0eWxlPSJzdHJva2Utd2lkdGg6IDAuMzg7IGZpbGw6ICMwMDAwMDA7Ij48L3JlY3Q+PHJlY3QgeD0iMTIuODkiIHk9IjExLjU4IiB3aWR0aD0iMi4yMiIgaGVpZ2h0PSIwLjA4NSIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSIxNS4xMSIgeT0iMTEuNjAiIHdpZHRoPSIyLjIyIiBoZWlnaHQ9IjAuMDY0IiBzdHlsZT0ic3Ryb2tlLXdpZHRoOiAwLjM4OyBmaWxsOiAjMDAwMDAwOyI+PC9yZWN0PjxyZWN0IHg9IjE3LjMzIiB5PSIxMS42MiIgd2lkdGg9IjIuMjIiIGhlaWdodD0iMC4wNDYiIHN0eWxlPSJzdHJva2Utd2lkdGg6IDAuMzg7IGZpbGw6ICMwMDAwMDA7Ij48L3JlY3Q+PHJlY3QgeD0iMTkuNTYiIHk9IjExLjYzIiB3aWR0aD0iMi4yMiIgaGVpZ2h0PSIwLjAyOSIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSIyMS43OCIgeT0iMTEuNjQiIHdpZHRoPSIyLjIyIiBoZWlnaHQ9IjAuMDIzIiBzdHlsZT0ic3Ryb2tlLXdpZHRoOiAwLjM4OyBmaWxsOiAjMDAwMDAwOyI+PC9yZWN0PjxyZWN0IHg9IjI0LjAwIiB5PSIxMS42NSIgd2lkdGg9IjIuMjIiIGhlaWdodD0iMC4wMTciIHN0eWxlPSJzdHJva2Utd2lkdGg6IDAuMzg7IGZpbGw6ICMwMDAwMDA7Ij48L3JlY3Q+PHJlY3QgeD0iMjYuMjIiIHk9IjExLjY0IiB3aWR0aD0iMi4yMiIgaGVpZ2h0PSIwLjAyMSIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSIyOC40NCIgeT0iMTEuNjUiIHdpZHRoPSIyLjIyIiBoZWlnaHQ9IjAuMDE2IiBzdHlsZT0ic3Ryb2tlLXdpZHRoOiAwLjM4OyBmaWxsOiAjMDAwMDAwOyI+PC9yZWN0PjxyZWN0IHg9IjMwLjY3IiB5PSIxMS42NSIgd2lkdGg9IjIuMjIiIGhlaWdodD0iMC4wMTUiIHN0eWxlPSJzdHJva2Utd2lkdGg6IDAuMzg7IGZpbGw6ICMwMDAwMDA7Ij48L3JlY3Q+PHJlY3QgeD0iMzIuODkiIHk9IjExLjY1IiB3aWR0aD0iMi4yMiIgaGVpZ2h0PSIwLjAxMiIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSIzNS4xMSIgeT0iMTEuNjUiIHdpZHRoPSIyLjIyIiBoZWlnaHQ9IjAuMDA5MSIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSIzNy4zMyIgeT0iMTEuNjUiIHdpZHRoPSIyLjIyIiBoZWlnaHQ9IjAuMDA4NyIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSIzOS41NiIgeT0iMTEuNjYiIHdpZHRoPSIyLjIyIiBoZWlnaHQ9IjAuMDA0OSIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSI0MS43OCIgeT0iMTEuNjYiIHdpZHRoPSIyLjIyIiBoZWlnaHQ9IjAuMDA1MiIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSI0NC4wMCIgeT0iMTEuNjYiIHdpZHRoPSIyLjIyIiBoZWlnaHQ9IjAuMDAxOCIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48L2c+PC9zdmc+" class="svglite img-fluid"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">multiracial</td>
+<td style="text-align: right;">20322</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.8</td>
+<td style="text-align: right;"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiBjbGFzcz0ic3ZnbGl0ZSIgd2lkdGg9IjQ4LjAwcHQiIGhlaWdodD0iMTIuMDBwdCIgdmlld2JveD0iMCAwIDQ4LjAwIDEyLjAwIj48ZGVmcz48c3R5bGUgdHlwZT0idGV4dC9jc3MiPgogICAgLnN2Z2xpdGUgbGluZSwgLnN2Z2xpdGUgcG9seWxpbmUsIC5zdmdsaXRlIHBvbHlnb24sIC5zdmdsaXRlIHBhdGgsIC5zdmdsaXRlIHJlY3QsIC5zdmdsaXRlIGNpcmNsZSB7CiAgICAgIGZpbGw6IG5vbmU7CiAgICAgIHN0cm9rZTogIzAwMDAwMDsKICAgICAgc3Ryb2tlLWxpbmVjYXA6IHJvdW5kOwogICAgICBzdHJva2UtbGluZWpvaW46IHJvdW5kOwogICAgICBzdHJva2UtbWl0ZXJsaW1pdDogMTAuMDA7CiAgICB9CiAgICAuc3ZnbGl0ZSB0ZXh0IHsKICAgICAgd2hpdGUtc3BhY2U6IHByZTsKICAgIH0KICA8L3N0eWxlPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBzdHlsZT0ic3Ryb2tlOiBub25lOyBmaWxsOiBub25lOyI+PC9yZWN0PjxkZWZzPjxjbGlwcGF0aCBpZD0iY3BNQzR3TUh3ME9DNHdNSHd3TGpBd2ZERXlMakF3Ij48cmVjdCB4PSIwLjAwIiB5PSIwLjAwIiB3aWR0aD0iNDguMDAiIGhlaWdodD0iMTIuMDAiPjwvcmVjdD48L2NsaXBwYXRoPjwvZGVmcz48ZyBjbGlwLXBhdGg9InVybCgjY3BNQzR3TUh3ME9DNHdNSHd3TGpBd2ZERXlMakF3KSI+CjwvZz48ZGVmcz48Y2xpcHBhdGggaWQ9ImNwTUM0d01IdzBPQzR3TUh3eUxqZzRmREV5TGpBdyI+PHJlY3QgeD0iMC4wMCIgeT0iMi44OCIgd2lkdGg9IjQ4LjAwIiBoZWlnaHQ9IjkuMTIiPjwvcmVjdD48L2NsaXBwYXRoPjwvZGVmcz48ZyBjbGlwLXBhdGg9InVybCgjY3BNQzR3TUh3ME9DNHdNSHd5TGpnNGZERXlMakF3KSI+PHJlY3QgeD0iMS43OCIgeT0iMy4yMiIgd2lkdGg9IjIuOTIiIGhlaWdodD0iOC40NCIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSI0LjcwIiB5PSIxMC4yMiIgd2lkdGg9IjIuOTIiIGhlaWdodD0iMS40NSIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSI3LjYyIiB5PSIxMS40MyIgd2lkdGg9IjIuOTIiIGhlaWdodD0iMC4yMyIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSIxMC41NSIgeT0iMTEuNjIiIHdpZHRoPSIyLjkyIiBoZWlnaHQ9IjAuMDQwIiBzdHlsZT0ic3Ryb2tlLXdpZHRoOiAwLjM4OyBmaWxsOiAjMDAwMDAwOyI+PC9yZWN0PjxyZWN0IHg9IjEzLjQ3IiB5PSIxMS42NiIgd2lkdGg9IjIuOTIiIGhlaWdodD0iMC4wMDYxIiBzdHlsZT0ic3Ryb2tlLXdpZHRoOiAwLjM4OyBmaWxsOiAjMDAwMDAwOyI+PC9yZWN0PjxyZWN0IHg9IjE2LjQwIiB5PSIxMS42NiIgd2lkdGg9IjIuOTIiIGhlaWdodD0iMC4wMDE5IiBzdHlsZT0ic3Ryb2tlLXdpZHRoOiAwLjM4OyBmaWxsOiAjMDAwMDAwOyI+PC9yZWN0PjxyZWN0IHg9IjE5LjMyIiB5PSIxMS42NiIgd2lkdGg9IjIuOTIiIGhlaWdodD0iMC4wMDA0MiIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSIyMi4yNCIgeT0iMTEuNjYiIHdpZHRoPSIyLjkyIiBoZWlnaHQ9IjAuMDAwNjkiIHN0eWxlPSJzdHJva2Utd2lkdGg6IDAuMzg7IGZpbGw6ICMwMDAwMDA7Ij48L3JlY3Q+PHJlY3QgeD0iMjUuMTciIHk9IjExLjY2IiB3aWR0aD0iMi45MiIgaGVpZ2h0PSIwLjAwMDI4IiBzdHlsZT0ic3Ryb2tlLXdpZHRoOiAwLjM4OyBmaWxsOiAjMDAwMDAwOyI+PC9yZWN0PjxyZWN0IHg9IjI4LjA5IiB5PSIxMS42NiIgd2lkdGg9IjIuOTIiIGhlaWdodD0iMC4wMDAyOCIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSIzMS4wMSIgeT0iMTEuNjYiIHdpZHRoPSIyLjkyIiBoZWlnaHQ9IjAuMDAiIHN0eWxlPSJzdHJva2Utd2lkdGg6IDAuMzg7IGZpbGw6ICMwMDAwMDA7Ij48L3JlY3Q+PHJlY3QgeD0iMzMuOTQiIHk9IjExLjY2IiB3aWR0aD0iMi45MiIgaGVpZ2h0PSIwLjAwIiBzdHlsZT0ic3Ryb2tlLXdpZHRoOiAwLjM4OyBmaWxsOiAjMDAwMDAwOyI+PC9yZWN0PjxyZWN0IHg9IjM2Ljg2IiB5PSIxMS42NiIgd2lkdGg9IjIuOTIiIGhlaWdodD0iMC4wMCIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSIzOS43OCIgeT0iMTEuNjYiIHdpZHRoPSIyLjkyIiBoZWlnaHQ9IjAuMDAiIHN0eWxlPSJzdHJva2Utd2lkdGg6IDAuMzg7IGZpbGw6ICMwMDAwMDA7Ij48L3JlY3Q+PHJlY3QgeD0iNDIuNzEiIHk9IjExLjY2IiB3aWR0aD0iMi45MiIgaGVpZ2h0PSIwLjAwIiBzdHlsZT0ic3Ryb2tlLXdpZHRoOiAwLjM4OyBmaWxsOiAjMDAwMDAwOyI+PC9yZWN0PjxyZWN0IHg9IjQ1LjYzIiB5PSIxMS42NiIgd2lkdGg9IjIuOTIiIGhlaWdodD0iMC4wMDAxNCIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48L2c+PC9zdmc+" class="svglite img-fluid"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">native_american</td>
+<td style="text-align: right;">10986</td>
+<td style="text-align: right;">20</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.1</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">1.0</td>
+<td style="text-align: right;"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiBjbGFzcz0ic3ZnbGl0ZSIgd2lkdGg9IjQ4LjAwcHQiIGhlaWdodD0iMTIuMDBwdCIgdmlld2JveD0iMCAwIDQ4LjAwIDEyLjAwIj48ZGVmcz48c3R5bGUgdHlwZT0idGV4dC9jc3MiPgogICAgLnN2Z2xpdGUgbGluZSwgLnN2Z2xpdGUgcG9seWxpbmUsIC5zdmdsaXRlIHBvbHlnb24sIC5zdmdsaXRlIHBhdGgsIC5zdmdsaXRlIHJlY3QsIC5zdmdsaXRlIGNpcmNsZSB7CiAgICAgIGZpbGw6IG5vbmU7CiAgICAgIHN0cm9rZTogIzAwMDAwMDsKICAgICAgc3Ryb2tlLWxpbmVjYXA6IHJvdW5kOwogICAgICBzdHJva2UtbGluZWpvaW46IHJvdW5kOwogICAgICBzdHJva2UtbWl0ZXJsaW1pdDogMTAuMDA7CiAgICB9CiAgICAuc3ZnbGl0ZSB0ZXh0IHsKICAgICAgd2hpdGUtc3BhY2U6IHByZTsKICAgIH0KICA8L3N0eWxlPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBzdHlsZT0ic3Ryb2tlOiBub25lOyBmaWxsOiBub25lOyI+PC9yZWN0PjxkZWZzPjxjbGlwcGF0aCBpZD0iY3BNQzR3TUh3ME9DNHdNSHd3TGpBd2ZERXlMakF3Ij48cmVjdCB4PSIwLjAwIiB5PSIwLjAwIiB3aWR0aD0iNDguMDAiIGhlaWdodD0iMTIuMDAiPjwvcmVjdD48L2NsaXBwYXRoPjwvZGVmcz48ZyBjbGlwLXBhdGg9InVybCgjY3BNQzR3TUh3ME9DNHdNSHd3TGpBd2ZERXlMakF3KSI+CjwvZz48ZGVmcz48Y2xpcHBhdGggaWQ9ImNwTUM0d01IdzBPQzR3TUh3eUxqZzRmREV5TGpBdyI+PHJlY3QgeD0iMC4wMCIgeT0iMi44OCIgd2lkdGg9IjQ4LjAwIiBoZWlnaHQ9IjkuMTIiPjwvcmVjdD48L2NsaXBwYXRoPjwvZGVmcz48ZyBjbGlwLXBhdGg9InVybCgjY3BNQzR3TUh3ME9DNHdNSHd5TGpnNGZERXlMakF3KSI+PHJlY3QgeD0iMS43OCIgeT0iMy4yMiIgd2lkdGg9IjIuMjIiIGhlaWdodD0iOC40NCIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSI0LjAwIiB5PSIxMS40OCIgd2lkdGg9IjIuMjIiIGhlaWdodD0iMC4xOCIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSI2LjIyIiB5PSIxMS41OSIgd2lkdGg9IjIuMjIiIGhlaWdodD0iMC4wNzAiIHN0eWxlPSJzdHJva2Utd2lkdGg6IDAuMzg7IGZpbGw6ICMwMDAwMDA7Ij48L3JlY3Q+PHJlY3QgeD0iOC40NCIgeT0iMTEuNjIiIHdpZHRoPSIyLjIyIiBoZWlnaHQ9IjAuMDQzIiBzdHlsZT0ic3Ryb2tlLXdpZHRoOiAwLjM4OyBmaWxsOiAjMDAwMDAwOyI+PC9yZWN0PjxyZWN0IHg9IjEwLjY3IiB5PSIxMS42MyIgd2lkdGg9IjIuMjIiIGhlaWdodD0iMC4wMzIiIHN0eWxlPSJzdHJva2Utd2lkdGg6IDAuMzg7IGZpbGw6ICMwMDAwMDA7Ij48L3JlY3Q+PHJlY3QgeD0iMTIuODkiIHk9IjExLjYzIiB3aWR0aD0iMi4yMiIgaGVpZ2h0PSIwLjAyOCIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSIxNS4xMSIgeT0iMTEuNjQiIHdpZHRoPSIyLjIyIiBoZWlnaHQ9IjAuMDIwIiBzdHlsZT0ic3Ryb2tlLXdpZHRoOiAwLjM4OyBmaWxsOiAjMDAwMDAwOyI+PC9yZWN0PjxyZWN0IHg9IjE3LjMzIiB5PSIxMS42NSIgd2lkdGg9IjIuMjIiIGhlaWdodD0iMC4wMTciIHN0eWxlPSJzdHJva2Utd2lkdGg6IDAuMzg7IGZpbGw6ICMwMDAwMDA7Ij48L3JlY3Q+PHJlY3QgeD0iMTkuNTYiIHk9IjExLjY1IiB3aWR0aD0iMi4yMiIgaGVpZ2h0PSIwLjAxMiIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSIyMS43OCIgeT0iMTEuNjUiIHdpZHRoPSIyLjIyIiBoZWlnaHQ9IjAuMDA5NCIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSIyNC4wMCIgeT0iMTEuNjYiIHdpZHRoPSIyLjIyIiBoZWlnaHQ9IjAuMDA2MyIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSIyNi4yMiIgeT0iMTEuNjYiIHdpZHRoPSIyLjIyIiBoZWlnaHQ9IjAuMDA3MSIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSIyOC40NCIgeT0iMTEuNjYiIHdpZHRoPSIyLjIyIiBoZWlnaHQ9IjAuMDA1OCIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSIzMC42NyIgeT0iMTEuNjYiIHdpZHRoPSIyLjIyIiBoZWlnaHQ9IjAuMDAyOCIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSIzMi44OSIgeT0iMTEuNjYiIHdpZHRoPSIyLjIyIiBoZWlnaHQ9IjAuMDAyNCIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSIzNS4xMSIgeT0iMTEuNjYiIHdpZHRoPSIyLjIyIiBoZWlnaHQ9IjAuMDAzMiIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSIzNy4zMyIgeT0iMTEuNjYiIHdpZHRoPSIyLjIyIiBoZWlnaHQ9IjAuMDAzOCIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSIzOS41NiIgeT0iMTEuNjYiIHdpZHRoPSIyLjIyIiBoZWlnaHQ9IjAuMDAzMiIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSI0MS43OCIgeT0iMTEuNjUiIHdpZHRoPSIyLjIyIiBoZWlnaHQ9IjAuMDA3NyIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSI0NC4wMCIgeT0iMTEuNjQiIHdpZHRoPSIyLjIyIiBoZWlnaHQ9IjAuMDIyIiBzdHlsZT0ic3Ryb2tlLXdpZHRoOiAwLjM4OyBmaWxsOiAjMDAwMDAwOyI+PC9yZWN0PjwvZz48L3N2Zz4=" class="svglite img-fluid"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">zip</td>
+<td style="text-align: right;">15504</td>
+<td style="text-align: right;">30</td>
+<td style="text-align: right;">45523.1</td>
+<td style="text-align: right;">26223.9</td>
+<td style="text-align: right;">1001.0</td>
+<td style="text-align: right;">43232.0</td>
+<td style="text-align: right;">99929.0</td>
+<td style="text-align: right;"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiBjbGFzcz0ic3ZnbGl0ZSIgd2lkdGg9IjQ4LjAwcHQiIGhlaWdodD0iMTIuMDBwdCIgdmlld2JveD0iMCAwIDQ4LjAwIDEyLjAwIj48ZGVmcz48c3R5bGUgdHlwZT0idGV4dC9jc3MiPgogICAgLnN2Z2xpdGUgbGluZSwgLnN2Z2xpdGUgcG9seWxpbmUsIC5zdmdsaXRlIHBvbHlnb24sIC5zdmdsaXRlIHBhdGgsIC5zdmdsaXRlIHJlY3QsIC5zdmdsaXRlIGNpcmNsZSB7CiAgICAgIGZpbGw6IG5vbmU7CiAgICAgIHN0cm9rZTogIzAwMDAwMDsKICAgICAgc3Ryb2tlLWxpbmVjYXA6IHJvdW5kOwogICAgICBzdHJva2UtbGluZWpvaW46IHJvdW5kOwogICAgICBzdHJva2UtbWl0ZXJsaW1pdDogMTAuMDA7CiAgICB9CiAgICAuc3ZnbGl0ZSB0ZXh0IHsKICAgICAgd2hpdGUtc3BhY2U6IHByZTsKICAgIH0KICA8L3N0eWxlPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBzdHlsZT0ic3Ryb2tlOiBub25lOyBmaWxsOiBub25lOyI+PC9yZWN0PjxkZWZzPjxjbGlwcGF0aCBpZD0iY3BNQzR3TUh3ME9DNHdNSHd3TGpBd2ZERXlMakF3Ij48cmVjdCB4PSIwLjAwIiB5PSIwLjAwIiB3aWR0aD0iNDguMDAiIGhlaWdodD0iMTIuMDAiPjwvcmVjdD48L2NsaXBwYXRoPjwvZGVmcz48ZyBjbGlwLXBhdGg9InVybCgjY3BNQzR3TUh3ME9DNHdNSHd3TGpBd2ZERXlMakF3KSI+CjwvZz48ZGVmcz48Y2xpcHBhdGggaWQ9ImNwTUM0d01IdzBPQzR3TUh3eUxqZzRmREV5TGpBdyI+PHJlY3QgeD0iMC4wMCIgeT0iMi44OCIgd2lkdGg9IjQ4LjAwIiBoZWlnaHQ9IjkuMTIiPjwvcmVjdD48L2NsaXBwYXRoPjwvZGVmcz48ZyBjbGlwLXBhdGg9InVybCgjY3BNQzR3TUh3ME9DNHdNSHd5TGpnNGZERXlMakF3KSI+PHJlY3QgeD0iMS4zMyIgeT0iOC41NyIgd2lkdGg9IjIuMjUiIGhlaWdodD0iMy4xMCIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSIzLjU3IiB5PSI3LjkwIiB3aWR0aD0iMi4yNSIgaGVpZ2h0PSIzLjc2IiBzdHlsZT0ic3Ryb2tlLXdpZHRoOiAwLjM4OyBmaWxsOiAjMDAwMDAwOyI+PC9yZWN0PjxyZWN0IHg9IjUuODIiIHk9IjYuOTgiIHdpZHRoPSIyLjI1IiBoZWlnaHQ9IjQuNjgiIHN0eWxlPSJzdHJva2Utd2lkdGg6IDAuMzg7IGZpbGw6ICMwMDAwMDA7Ij48L3JlY3Q+PHJlY3QgeD0iOC4wNyIgeT0iMTEuNTAiIHdpZHRoPSIyLjI1IiBoZWlnaHQ9IjAuMTYiIHN0eWxlPSJzdHJva2Utd2lkdGg6IDAuMzg7IGZpbGw6ICMwMDAwMDA7Ij48L3JlY3Q+PHJlY3QgeD0iMTAuMzEiIHk9IjcuOTciIHdpZHRoPSIyLjI1IiBoZWlnaHQ9IjMuNzAiIHN0eWxlPSJzdHJva2Utd2lkdGg6IDAuMzg7IGZpbGw6ICMwMDAwMDA7Ij48L3JlY3Q+PHJlY3QgeD0iMTIuNTYiIHk9IjcuMTIiIHdpZHRoPSIyLjI1IiBoZWlnaHQ9IjQuNTQiIHN0eWxlPSJzdHJva2Utd2lkdGg6IDAuMzg7IGZpbGw6ICMwMDAwMDA7Ij48L3JlY3Q+PHJlY3QgeD0iMTQuODEiIHk9IjUuNTUiIHdpZHRoPSIyLjI1IiBoZWlnaHQ9IjYuMTIiIHN0eWxlPSJzdHJva2Utd2lkdGg6IDAuMzg7IGZpbGw6ICMwMDAwMDA7Ij48L3JlY3Q+PHJlY3QgeD0iMTcuMDUiIHk9IjcuNTQiIHdpZHRoPSIyLjI1IiBoZWlnaHQ9IjQuMTIiIHN0eWxlPSJzdHJva2Utd2lkdGg6IDAuMzg7IGZpbGw6ICMwMDAwMDA7Ij48L3JlY3Q+PHJlY3QgeD0iMTkuMzAiIHk9IjcuODMiIHdpZHRoPSIyLjI1IiBoZWlnaHQ9IjMuODMiIHN0eWxlPSJzdHJva2Utd2lkdGg6IDAuMzg7IGZpbGw6ICMwMDAwMDA7Ij48L3JlY3Q+PHJlY3QgeD0iMjEuNTQiIHk9IjguNjQiIHdpZHRoPSIyLjI1IiBoZWlnaHQ9IjMuMDIiIHN0eWxlPSJzdHJva2Utd2lkdGg6IDAuMzg7IGZpbGw6ICMwMDAwMDA7Ij48L3JlY3Q+PHJlY3QgeD0iMjMuNzkiIHk9IjEwLjMwIiB3aWR0aD0iMi4yNSIgaGVpZ2h0PSIxLjM3IiBzdHlsZT0ic3Ryb2tlLXdpZHRoOiAwLjM4OyBmaWxsOiAjMDAwMDAwOyI+PC9yZWN0PjxyZWN0IHg9IjI2LjA0IiB5PSI4LjI1IiB3aWR0aD0iMi4yNSIgaGVpZ2h0PSIzLjQxIiBzdHlsZT0ic3Ryb2tlLXdpZHRoOiAwLjM4OyBmaWxsOiAjMDAwMDAwOyI+PC9yZWN0PjxyZWN0IHg9IjI4LjI4IiB5PSI3LjY0IiB3aWR0aD0iMi4yNSIgaGVpZ2h0PSI0LjAyIiBzdHlsZT0ic3Ryb2tlLXdpZHRoOiAwLjM4OyBmaWxsOiAjMDAwMDAwOyI+PC9yZWN0PjxyZWN0IHg9IjMwLjUzIiB5PSIxMC43MiIgd2lkdGg9IjIuMjUiIGhlaWdodD0iMC45NCIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSIzMi43OCIgeT0iOS4xNyIgd2lkdGg9IjIuMjUiIGhlaWdodD0iMi40OSIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSIzNS4wMiIgeT0iMy4yMiIgd2lkdGg9IjIuMjUiIGhlaWdodD0iOC40NCIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSIzNy4yNyIgeT0iOC4yNiIgd2lkdGg9IjIuMjUiIGhlaWdodD0iMy40MSIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSIzOS41MiIgeT0iOS4yMSIgd2lkdGg9IjIuMjUiIGhlaWdodD0iMi40NSIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSI0MS43NiIgeT0iMTEuNjYiIHdpZHRoPSIyLjI1IiBoZWlnaHQ9IjAuMDAiIHN0eWxlPSJzdHJva2Utd2lkdGg6IDAuMzg7IGZpbGw6ICMwMDAwMDA7Ij48L3JlY3Q+PHJlY3QgeD0iNDQuMDEiIHk9IjEwLjk3IiB3aWR0aD0iMi4yNSIgaGVpZ2h0PSIwLjY5IiBzdHlsZT0ic3Ryb2tlLXdpZHRoOiAwLjM4OyBmaWxsOiAjMDAwMDAwOyI+PC9yZWN0PjwvZz48L3N2Zz4=" class="svglite img-fluid"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">fipscounty</td>
+<td style="text-align: right;">2995</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">27736.5</td>
+<td style="text-align: right;">15662.4</td>
+<td style="text-align: right;">1001.0</td>
+<td style="text-align: right;">27125.0</td>
+<td style="text-align: right;">54109.0</td>
+<td style="text-align: right;"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiBjbGFzcz0ic3ZnbGl0ZSIgd2lkdGg9IjQ4LjAwcHQiIGhlaWdodD0iMTIuMDBwdCIgdmlld2JveD0iMCAwIDQ4LjAwIDEyLjAwIj48ZGVmcz48c3R5bGUgdHlwZT0idGV4dC9jc3MiPgogICAgLnN2Z2xpdGUgbGluZSwgLnN2Z2xpdGUgcG9seWxpbmUsIC5zdmdsaXRlIHBvbHlnb24sIC5zdmdsaXRlIHBhdGgsIC5zdmdsaXRlIHJlY3QsIC5zdmdsaXRlIGNpcmNsZSB7CiAgICAgIGZpbGw6IG5vbmU7CiAgICAgIHN0cm9rZTogIzAwMDAwMDsKICAgICAgc3Ryb2tlLWxpbmVjYXA6IHJvdW5kOwogICAgICBzdHJva2UtbGluZWpvaW46IHJvdW5kOwogICAgICBzdHJva2UtbWl0ZXJsaW1pdDogMTAuMDA7CiAgICB9CiAgICAuc3ZnbGl0ZSB0ZXh0IHsKICAgICAgd2hpdGUtc3BhY2U6IHByZTsKICAgIH0KICA8L3N0eWxlPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBzdHlsZT0ic3Ryb2tlOiBub25lOyBmaWxsOiBub25lOyI+PC9yZWN0PjxkZWZzPjxjbGlwcGF0aCBpZD0iY3BNQzR3TUh3ME9DNHdNSHd3TGpBd2ZERXlMakF3Ij48cmVjdCB4PSIwLjAwIiB5PSIwLjAwIiB3aWR0aD0iNDguMDAiIGhlaWdodD0iMTIuMDAiPjwvcmVjdD48L2NsaXBwYXRoPjwvZGVmcz48ZyBjbGlwLXBhdGg9InVybCgjY3BNQzR3TUh3ME9DNHdNSHd3TGpBd2ZERXlMakF3KSI+CjwvZz48ZGVmcz48Y2xpcHBhdGggaWQ9ImNwTUM0d01IdzBPQzR3TUh3eUxqZzRmREV5TGpBdyI+PHJlY3QgeD0iMC4wMCIgeT0iMi44OCIgd2lkdGg9IjQ4LjAwIiBoZWlnaHQ9IjkuMTIiPjwvcmVjdD48L2NsaXBwYXRoPjwvZGVmcz48ZyBjbGlwLXBhdGg9InVybCgjY3BNQzR3TUh3ME9DNHdNSHd5TGpnNGZERXlMakF3KSI+PHJlY3QgeD0iMC45NCIgeT0iOS40MyIgd2lkdGg9IjQuMTgiIGhlaWdodD0iMi4yNCIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSI1LjEyIiB5PSIzLjIyIiB3aWR0aD0iNC4xOCIgaGVpZ2h0PSI4LjQ0IiBzdHlsZT0ic3Ryb2tlLXdpZHRoOiAwLjM4OyBmaWxsOiAjMDAwMDAwOyI+PC9yZWN0PjxyZWN0IHg9IjkuMzEiIHk9IjcuNjIiIHdpZHRoPSI0LjE4IiBoZWlnaHQ9IjQuMDQiIHN0eWxlPSJzdHJva2Utd2lkdGg6IDAuMzg7IGZpbGw6ICMwMDAwMDA7Ij48L3JlY3Q+PHJlY3QgeD0iMTMuNDkiIHk9IjYuNTEiIHdpZHRoPSI0LjE4IiBoZWlnaHQ9IjUuMTUiIHN0eWxlPSJzdHJva2Utd2lkdGg6IDAuMzg7IGZpbGw6ICMwMDAwMDA7Ij48L3JlY3Q+PHJlY3QgeD0iMTcuNjgiIHk9IjcuODIiIHdpZHRoPSI0LjE4IiBoZWlnaHQ9IjMuODQiIHN0eWxlPSJzdHJva2Utd2lkdGg6IDAuMzg7IGZpbGw6ICMwMDAwMDA7Ij48L3JlY3Q+PHJlY3QgeD0iMjEuODYiIHk9IjUuNTUiIHdpZHRoPSI0LjE4IiBoZWlnaHQ9IjYuMTEiIHN0eWxlPSJzdHJva2Utd2lkdGg6IDAuMzg7IGZpbGw6ICMwMDAwMDA7Ij48L3JlY3Q+PHJlY3QgeD0iMjYuMDUiIHk9IjguNTMiIHdpZHRoPSI0LjE4IiBoZWlnaHQ9IjMuMTMiIHN0eWxlPSJzdHJva2Utd2lkdGg6IDAuMzg7IGZpbGw6ICMwMDAwMDA7Ij48L3JlY3Q+PHJlY3QgeD0iMzAuMjMiIHk9IjQuNjMiIHdpZHRoPSI0LjE4IiBoZWlnaHQ9IjcuMDQiIHN0eWxlPSJzdHJva2Utd2lkdGg6IDAuMzg7IGZpbGw6ICMwMDAwMDA7Ij48L3JlY3Q+PHJlY3QgeD0iMzQuNDEiIHk9IjcuNjAiIHdpZHRoPSI0LjE4IiBoZWlnaHQ9IjQuMDYiIHN0eWxlPSJzdHJva2Utd2lkdGg6IDAuMzg7IGZpbGw6ICMwMDAwMDA7Ij48L3JlY3Q+PHJlY3QgeD0iMzguNjAiIHk9IjMuNjIiIHdpZHRoPSI0LjE4IiBoZWlnaHQ9IjguMDQiIHN0eWxlPSJzdHJva2Utd2lkdGg6IDAuMzg7IGZpbGw6ICMwMDAwMDA7Ij48L3JlY3Q+PHJlY3QgeD0iNDIuNzgiIHk9IjguNDkiIHdpZHRoPSI0LjE4IiBoZWlnaHQ9IjMuMTgiIHN0eWxlPSJzdHJva2Utd2lkdGg6IDAuMzg7IGZpbGw6ICMwMDAwMDA7Ij48L3JlY3Q+PC9nPjwvc3ZnPg==" class="svglite img-fluid"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">districtid</td>
+<td style="text-align: right;">1738</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">317.6</td>
+<td style="text-align: right;">333.5</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">206.0</td>
+<td style="text-align: right;">2651.0</td>
+<td style="text-align: right;"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiBjbGFzcz0ic3ZnbGl0ZSIgd2lkdGg9IjQ4LjAwcHQiIGhlaWdodD0iMTIuMDBwdCIgdmlld2JveD0iMCAwIDQ4LjAwIDEyLjAwIj48ZGVmcz48c3R5bGUgdHlwZT0idGV4dC9jc3MiPgogICAgLnN2Z2xpdGUgbGluZSwgLnN2Z2xpdGUgcG9seWxpbmUsIC5zdmdsaXRlIHBvbHlnb24sIC5zdmdsaXRlIHBhdGgsIC5zdmdsaXRlIHJlY3QsIC5zdmdsaXRlIGNpcmNsZSB7CiAgICAgIGZpbGw6IG5vbmU7CiAgICAgIHN0cm9rZTogIzAwMDAwMDsKICAgICAgc3Ryb2tlLWxpbmVjYXA6IHJvdW5kOwogICAgICBzdHJva2UtbGluZWpvaW46IHJvdW5kOwogICAgICBzdHJva2UtbWl0ZXJsaW1pdDogMTAuMDA7CiAgICB9CiAgICAuc3ZnbGl0ZSB0ZXh0IHsKICAgICAgd2hpdGUtc3BhY2U6IHByZTsKICAgIH0KICA8L3N0eWxlPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBzdHlsZT0ic3Ryb2tlOiBub25lOyBmaWxsOiBub25lOyI+PC9yZWN0PjxkZWZzPjxjbGlwcGF0aCBpZD0iY3BNQzR3TUh3ME9DNHdNSHd3TGpBd2ZERXlMakF3Ij48cmVjdCB4PSIwLjAwIiB5PSIwLjAwIiB3aWR0aD0iNDguMDAiIGhlaWdodD0iMTIuMDAiPjwvcmVjdD48L2NsaXBwYXRoPjwvZGVmcz48ZyBjbGlwLXBhdGg9InVybCgjY3BNQzR3TUh3ME9DNHdNSHd3TGpBd2ZERXlMakF3KSI+CjwvZz48ZGVmcz48Y2xpcHBhdGggaWQ9ImNwTUM0d01IdzBPQzR3TUh3eUxqZzRmREV5TGpBdyI+PHJlY3QgeD0iMC4wMCIgeT0iMi44OCIgd2lkdGg9IjQ4LjAwIiBoZWlnaHQ9IjkuMTIiPjwvcmVjdD48L2NsaXBwYXRoPjwvZGVmcz48ZyBjbGlwLXBhdGg9InVybCgjY3BNQzR3TUh3ME9DNHdNSHd5TGpnNGZERXlMakF3KSI+PHJlY3QgeD0iMS43OCIgeT0iMy4yMiIgd2lkdGg9IjMuMzUiIGhlaWdodD0iOC40NCIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSI1LjEzIiB5PSI4LjEzIiB3aWR0aD0iMy4zNSIgaGVpZ2h0PSIzLjUzIiBzdHlsZT0ic3Ryb2tlLXdpZHRoOiAwLjM4OyBmaWxsOiAjMDAwMDAwOyI+PC9yZWN0PjxyZWN0IHg9IjguNDgiIHk9IjkuNDIiIHdpZHRoPSIzLjM1IiBoZWlnaHQ9IjIuMjUiIHN0eWxlPSJzdHJva2Utd2lkdGg6IDAuMzg7IGZpbGw6ICMwMDAwMDA7Ij48L3JlY3Q+PHJlY3QgeD0iMTEuODQiIHk9IjEwLjM4IiB3aWR0aD0iMy4zNSIgaGVpZ2h0PSIxLjI4IiBzdHlsZT0ic3Ryb2tlLXdpZHRoOiAwLjM4OyBmaWxsOiAjMDAwMDAwOyI+PC9yZWN0PjxyZWN0IHg9IjE1LjE5IiB5PSIxMC43OCIgd2lkdGg9IjMuMzUiIGhlaWdodD0iMC44OSIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSIxOC41NCIgeT0iMTEuMjgiIHdpZHRoPSIzLjM1IiBoZWlnaHQ9IjAuMzgiIHN0eWxlPSJzdHJva2Utd2lkdGg6IDAuMzg7IGZpbGw6ICMwMDAwMDA7Ij48L3JlY3Q+PHJlY3QgeD0iMjEuOTAiIHk9IjExLjUzIiB3aWR0aD0iMy4zNSIgaGVpZ2h0PSIwLjEzIiBzdHlsZT0ic3Ryb2tlLXdpZHRoOiAwLjM4OyBmaWxsOiAjMDAwMDAwOyI+PC9yZWN0PjxyZWN0IHg9IjI1LjI1IiB5PSIxMS42MyIgd2lkdGg9IjMuMzUiIGhlaWdodD0iMC4wMzIiIHN0eWxlPSJzdHJva2Utd2lkdGg6IDAuMzg7IGZpbGw6ICMwMDAwMDA7Ij48L3JlY3Q+PHJlY3QgeD0iMjguNjAiIHk9IjExLjY0IiB3aWR0aD0iMy4zNSIgaGVpZ2h0PSIwLjAyMyIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSIzMS45NiIgeT0iMTEuNjIiIHdpZHRoPSIzLjM1IiBoZWlnaHQ9IjAuMDQzIiBzdHlsZT0ic3Ryb2tlLXdpZHRoOiAwLjM4OyBmaWxsOiAjMDAwMDAwOyI+PC9yZWN0PjxyZWN0IHg9IjM1LjMxIiB5PSIxMS42NCIgd2lkdGg9IjMuMzUiIGhlaWdodD0iMC4wMjEiIHN0eWxlPSJzdHJva2Utd2lkdGg6IDAuMzg7IGZpbGw6ICMwMDAwMDA7Ij48L3JlY3Q+PHJlY3QgeD0iMzguNjYiIHk9IjExLjY0IiB3aWR0aD0iMy4zNSIgaGVpZ2h0PSIwLjAyNCIgc3R5bGU9InN0cm9rZS13aWR0aDogMC4zODsgZmlsbDogIzAwMDAwMDsiPjwvcmVjdD48cmVjdCB4PSI0Mi4wMSIgeT0iMTEuNjMiIHdpZHRoPSIzLjM1IiBoZWlnaHQ9IjAuMDI4IiBzdHlsZT0ic3Ryb2tlLXdpZHRoOiAwLjM4OyBmaWxsOiAjMDAwMDAwOyI+PC9yZWN0PjxyZWN0IHg9IjQ1LjM3IiB5PSIxMS42NiIgd2lkdGg9IjMuMzUiIGhlaWdodD0iMC4wMDQ0IiBzdHlsZT0ic3Ryb2tlLXdpZHRoOiAwLjM4OyBmaWxsOiAjMDAwMDAwOyI+PC9yZWN0PjwvZz48L3N2Zz4=" class="svglite img-fluid"></td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+</section>
+<section id="practice" class="level1">
+<h1>Practice</h1>
+<section id="practice-questions-for-data-management-tasks" class="level2">
+<h2 class="anchored" data-anchor-id="practice-questions-for-data-management-tasks">Practice Questions for Data Management Tasks</h2>
+<p>Start a new .R file and do the following. At the top of your .R file, clear your global environment (the memory of your data frames and other objects) by using the function rm(list=ls()). Then do the following:</p>
+<ol type="1">
+<li>Set your working directory.</li>
+<li>Import the sch_quality.csv data set. Name this data frame as “schools” rather than “df.”</li>
+<li>View the data using the View() and head() functions.</li>
+<li>What is the data type of <em>fipscounty</em>? Use the proper function in R.</li>
+<li>What is the data type of <em>multiracial</em>? Use the proper function in R.</li>
+<li>What is the data type of <em>enrollment</em>? Use the proper function in R.</li>
+<li>What is the data type of <em>city</em>? Use the proper function in R.</li>
+<li>What is the data point located in row 5603, column 10?</li>
+<li>What is the data point located in row 26507, column 4?</li>
+<li>Use the proper R function to view only rows 3000 through 3004.</li>
+<li>Keep only data for the columns <em>white</em>, <em>black</em>, <em>asian</em>, and <em>state</em>. Create a new data frame for this set of columns called “racebystate.”</li>
+<li>Plot the relationship between the <em>white</em> and <em>asian</em> variables. Then do the same for <em>white</em> and <em>black</em>. Does it make practical sense to you why there are no points in half of the graph? Why or why not?</li>
+<li>Using “racebystate,” typecast <em>state</em> as a factor variable.</li>
+<li>Using the data frame “racebystate,” create a single plot with boxplots showing the distribution of <em>asian</em> for every state’s schools. Although it may be difficult to read (it’s clunky, I know), which state seems like an outlier when it comes to the percentage of Asians at their schools? If you do not know the state abbreviations in the US, just google them.</li>
+<li>Using the “racebystate”” data frame, how many schools are in the data frame for each state? Use a single R function.</li>
+</ol>
+</section>
+<section id="slightly-harder-questions" class="level2">
+<h2 class="anchored" data-anchor-id="slightly-harder-questions">Slightly Harder Questions</h2>
+<ol start="16" type="1">
+<li>Using only code (and not the actual values), add up the data point in located in row 6784, column 10 and the data point located in row 3472, column 12. Note that there are multiple ways of doing this!</li>
+<li>Take the last question (question 16) and add to it the data point located in row 602, column 3 from the “racebystate” data frame. Use only code and not the actual values. Note that there are multiple ways of doing this!</li>
+<li>Create a new variable in “racebystate” data frame that is the ratio of white to black/AfricanAmerican students. Name this ratio variable “ratio.”</li>
+</ol>
+</section>
+<section id="practice-answers" class="level2">
+<h2 class="anchored" data-anchor-id="practice-answers">Practice Answers</h2>
+<p>Start a new .R file and do the following. At the top of your .R file, clear your global environment (the memory of your data frames and other objects) by using the function rm(list=ls()). Then do the following:</p>
+<ol type="1">
+<li>Set your working directory.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="co">#This answer should be specific to yours, but should look something like:</span></span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a><span class="co">#setwd("C:/Users/ericw/EC Babson Research Dropbox/Eric Chan/COURSE 2000 sp22/markdown/2_data management/")</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ol start="2" type="1">
+<li>Import the sch_quality.csv data set. Name this data frame as “schools” rather than “df.”</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>schools <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"sch_quality.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ol start="3" type="1">
+<li>View the data using the View() and head() functions.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">View</span>(schools)</span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(schools)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  universalid    ncescode                          schoolname   type
+1      100005 10000500870            Ala Avenue Middle School public
+2      100006 10000500871             Albertville High School public
+3      100007 10000500879             Evans Elementary School public
+4      100009 10000500889       Albertville Elementary School public
+5      100012 10000600193 Kate Duncan Smith Dar Middle School public
+6      100013 10000600872                       Asbury School public
+                            subtype elem middle high levelcode rating
+1                            middle    0      1    0         m      6
+2                              high    0      1    1       m,h      6
+3                            middle    0      1    0         m      4
+4                        elementary    1      0    0         e      6
+5                            middle    1      1    0       e,m      8
+6 combined_elementary_and_secondary    1      1    1     e,m,h      6
+  free_reduced_lunch enrollment    white      black  hispanic      asian
+1           0.644737        608 0.672697 0.02467110 0.2944080 0.00328947
+2           0.490215       1022 0.760274 0.02348340 0.2123290 0.00195695
+3           0.673877        601 0.603993 0.01497500 0.3677200 0.00499168
+4           0.683881        639 0.568075 0.01095460 0.3881060 0.00469484
+5           0.563851        509 0.980354 0.00589391 0.0137525 0.00000000
+6           0.806604        424 0.768868 0.00471698 0.2169810 0.00000000
+  multiracial native_american                street        city state   zip
+1 0.001644740     0.003289470  600 East Alabama Ave Albertville    AL 35950
+2 0.000978474     0.000978474   402 East McCord Ave Albertville    AL 35950
+3 0.008319470     0.000000000 901 West McKinney Ave Albertville    AL 35950
+4 0.025039100     0.003129890        1100 Horton Rd Albertville    AL 35950
+5 0.000000000     0.000000000          6077 Main St       Grant    AL 35747
+6 0.004716980     0.004716980        1990 Asbury Rd Albertville    AL 35950
+    county fipscounty districtid                     districtname
+1 Marshall       1095          5 Albertville City School District
+2 Marshall       1095          5 Albertville City School District
+3 Marshall       1095          5 Albertville City School District
+4 Marshall       1095          5 Albertville City School District
+5 Marshall       1095          6  Marshall County School District
+6 Marshall       1095          6  Marshall County School District</code></pre>
+</div>
+</div>
+<ol start="4" type="1">
+<li>What is the data type of <em>fipscounty</em>? Use the proper function in R.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(schools<span class="sc">$</span>fipscounty)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> int [1:83239] 1095 1095 1095 1095 1095 1095 1095 1095 1095 1095 ...</code></pre>
+</div>
+</div>
+<ol start="5" type="1">
+<li>What is the data type of <em>multiracial</em>? Use the proper function in R.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(schools<span class="sc">$</span>multiracial)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> num [1:83239] 0.001645 0.000978 0.008319 0.025039 0 ...</code></pre>
+</div>
+</div>
+<ol start="6" type="1">
+<li>What is the data type of <em>enrollment</em>? Use the proper function in R.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(schools<span class="sc">$</span>enrollment)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> int [1:83239] 608 1022 601 639 509 424 137 473 526 348 ...</code></pre>
+</div>
+</div>
+<ol start="7" type="1">
+<li>What is the data type of <em>city</em>? Use the proper function in R.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(schools<span class="sc">$</span>city)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> chr [1:83239] "Albertville" "Albertville" "Albertville" "Albertville" ...</code></pre>
+</div>
+</div>
+<ol start="8" type="1">
+<li>What is the data point located in row 5603, column 10?</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>schools[<span class="dv">5603</span>,<span class="dv">10</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 10</code></pre>
+</div>
+</div>
+<ol start="9" type="1">
+<li>What is the data point located in row 26507, column 4?</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>schools[<span class="dv">26507</span>,<span class="dv">4</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "public"</code></pre>
+</div>
+</div>
+<ol start="10" type="1">
+<li>Use the proper R function to view only rows 3000 through 3004.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>schools[<span class="dv">3000</span><span class="sc">:</span><span class="dv">3004</span>,]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     universalid   ncescode                                schoolname   type
+3000      403443 4.0096e+10                           Centerra Mirage public
+3001      403445 4.0187e+10      Chandler Traditional Academy-Freedom public
+3002      403446 4.0444e+10           Country Place Elementary School public
+3003      403447 4.0849e+10            Desert Oasis Elementary School public
+3004      403450 4.0681e+10 Frances Brandon-Pickett Elementary School public
+     subtype elem middle high levelcode rating free_reduced_lunch enrollment
+3000            1      1    0       e,m      4           0.404432        722
+3001            1      1    0     p,e,m     10           0.115813        898
+3002            1      1    0       e,m      4           0.815077        849
+3003            1      1    0       e,m      3           0.810585        718
+3004            1      1    0     p,e,m      9           0.416667        504
+         white     black  hispanic      asian multiracial native_american
+3000 0.3130190 0.1246540 0.4986150 0.04709137  0.00000000      0.01662050
+3001 0.8195990 0.0244989 0.0712695 0.07906460  0.00445434      0.00111359
+3002 0.0777385 0.0777385 0.8009420 0.02120141  0.00706714      0.01531210
+3003 0.0529248 0.0529248 0.8467970 0.04038993  0.00139276      0.00557103
+3004 0.6646830 0.0317460 0.2559520 0.01190476  0.02182540      0.01388890
+                             street        city state   zip   county fipscounty
+3000 15151 West Centerra Drive Sout    Goodyear    AZ 85338 Maricopa       4013
+3001            6040 S. Joslyn Lane     Gilbert    AZ 85298 Maricopa       4013
+3002   10207 W. Country Place Blvd.    Tolleson    AZ 85353 Maricopa       4013
+3003               8802 W. McDowell     Phoenix    AZ 85037 Maricopa       4013
+3004          22706 E. Village Loop Queen Creek    AZ 85242 Maricopa       4013
+     districtid                  districtname
+3000        430  Avondale Elementary District
+3001        522     Chandler Unified District
+3002        919 Littleton Elementary District
+3003       1279  Tolleson Elementary District
+3004       1127  Queen Creek Unified District</code></pre>
+</div>
+</div>
+<ol start="11" type="1">
+<li>Keep only data for the columns <em>white</em>, <em>black</em>, <em>asian</em>, and <em>state</em>. Create a new data frame for this set of columns called “racebystate.”</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a>racebystate <span class="ot">&lt;-</span> schools[,<span class="fu">c</span>(<span class="st">"white"</span>,<span class="st">"black"</span>, <span class="st">"asian"</span>, <span class="st">"state"</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ol start="12" type="1">
+<li>Plot the relationship between the <em>white</em> and <em>asian</em> variables. Then do the same for <em>white</em> and <em>black</em>. Does it make practical sense to you why there are no points in half of the graph? Why or why not?</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb65-3"><a href="#cb65-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>racebystate,<span class="fu">aes</span>(<span class="at">x=</span>white, <span class="at">y=</span>asian))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 10681 rows containing missing values (`geom_point()`).</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="review_R_files/figure-html/unnamed-chunk-39-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>racebystate,<span class="fu">aes</span>(<span class="at">x=</span>white, <span class="at">y=</span>black))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 6049 rows containing missing values (`geom_point()`).</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="review_R_files/figure-html/unnamed-chunk-39-2.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<ol start="13" type="1">
+<li>Using “racebystate,” typecast <em>state</em> as a factor variable.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as.factor</span>(racebystate<span class="sc">$</span>state)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ol start="14" type="1">
+<li>Using the data frame “racebystate,” create a single plot with boxplots showing the distribution of <em>asian</em> for every state’s schools. Although it may be difficult to read (it’s clunky, I know), which state seems like an outlier when it comes to the percentage of Asians at their schools? If you do not know the state abbreviations in the US, just google them.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">data=</span>racebystate,<span class="fu">aes</span>(<span class="at">x=</span>asian, <span class="at">y=</span>state))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 10500 rows containing non-finite values (`stat_boxplot()`).</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="review_R_files/figure-html/unnamed-chunk-41-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb72"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Hawaii (HI) has much more Asians on average in their schools than any other state!</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ol start="15" type="1">
+<li>Using the “racebystate”” data frame, how many schools are in the data frame for each state? Use a single R function.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb73"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(racebystate<span class="sc">$</span>state)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+  AK   AL   AR   AZ   CA   CO   CT   DC   DE   FL   GA   HI   IA   ID   IL   IN 
+ 353 1266  987 1671 8936 1580  926  182  150 3462 2151  278 1245  626 3668 1762 
+  KS   KY   LA   MA   MD   ME   MI   MN   MO   MS   MT   NC   ND   NE   NH   NJ 
+1279 1243 1286 1626 1337  512 2923 1660 1968  819  544 2458  390  861  414 2226 
+  NV   NY   OH   OK   OR   PA   RI   SC   SD   TN   TX   UT   VA   VT   WA   WI 
+ 564 4267 3242 1570 1191 2948  271 1083  516 1636 7702  901 1795  280 1942 1882 
+  WV 
+ 660 </code></pre>
+</div>
+</div>
+<ol start="16" type="1">
+<li>Using only code (and not the actual values) and the “schools” data frame, add up the data point in located in row 6784, column 10 and the data point located in row 3472, column 12. Note that there are multiple ways of doing this!</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a>schools[<span class="dv">6784</span>,<span class="dv">10</span>] <span class="sc">+</span> schools[<span class="dv">3472</span>,<span class="dv">12</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 251</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb77"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> schools[<span class="dv">6784</span>,<span class="dv">10</span>] </span>
+<span id="cb77-2"><a href="#cb77-2" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> schools[<span class="dv">3472</span>,<span class="dv">12</span>]</span>
+<span id="cb77-3"><a href="#cb77-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb77-4"><a href="#cb77-4" aria-hidden="true" tabindex="-1"></a>a<span class="sc">+</span>b</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 251</code></pre>
+</div>
+</div>
+<ol start="17" type="1">
+<li>Take the last question (question 16) and add to it the data point located in row 602, column 3 from the “racebystate” data frame. Use only code and not the actual values. Note that there are multiple ways of doing this!</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb79"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a>a<span class="sc">+</span>b<span class="sc">+</span>racebystate[<span class="dv">602</span>,<span class="dv">3</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 251.0098</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb81"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a>c <span class="ot">&lt;-</span> racebystate[<span class="dv">602</span>,<span class="dv">3</span>]</span>
+<span id="cb81-2"><a href="#cb81-2" aria-hidden="true" tabindex="-1"></a>a<span class="sc">+</span>b<span class="sc">+</span>c</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 251.0098</code></pre>
+</div>
+</div>
+<ol start="18" type="1">
+<li>Create a new variable in “racebystate” data frame that is the ratio of white to black/AfricanAmerican students. Call this new variable “ratio”.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb83"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a>racebystate<span class="sc">$</span>ratio <span class="ot">&lt;-</span> racebystate<span class="sc">$</span>white<span class="sc">/</span>racebystate<span class="sc">$</span>black</span>
+<span id="cb83-2"><a href="#cb83-2" aria-hidden="true" tabindex="-1"></a><span class="fu">View</span>(racebystate)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
