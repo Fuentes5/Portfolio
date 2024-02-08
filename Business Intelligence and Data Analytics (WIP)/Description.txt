@@ -1,0 +1,9 @@
+Business Intelligence and Data Analytics (BIDA)
+This course is about how organizations, and their employees can successfully collect, evaluate and apply
+information to become better decision makers. It starts with basic concepts regarding business data needs
+and ends with hands-on experience using Business Intelligence (BI) tools. It takes a variety of experts to
+start and run a business - financial, operational, marketing, accounting, human relations, managerial, etc.
+Each knowledge base requires up-to-date information to plot strategy or keep it on track. Our ability to
+capture large volumes of data often outstrips our ability to evaluate and apply the data as management
+information. These are the challenges we will address in this course so that you can become an intelligent
+gatherer and user of data in your chosen field.

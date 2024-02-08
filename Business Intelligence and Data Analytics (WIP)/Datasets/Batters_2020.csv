@@ -1,0 +1,613 @@
+﻿NUM,playerID,Team,Name,AB,G,R,H,2B,3B,HR,RBI,BB,SO
+1,abreujo02,CHA,Jose Dariel Abreu,240,60,43,76,15,0,19,60,18,59
+2,acunaro01,ATL,Ronald Jose Acuna,160,46,46,40,11,0,14,29,38,60
+3,adamewi01,TBA,Willy Rafael Adames,185,54,29,48,15,1,8,23,20,74
+4,adamsau02,SDN,Austin Lance Adams,1,3,0,0,0,0,0,0,0,1
+5,adamsma01,ATL,Matthew James Adams,49,16,4,9,2,0,2,9,2,18
+6,adelljo01,LAA,Jordon Scott Adell,124,38,9,20,4,0,3,7,7,55
+7,adriaeh01,MIN,Ehire Enrique Adrianza,89,44,10,17,7,0,0,3,11,23
+8,aguilje01,MIA,Jesus Alexander Aguilar,188,51,31,52,10,0,8,34,23,40
+9,ahmedni01,ARI,Nicholas Mark Ahmed,199,57,29,53,10,1,5,29,18,46
+10,akiyash01,CIN,Shogo Akiyama,155,54,16,38,6,1,0,9,25,34
+11,alberha01,BAL,Hanser Joel Alberto,219,54,35,62,15,0,3,22,5,30
+12,albieoz01,ATL,Ozhaino Jurdy Jiandro Albies,118,29,21,32,5,0,6,19,5,30
+13,alcanse01,DET,Sergio Junior Alcantara,21,10,2,3,0,1,1,1,2,4
+14,alfarjo01,MIA,Jorge Mario Alfaro,93,31,12,21,2,0,3,16,4,36
+15,alforan01,TOR,Anthony Joseph Alford,16,13,3,3,0,0,1,3,0,7
+16,alforan01,PIT,Anthony Joseph Alford,12,5,2,3,0,1,1,4,1,1
+17,allenau01,OAK,Austin Michael Allen,31,14,1,6,1,0,1,3,1,14
+18,allengr01,CLE,Gregory Lomack Allen,25,15,3,4,1,0,1,4,1,9
+19,allengr01,SDN,Gregory Lomack Allen,1,1,1,0,0,0,0,0,2,1
+20,almonab01,SDN,Abraham Almonte,11,7,0,1,0,0,0,0,2,4
+21,almoral01,CHN,Reinaldo Albert Almora,30,28,4,5,1,0,0,1,3,9
+22,alonspe01,NYN,Peter Morgan Alonso,208,57,31,48,6,0,16,35,24,61
+23,altuvjo01,HOU,Jose Carlos Altuve,192,48,32,42,9,0,5,18,17,39
+24,alvared01,MIA,Eduardo Cortes Alvarez,37,12,6,7,1,0,0,2,3,16
+25,alvaryo01,HOU,Yordan Ruben Alvarez,8,2,2,2,0,0,1,4,0,1
+26,anderbr06,MIA,Brian Wade Anderson,200,59,27,51,7,1,11,38,22,66
+27,anderti01,CHA,Timothy Devon Anderson,208,49,45,67,11,1,10,21,10,50
+28,andruel01,TEX,Elvis Augusto Andrus,103,29,11,20,5,0,3,7,8,15
+29,andujmi01,NYA,Miguel Enrique Andujar,62,21,5,15,2,1,1,5,3,9
+30,apostsh01,TEX,Sherten Wimbert Ramiro Apostel,20,7,1,2,1,0,0,0,1,9
+31,aquinar01,CIN,Aristides Aquino,47,23,7,8,1,0,2,8,6,18
+32,arauzjo01,BOS,Jonathan Aldair Arauz,72,25,8,18,2,0,1,9,8,21
+33,arciaor01,MIL,Orlando Jesus Arcia,173,59,22,45,10,1,5,20,14,32
+34,arenano01,COL,Nolan James Arenado,182,48,23,46,9,0,8,26,15,20
+35,arozara01,TBA,Randy Arozarena,64,23,15,18,2,0,7,11,6,22
+36,arraelu01,MIN,Luis Sangel Arraez,112,32,16,36,9,0,0,13,8,11
+37,arroych01,BOS,Christian Israel Arroyo,50,14,7,12,1,0,3,8,4,11
+38,astudwi01,MIN,Willians Jose Astudillo,16,8,4,4,1,0,1,3,0,2
+39,avilaal01,MIN,Alexander Thomas Avila,49,23,6,9,2,0,1,2,11,22
+40,baderha01,SLN,Harrison Joseph Bader,106,50,21,24,7,2,4,11,13,40
+41,baezja01,CHN,Ednel Javier Baez,222,59,27,45,9,1,8,24,7,75
+42,barneau01,LAN,Austin Scott Barnes,86,29,14,21,3,0,1,9,13,24
+43,barnhtu01,CIN,Tucker Jackson Barnhart,98,38,10,20,3,0,5,13,12,28
+44,barrefr02,OAK,Franklin Jose Barreto,10,15,5,0,0,0,0,0,0,7
+45,barrefr02,LAA,Franklin Jose Barreto,17,6,0,2,0,0,0,2,0,8
+46,bartjo01,SFN,Joseph Andrew Bart,103,33,15,24,5,2,0,7,3,41
+47,basablu01,SFN,Luis Alexander Basabe,14,9,5,2,0,0,0,1,4,5
+48,beatyma01,LAN,Matthew Thomas Beaty,50,21,8,11,1,0,2,5,2,14
+49,bellico01,LAN,Cody James Bellinger,213,56,33,51,10,0,12,30,30,42
+50,belljo02,PIT,Joshua Evan Bell,195,57,22,44,3,0,8,22,22,59
+51,beltbr01,SFN,Brandon Kyle Belt,149,51,25,46,13,1,9,30,30,36
+52,bemboan01,LAA,Anthony John Bemboom,48,21,9,10,1,0,3,5,7,13
+53,beninan01,BOS,Andrew Sebastian Benintendi,39,14,4,4,1,0,0,1,11,17
+54,bertijo01,MIA,Jonathon David Berti,120,39,21,31,5,0,2,14,23,37
+55,bettsmo01,LAN,Markus Lynn Betts,219,55,47,64,9,1,16,39,24,38
+56,bichebo01,TOR,Bo Joseph Bichette,123,29,18,37,9,1,5,23,5,27
+57,biggica01,TOR,Cavan Thomas Biggio,220,59,41,55,16,0,8,28,41,61
+58,bishobr01,SEA,Braden Adam Bishop,30,12,2,5,2,0,0,4,2,10
+59,blackch02,COL,Charles Cobb Blackmon,221,59,31,67,12,1,6,42,19,44
+60,blanktr01,MIN,Travis Allan Blankenhorn,3,1,0,1,1,0,0,0,0,0
+61,bogaexa01,BOS,Xander Jan Bogaerts,203,56,36,61,8,0,11,28,21,41
+62,bohmal01,PHI,Alec Daniel Bohm,160,44,24,54,11,0,4,23,16,36
+63,bonifem01,WAS,Emilio Jose Bonifacio,3,3,1,0,0,0,0,0,0,2
+64,bonifjo01,DET,Jorge Luis Bonifacio,86,30,8,19,3,0,2,17,5,26
+65,boteda01,CHN,David C. Bote,125,45,15,25,3,1,7,29,17,40
+66,bradlja02,BOS,Jackie Bradley,191,55,32,54,11,0,7,22,23,48
+67,brantmi02,HOU,Michael Charles Brantley,170,46,24,51,15,0,5,22,17,28
+68,brantro01,SFN,Robert Jacob Brantly,3,1,0,0,0,0,0,0,0,0
+69,braunry02,MIL,Ryan Joseph Braun,129,39,14,30,7,1,8,26,7,27
+70,bregmal01,HOU,Alexander David Bregman,153,42,19,37,12,1,6,22,24,26
+71,bricejo01,LAA,Jose Manuel Briceno,5,2,0,1,0,0,0,0,1,1
+72,brinsle01,MIA,Lewis Lamont Brinson,106,47,14,24,6,0,3,12,6,30
+73,brossmi01,TBA,Michael Dillon Brosseau,86,37,12,26,5,1,5,12,8,31
+74,brownse01,OAK,Seth William Brown,5,7,0,0,0,0,0,0,0,2
+75,bruceja01,PHI,Jay Allen Bruce,96,32,11,19,4,2,6,14,7,24
+76,bryankr01,CHN,Kristopher Lee Bryant,131,34,20,27,5,1,4,11,12,40
+77,buterdr01,COL,Andrew Edward Butera,39,29,4,6,2,0,0,4,2,11
+78,buxtoby01,MIN,Byron Keiron Buxton,130,39,19,33,3,0,13,27,2,36
+79,cabreas01,WAS,Asdrubal Jose Cabrera,190,52,23,46,9,3,8,31,19,40
+80,cabremi01,DET,Jose Miguel Cabrera,204,57,28,51,4,0,10,35,24,51
+81,cainlo01,MIL,Lorenzo Lamar Cain,18,5,4,6,1,0,0,2,3,2
+82,calhoko01,ARI,Kole Alan Calhoun,190,54,35,43,9,0,16,40,28,50
+83,calhowi01,TEX,Willie Shawn Lamont Calhoun,100,29,3,19,2,1,1,13,5,17
+84,camarjo01,ATL,Johan Valentin Camargo,120,35,16,24,8,0,4,9,6,35
+85,camerda01,DET,Dazmon Jaroid Cameron,57,17,4,11,2,1,0,3,2,19
+86,campulu01,SDN,Luis Genaro Campusano,3,1,2,1,0,0,1,1,0,2
+87,candeje01,DET,Jeimer Candelario,185,52,30,55,11,3,7,29,20,49
+88,canhama01,OAK,Mark David Canha,191,59,32,47,12,2,5,33,37,54
+89,canoro01,NYN,Robinson Jose Cano,171,49,23,54,9,0,10,30,9,24
+90,caratvi01,CHN,Victor Manuel Caratini,116,44,10,28,7,0,1,16,12,31
+91,carlsdy01,SLN,Dylan James Carlson,110,35,11,22,7,1,3,16,8,35
+92,carpema01,SLN,Matthew Martin Carpenter,140,50,22,26,6,0,4,24,23,48
+93,casalcu01,CIN,Curtis Michael Casali,76,31,10,17,3,0,6,8,14,29
+94,casteni01,CIN,Nicholas A. Castellanos,218,60,37,49,11,2,14,34,19,69
+95,castrha01,DET,Harold Arnaldo Castro,49,22,6,17,4,0,0,3,5,11
+96,castrja01,LAA,Jason Michael Castro,52,18,5,10,4,0,2,6,10,23
+97,castrja01,SDN,Jason Michael Castro,28,9,3,5,5,0,0,3,2,10
+98,castrst01,WAS,Starlin DeJesus Castro,60,16,9,16,3,1,2,4,3,13
+99,castrwi01,DET,Willi Rafael Castro,129,36,21,45,4,2,6,24,7,38
+100,caveja01,MIN,Andrew Jacob Cave,113,42,17,25,3,2,4,15,5,44
+101,cervefr01,MIA,Francisco Cervelli,53,16,10,13,2,0,3,7,8,14
+102,cespeyo01,NYN,Yoenis Cespedes,31,8,3,5,1,0,2,4,2,15
+103,changyu01,CLE,Yu-Cheng Chang,11,10,1,2,0,0,0,1,2,4
+104,chapmma01,OAK,Matt James Chapman,142,37,22,33,9,2,10,25,8,54
+105,chavimi01,BOS,Michael Scott Chavis,146,42,16,31,5,2,5,19,8,50
+106,chiriro01,TEX,Robinson David Chirinos,42,14,3,5,1,0,0,2,5,12
+107,chiriro01,NYN,Robinson David Chirinos,32,12,1,7,2,0,1,5,1,9
+108,chishja01,MIA,Jasrado Hermis Arrington Chisholm,56,21,8,9,1,1,2,6,5,19
+109,choiji01,TBA,Ji-Man Choi,122,42,16,28,13,0,3,16,20,36
+110,choosh01,TEX,Shin-Soo Choo,110,33,13,26,3,0,5,15,13,33
+111,colliza01,CHA,Zachary Allen Collins,16,9,1,1,1,0,0,0,2,5
+112,colonch01,CIN,Christian Anthony Colon,23,11,3,3,1,0,0,2,1,3
+113,confomi01,NYN,Michael Thomas Conforto,202,54,40,65,12,0,9,31,24,57
+114,contrwi01,CHN,Willson Eduardo Contreras,189,57,37,46,10,0,7,26,20,57
+115,contrwi02,ATL,William Jesus Contreras,10,4,0,4,1,0,0,1,0,4
+116,coopega03,MIA,Garrett Nicholas Cooper,120,34,20,34,8,0,6,20,11,31
+117,cordefr02,KCA,Franchy Cordero,38,16,7,8,3,0,2,7,4,4
+118,cordery01,NYN,Ryan Thomas Cordell,8,5,0,1,0,0,0,0,0,3
+119,correca01,HOU,Carlos Javier Correa,201,58,22,53,9,0,5,25,16,49
+120,craigwi01,PIT,William Isaac Craig,4,2,0,0,0,0,0,0,0,1
+121,crawfbr01,SFN,Brandon Michael Crawford,172,54,26,44,12,0,8,28,15,47
+122,crawfjp01,SEA,John Paul Crawford,204,53,33,52,7,2,2,24,23,39
+123,croncj01,DET,Christopher John Cron,42,13,9,8,3,0,4,8,9,16
+124,croneja01,SDN,Jacob John Cronenworth,172,54,26,49,15,3,4,20,18,30
+125,cronke01,ARI,Kevin Scott Cron,17,8,0,0,0,0,0,0,1,7
+126,cruzne02,MIN,Nelson Ramon Cruz,185,53,33,56,6,0,16,33,25,58
+127,culbech01,ATL,Charles Edward Culberson,7,10,2,1,1,0,0,1,0,4
+128,cuthbch01,CHA,Cheslor Jesly Cuthbert,1,1,0,0,0,0,0,0,0,0
+129,dahlda01,COL,David Martin Dahl,93,24,9,17,2,2,0,9,4,28
+130,dalbebo01,BOS,Robert Vernon Dalbec,80,23,13,21,3,0,8,16,10,39
+131,darnatr01,ATL,Travis E. d'Arnaud,165,44,19,53,8,0,9,34,16,50
+132,davidma02,CIN,Matthew Glen Davidson,43,22,3,7,1,0,3,11,4,13
+133,davisch02,BAL,Christopher Lyn Davis,52,16,3,6,3,0,0,1,3,17
+134,davisja03,SFN,Jaylin Malik Davis,12,4,2,2,0,0,1,1,0,6
+135,davisjd01,NYN,Jonathan Gregory Davis,190,56,26,47,9,0,6,19,31,56
+136,davisjo05,TOR,Jonathan R. Davis,27,13,4,7,2,0,1,6,3,11
+137,daviskh01,OAK,Khristopher Adrian Davis,85,30,9,17,5,0,2,10,10,26
+138,deanau01,SLN,Austin James Dean,4,3,1,1,1,0,0,0,3,2
+139,dejonpa01,SLN,Paul Sterling DeJong,152,45,17,38,6,0,3,25,17,50
+140,delmoni01,CHA,Nicholas John Delmonico,20,6,0,3,0,0,0,3,2,2
+141,demertr01,DET,Travis Timothy Demeritte,29,18,5,5,1,0,0,4,3,14
+142,deshide02,CLE,Delino Diaab DeShields,107,37,10,27,3,2,0,7,9,29
+143,deverra01,BOS,Rafael Calcano Devers,232,57,32,61,16,1,11,43,13,67
+144,diazal02,HOU,Aledmys Diaz,58,17,8,14,5,0,3,6,1,12
+145,diazel01,COL,Elias David Diaz,68,26,4,16,2,0,2,9,5,15
+146,diazis01,MIA,Isan Xavier Diaz,22,7,3,4,0,0,0,1,0,7
+147,diazle01,MIA,Lewin Jose Diaz,39,14,2,6,2,0,0,3,2,12
+148,diazya01,TBA,Yandy Diaz,114,34,16,35,3,0,2,11,23,17
+149,dickeal01,SFN,Alexander Ross Dickerson,151,52,28,45,10,1,10,27,16,30
+150,dickeco01,MIA,McKenzie Corey Dickerson,194,52,25,50,5,1,7,17,15,35
+151,dietrde01,TEX,Derek Richard Dietrich,61,25,9,12,1,0,5,8,9,21
+152,difowi01,WAS,Wilmer Francisco Difo,14,12,1,1,0,0,0,1,3,4
+153,dixonbr01,DET,Brandon Allen Dixon,13,5,0,1,1,0,0,2,1,4
+154,donaljo02,MIN,Joshua Adam Donaldson,81,28,14,18,2,0,6,11,18,24
+155,doziebr01,NYN,James Brian Dozier,15,7,1,2,0,0,0,0,1,5
+156,doziehu01,KCA,Hunter William Dozier,158,44,29,36,4,2,6,12,27,48
+157,drurybr01,TOR,Brandon S. Drury,46,21,3,7,1,0,0,1,2,9
+158,dubonma01,SFN,Mauricio Andre Dubon,157,54,21,43,4,1,4,19,15,36
+159,duggast01,SFN,Steven Michael Duggar,34,21,3,6,2,0,0,3,1,11
+160,duvalad01,ATL,Adam Lynn Duvall,190,57,34,45,8,0,16,33,15,54
+161,dysonja01,PIT,Jarrod Martel Dyson,51,21,6,8,0,0,0,5,4,10
+162,dysonja01,CHA,Jarrod Martel Dyson,10,11,3,3,0,0,0,0,0,1
+163,eatonad02,WAS,Adam Cory Eaton,159,41,22,36,11,1,4,17,12,32
+164,edmanto01,SLN,Thomas Hyunsu Edman,204,55,29,51,7,1,5,26,16,48
+165,encared01,CHA,Edwin Elpidio Encarnacion,159,44,19,25,5,0,10,19,16,54
+166,engelad01,CHA,Adam Trevor Engel,88,36,11,26,5,1,3,12,3,19
+167,ervinph01,CIN,Phillip S. Ervin,35,19,5,3,0,0,0,0,6,8
+168,ervinph01,SEA,Phillip S. Ervin,39,18,5,8,3,0,0,4,8,14
+169,escobed01,ARI,Eduardo Jose Escobar,203,54,22,43,7,3,4,20,15,41
+170,espinsa01,TOR,Santiago Roman Espinal,60,27,10,16,4,0,0,6,4,16
+171,estrath01,NYA,Thairo Jose Estrada,48,26,8,8,0,0,1,3,1,19
+172,evansph01,PIT,Phillip Mathew Evans,39,11,6,14,2,0,1,9,5,7
+173,farmeky01,CIN,James Kyle Farmer,64,32,4,17,3,0,0,4,5,13
+174,fishede01,TOR,Derek Joseph Fisher,31,16,5,7,2,1,1,7,7,11
+175,fletcda02,LAA,David Owen Fletcher,207,49,31,66,13,0,3,18,20,25
+176,florewi01,SFN,Wilmer Alejandro Flores,198,55,30,53,11,1,12,32,13,36
+177,flories01,NYA,Estevan Haniel Florial,3,1,0,1,0,0,0,0,0,2
+178,flowety01,ATL,Cole Tyler Flowers,69,22,5,15,6,0,1,5,8,34
+179,fordmi01,NYA,Michael Ford,74,29,5,10,4,0,2,11,7,16
+180,forsylo01,MIA,John Logan Forsythe,34,13,2,4,1,0,1,2,4,12
+181,fowlede01,SLN,William Dexter Fowler,90,31,14,21,2,0,4,15,10,28
+182,fraleja01,SEA,Jake Arnold Fraley,26,7,3,4,1,1,0,0,2,11
+183,francma02,KCA,Maikel Antonio Franco,223,60,23,62,16,0,8,38,16,38
+184,francty01,SDN,Tyler Lawrence France,55,20,9,17,4,0,2,10,5,15
+185,francty01,SEA,Tyler Lawrence France,86,23,10,26,5,1,2,13,6,22
+186,fraziad01,PIT,Adam Timothy Frazier,209,58,22,48,7,0,7,23,17,35
+187,frazicl01,NYA,Clint Jackson Frazier,131,39,24,35,6,1,8,26,25,44
+188,frazito01,TEX,Todd Brian Frazier,108,31,11,26,7,1,2,7,10,26
+189,frazito01,NYN,Todd Brian Frazier,49,14,5,11,2,0,2,5,1,16
+190,freemfr01,ATL,Frederick Charles Freeman,214,60,51,73,23,1,13,53,45,37
+191,freemmi01,CLE,Michael Barrett Freeman,38,24,5,9,3,0,0,3,3,11
+192,fuentjo01,COL,Josh Fuentes,98,30,14,30,7,0,2,17,2,29
+193,gallaca01,KCA,Cameron Joseph Gallagher,53,25,10,15,5,0,1,3,6,11
+194,gallojo01,TEX,Joseph Nicholas Gallo,193,57,23,35,8,0,10,26,29,79
+195,galvifr01,CIN,Freddy Jose Galvis,141,47,18,31,5,0,7,16,13,30
+196,gamelbe01,MIL,Benjamin Joseph Gamel,114,40,13,27,8,1,3,10,13,39
+197,garciad02,TEX,Jose Adolis Garcia,6,3,0,0,0,0,0,0,1,4
+198,garciav01,MIL,Avisail Antonio Garcia,181,53,20,43,10,0,2,15,20,49
+199,garcigr01,SDN,Greg Joseph Garcia,60,35,6,12,3,0,0,11,7,18
+200,garcile02,CHA,Leury Garcia,59,16,6,16,1,0,3,8,4,9
+201,garcilu04,WAS,Luis Victoriano Garcia,134,40,18,37,6,0,2,16,5,29
+202,gardnbr01,NYA,Brett M. Gardner,130,49,20,29,5,1,5,15,26,35
+203,garliky01,PHI,Kyle Bruce Garlick,22,12,0,3,1,0,0,3,0,7
+204,garnedu01,HOU,Dustin Thomas Garneau,38,17,4,6,0,1,1,4,6,15
+205,garvemi01,MIN,Mitchell Lyn Garver,72,23,8,12,1,0,2,5,7,37
+206,gimenan01,NYN,Andres Alfonso Gimenez,118,49,22,31,3,2,3,12,7,28
+207,goinsry01,CHA,Ryan Matthew Goins,9,14,4,0,0,0,0,0,1,1
+208,goldspa01,SLN,Paul Edward Goldschmidt,191,58,31,58,13,0,6,21,37,43
+209,gomesya01,WAS,Yan Gomes,109,30,14,31,6,1,4,13,6,22
+210,gonzaer01,PIT,Erik Gonzalez,181,50,14,41,13,1,3,20,8,51
+211,gonzalu03,CHA,Luis Gonzalez,1,3,1,0,0,0,0,0,0,1
+212,gonzama01,MIN,Marwin Javier Gonzalez,175,53,15,37,4,0,5,22,17,41
+213,goodrni01,DET,Cartier Niko Goodrum,158,43,15,29,7,1,5,20,18,69
+214,goodwbr01,LAA,Brian Christopher Goodwin,95,30,12,23,7,1,4,17,12,35
+215,goodwbr01,CIN,Brian Christopher Goodwin,49,20,5,8,2,0,2,5,5,19
+216,gordoal01,KCA,Alex Jonathan Gordon,163,50,15,34,4,0,4,11,18,37
+217,gordode01,SEA,Devaris Strange-Gordon,75,33,12,15,1,0,0,3,5,13
+218,gosseph01,PHI,Philip David Gosselin,92,39,14,23,5,0,3,12,10,27
+219,gourryu01,HOU,Yulieski Gurriel,211,57,27,49,12,1,6,22,12,27
+220,grandya01,CHA,Yasmani Grandal,161,46,27,37,7,0,8,27,30,58
+221,gregodi01,PHI,Mariekson Julius Gregorius,215,60,34,61,10,2,10,40,15,28
+222,greingr01,DET,Grayson James Greiner,51,18,8,6,2,0,3,8,3,20
+223,grichra01,TOR,Randal Alexander Grichuk,216,55,38,59,9,0,12,35,13,49
+224,grishtr01,SDN,Trenton Marcus Grisham,215,59,42,54,8,3,10,26,31,64
+225,grossro01,OAK,Robert Edward Grossman,166,51,23,40,12,2,8,23,21,38
+226,grullde01,BOS,Deivy Wilfin Grullon,3,1,0,1,0,0,0,1,1,1
+227,guerrvl02,TOR,Vladimir Guerrero,221,60,34,58,13,2,9,33,20,38
+228,guilllu01,NYN,Luis Miguel Guillorme,57,30,6,19,6,0,0,9,10,17
+229,gurrilo01,TOR,Lourdes Yunielki Gurriel,208,57,28,64,14,0,11,33,14,48
+230,gutieke01,KCA,Kelvin Manuel Gutierrez,9,4,0,1,0,0,0,0,3,6
+231,guzmaro01,TEX,Ronald Enmanuel Guzman,78,26,10,19,1,1,4,9,7,24
+232,gyorkje01,MIL,Jedd Lindon Gyorko,117,43,19,29,3,0,9,17,15,38
+233,haaseer01,DET,Eric Michael Haase,17,7,1,3,0,0,0,2,1,6
+234,haggesa01,SEA,Samuel Onofrio Haggerty,50,13,7,13,4,0,1,6,4,16
+235,hamilbi02,NYN,Billy R. Hamilton,22,17,4,1,0,0,0,1,1,3
+236,hamilbi02,CHN,Billy R. Hamilton,10,14,6,3,0,0,1,1,1,4
+237,hampsga01,COL,Garrett Reese Hampson,167,53,25,39,4,3,5,11,13,60
+238,happia01,CHN,Ian Edward Happ,198,57,27,51,11,1,12,28,30,63
+239,harpebr03,PHI,Bryce Aron Max Harper,190,58,41,51,9,2,13,33,49,43
+240,harrijo05,WAS,Joshua Isaiah Harrison,79,33,11,22,2,0,3,14,6,12
+241,harrimo01,MIA,Monte Fitzgerald Harrison,47,32,8,8,1,0,1,3,4,26
+242,haselad01,PHI,Adam Donald Haseley,79,40,7,22,5,0,0,13,7,17
+243,hayeske01,PIT,Ke'Bryan Kobe Hayes,85,24,17,32,7,2,5,11,9,20
+244,haysau01,BAL,Austin Charles Bryan Hays,122,33,20,34,2,0,4,9,8,25
+245,healyry01,MIL,Ryon Christopher Healy,7,4,0,1,0,0,0,0,0,2
+246,heathni01,KCA,Nicholas Heath,13,15,2,2,1,0,0,3,2,6
+247,hechaad01,ATL,Adeiny Hechavarria,59,27,7,15,3,0,0,2,4,12
+248,hedgeau01,SDN,Austin Charles Hedges,57,29,7,9,1,0,3,6,6,18
+249,hedgeau01,CLE,Austin Charles Hedges,12,6,0,1,0,0,0,0,0,5
+250,heimjo01,OAK,Jonah Nathan Heim,38,13,5,8,0,0,0,5,3,3
+251,heinesc01,TEX,Scott Matthew Heineman,52,24,6,8,3,0,1,7,2,11
+252,heinety01,SFN,Tyler Andrew Heineman,42,15,3,8,1,0,0,1,4,6
+253,heredgu01,PIT,Guillermo Heredia,16,8,2,3,0,0,0,2,2,4
+254,heredgu01,NYN,Guillermo Heredia,17,7,4,4,0,0,2,3,1,5
+255,hermomi01,LAA,Michael Hermosillo,8,7,0,2,0,0,0,2,1,1
+256,hernace02,CLE,Cesar Augusto Hernandez,233,58,35,66,20,0,3,20,24,57
+257,hernaen02,LAN,Enrique J. Hernandez,139,48,20,32,8,1,5,20,6,31
+258,hernaos01,KCA,Oscar Eduardo Hernandez,4,4,1,2,0,0,0,0,0,1
+259,hernate01,TOR,Teoscar Jose Hernandez,190,50,33,55,7,0,16,34,14,63
+260,herredi01,BAL,Dilson Jose Herrera,5,3,0,0,0,0,0,0,0,4
+261,heywaja01,CHN,Jason Alias Heyward,147,50,20,39,6,2,6,22,30,37
+262,hicksaa01,NYA,Aaron Michael Hicks,169,54,28,38,10,2,6,21,41,38
+263,higasky01,NYA,Kyle Harris Higashioka,48,16,7,12,1,0,4,10,0,11
+264,hillde01,DET,Derek Jerome Hill,11,15,3,1,0,0,0,0,1,6
+265,hillisa01,COL,Samuel Beauman Hilliard,105,36,13,22,2,2,6,10,9,42
+266,hillti01,SDN,Timothy Hill,1,23,0,0,0,0,0,0,0,1
+267,hiurake01,MIL,Keston Wee Hing Natsuo Hiura,217,59,30,46,4,0,13,32,16,85
+268,hoernni01,CHN,Nicholas Mackie Hoerner,108,48,19,24,4,0,0,13,12,24
+269,holadbr01,BAL,John Bryan Holaday,31,21,5,5,1,0,0,4,2,9
+270,holtbr01,MIL,Brock Wyatt Holt,30,16,1,3,0,0,0,1,4,9
+271,holtbr01,WAS,Brock Wyatt Holt,65,21,11,17,6,0,0,4,5,15
+272,hoskirh01,PHI,Rhys Dean Hoskins,151,41,35,37,9,0,10,26,29,43
+273,hosmeer01,SDN,Eric John Hosmer,143,38,23,41,6,0,9,36,9,28
+274,hudsojo03,SEA,Joseph Thaddeus Hudson,17,9,0,3,0,0,0,0,2,5
+275,huffsa01,TEX,Samuel Nicholas Huff,31,10,5,11,3,0,3,4,2,11
+276,iglesjo01,BAL,Jose Antonio Iglesias,142,39,16,53,17,0,3,24,3,17
+277,inciaen01,ATL,Ender David Inciarte,116,46,17,22,2,1,1,10,12,25
+278,jacksal02,ATL,Alex J. Jackson,7,5,0,2,1,0,0,0,0,4
+279,jankotr01,CIN,Travis Paul Jankowski,15,16,3,1,0,0,0,0,2,7
+280,janseda01,TOR,Daniel Robert Jansen,120,43,18,22,3,0,6,20,21,31
+281,jayjo02,ARI,Jonathan Henry Jay,50,18,5,8,1,0,1,4,3,12
+282,jeffery01,MIN,Ryan Michael Jeffers,55,26,5,15,0,0,3,7,5,19
+283,jimenel02,CHA,Eloy Arturo Jimenez,213,55,26,63,14,0,14,41,12,56
+284,johnsda07,CLE,Daniel Johnson,12,5,0,1,0,0,0,0,1,5
+285,jonesja07,DET,JaCoby Mylon Jones,97,30,19,26,9,0,5,14,7,34
+286,jonesja08,LAA,Jahmai Fitzgerald Jones,7,3,2,3,0,0,0,1,0,2
+287,jonesta01,HOU,Taylor Michael Jones,21,7,3,4,1,0,1,3,1,7
+288,josepca01,TOR,Caleb Martin Joseph,8,3,2,1,0,0,1,2,1,1
+289,joycema01,MIA,Matthew Ryan Joyce,127,46,16,32,4,0,2,14,20,41
+290,judgeaa01,NYA,Aaron James Judge,101,28,23,26,3,0,9,22,10,32
+291,kellyca02,ARI,Carson Franklin Kelly,122,39,11,27,5,0,5,19,6,29
+292,kempma01,COL,Matthew Ryan Kemp,117,43,18,28,3,0,6,21,15,41
+293,kempto01,OAK,Anthony Allen Kemp,93,49,15,23,5,0,0,4,15,14
+294,kendrho01,WAS,Howard Joseph Kendrick,91,25,11,25,4,0,2,14,7,17
+295,keplema01,MIN,Maximilian Kepler,171,48,27,39,9,0,9,23,22,36
+296,kieboca01,WAS,Carter Alswinn Kieboom,99,33,15,20,1,0,0,9,17,33
+297,kiermke01,TBA,Kevin James Kiermaier,138,49,16,30,5,3,3,22,20,42
+298,kineris01,TEX,Isiah Kiner-Falefa,211,58,28,59,4,3,3,10,14,32
+299,kingesc01,PHI,Scott M. Kingery,113,36,12,18,5,0,3,6,9,35
+300,kipnija01,CHN,Jason Michael Kipnis,114,44,13,27,8,1,3,16,18,41
+301,kirkal01,TOR,Alejandro Kirk,24,9,4,9,2,0,1,3,1,4
+302,knappan01,PHI,Andrew Michael Knapp,72,33,9,20,4,1,2,15,15,19
+303,kniznan01,SLN,Andrew Robert Knizner,16,8,1,4,1,0,0,4,0,5
+304,kratzer01,NYA,Erik Floyd Kratz,28,18,2,9,2,0,0,4,2,6
+305,lambja01,ARI,Jacob Ryan Lamb,43,18,2,5,1,0,0,1,6,17
+306,lambja01,OAK,Jacob Ryan Lamb,45,13,5,12,4,0,3,9,2,8
+307,lasteto01,LAA,Thomas F. La Stella,99,28,15,27,8,0,4,14,15,7
+308,lasteto01,OAK,Thomas F. La Stella,97,27,16,28,6,2,1,11,12,5
+309,laurera01,OAK,Ramon Laureano,183,54,27,39,8,1,6,25,24,58
+310,lavarry01,MIA,Ryan Cole Lavarnway,11,5,0,4,0,0,0,0,0,2
+311,lemahdj01,NYA,David John LeMahieu,195,50,41,71,10,2,10,27,18,21
+312,leonsa01,CLE,Sandy David Leon,66,25,4,9,1,0,2,4,14,21
+313,lewisky01,SEA,Kyle Alexander Lewis,206,58,37,54,3,0,11,28,34,71
+314,lindofr01,CLE,Francisco Miguel Lindor,236,60,30,61,13,0,8,27,24,41
+315,lintz01,BOS,Tzu-Wei Lin,52,26,2,8,1,0,0,3,2,17
+316,locasti01,ARI,Timothy Donald Locastro,69,33,15,20,4,1,2,7,8,14
+317,longoev01,SFN,Evan Michael Longoria,193,53,26,49,10,1,7,28,11,39
+318,longsh01,SEA,Shedric Bernard Long,117,34,10,20,5,0,3,9,11,37
+319,lopesti01,SEA,Timothy Aaron Lopes,143,46,16,34,12,0,2,15,6,34
+320,lopezni01,KCA,Nicholas Lopez,169,56,15,34,8,0,1,13,18,41
+321,lowebr01,TBA,Brandon Norman Lowe,193,56,36,52,9,2,14,37,25,58
+322,lowena01,TBA,David Nathaniel Lowe,67,21,10,15,2,0,4,11,9,28
+323,lugoda01,DET,Dawel Leoner Lugo,10,9,3,2,0,0,0,1,1,1
+324,luplojo01,CLE,Jordan Thomas Luplow,78,29,8,15,5,1,2,8,12,19
+325,luxga01,LAN,Gavin Thomas Lux,63,19,8,11,2,0,3,8,6,19
+326,machama01,SDN,Manuel Arturo Machado,224,60,44,68,12,1,16,47,26,37
+327,machivi01,OAK,Vimael Machin,63,24,11,13,2,0,0,0,8,10
+328,madrini01,CHA,Nicklaus M. Madrigal,103,29,8,35,3,0,0,11,4,7
+329,maldoma01,HOU,Martin Benjamin Maldonado,135,47,19,29,4,0,6,24,27,51
+330,marchra01,PHI,Rafael Alejandro Marchan,8,3,3,4,0,0,1,3,1,2
+331,margoma01,TBA,Manuel Margot,145,47,19,39,9,0,1,11,13,25
+332,marisja01,NYN,Jacob Shawn Marisnick,33,16,4,11,3,0,2,5,1,10
+333,markani01,ATL,Nicholas William Markakis,130,37,15,33,15,0,1,15,10,23
+334,marmojo01,SEA,Jose Ramon Marmolejos,107,35,12,22,4,0,6,18,7,32
+335,marteke01,ARI,Ketel Ricardo Marte,181,45,19,52,14,1,2,17,7,21
+336,martest01,ARI,Starling Javier Marte,122,33,23,38,8,1,2,14,10,19
+337,martest01,MIA,Starling Javier Marte,106,28,13,26,6,0,4,13,2,22
+338,martija03,PIT,Jason Martin,9,7,2,0,0,0,0,0,2,4
+339,martijd02,BOS,Julio Daniel Martinez,211,54,22,45,16,0,7,27,22,59
+340,martijo08,TBA,Jose Alberto Martinez,67,24,10,16,4,0,2,10,9,20
+341,martijo08,CHN,Jose Alberto Martinez,21,10,0,0,0,0,0,0,1,7
+342,mateojo01,SDN,Jorge Luis Mateo,26,22,4,4,3,0,0,2,1,11
+343,mathije01,TEX,Jeffrey Stephen Mathis,62,24,6,10,1,1,3,9,5,24
+344,mathima01,MIL,Mark Andrew Mathias,36,16,2,10,3,0,0,4,0,7
+345,mathiwy01,ARI,Wyatt Lane Mathisen,27,9,5,6,0,0,2,5,5,12
+346,maybica01,DET,Cameron Keith Maybin,41,14,5,10,4,0,1,2,4,13
+347,maybica01,CHN,Cameron Keith Maybin,52,18,3,13,4,1,0,5,3,12
+348,mayfija01,HOU,David Jack Mayfield,42,21,5,8,1,0,0,3,2,14
+349,mazarno01,CHA,Nomar Shamir Mazara,136,42,13,31,6,0,1,15,10,44
+350,mcbrory01,KCA,Ryan P. McBroom,81,36,8,20,3,0,6,10,4,30
+351,mccanja02,CHA,James Thomas McCann,97,31,20,28,3,0,7,15,8,30
+352,mccarjo04,SFN,Joseph Edward McCarthy,10,4,0,0,0,0,0,0,0,5
+353,mccutan01,PHI,Andrew Stefan McCutchen,217,57,32,55,9,0,10,34,22,48
+354,mcguire01,TOR,Reese Jackson McGuire,41,19,2,3,0,0,1,1,0,11
+355,mckinbi01,TOR,William Landis McKinney,3,2,1,2,0,0,0,0,0,0
+356,mckinza01,LAN,Zachary McKinstry,7,4,1,2,1,0,0,0,0,3
+357,mcmahry01,COL,Ryan Patrick McMahon,172,52,23,37,6,1,9,26,18,66
+358,mcneije01,NYN,Jeff McNeil,183,52,19,57,14,0,4,23,20,24
+359,meadoau01,TBA,Austin Wade Meadows,132,36,19,27,8,1,4,13,17,50
+360,mejiaer01,KCA,Erick Augusto Mejia,14,8,1,1,1,0,0,0,0,7
+361,mejiafr01,SDN,Francisco Jose Mejia,39,17,5,3,1,0,1,2,1,9
+362,mendida01,CHA,Daniel Mendick,107,33,11,26,4,1,3,6,6,25
+363,mercaos01,CLE,Oscar Mauricio Mercado,86,36,6,11,1,0,1,6,5,27
+364,mercejo03,DET,Jordy Joe Mercer,9,3,1,2,0,0,0,0,0,1
+365,mercejo03,NYA,Jordy Joe Mercer,11,6,1,2,0,0,0,0,2,1
+366,merceye01,CHA,Yermin Francisco Mercedes,1,1,0,0,0,0,0,0,0,0
+367,merriwh01,KCA,Whitley David Merrifield,248,60,38,70,12,0,9,30,12,33
+368,millebr02,SLN,Bradley Austin Miller,142,48,21,33,8,1,7,25,25,46
+369,millsal02,CHN,Alec Thomas Mills,1,12,0,0,0,0,0,0,0,1
+370,molinya01,SLN,Yadier Benjamin Molina,145,42,12,38,2,0,4,16,6,21
+371,moncayo01,CHA,Yoan Manuel Moncada,200,52,28,45,8,3,6,24,28,72
+372,mondera02,KCA,Raul Adalberto Mondesi,219,59,33,56,11,3,6,22,11,70
+373,moniami01,PHI,McKenzie Matthew Moniak,14,8,3,3,0,0,0,0,4,6
+374,mooredy01,SEA,Dylan Moore,137,38,26,35,9,0,8,17,14,43
+375,moranco01,PIT,Colin Richard Moran,178,52,28,44,10,0,10,23,19,52
+376,morelmi01,BOS,Mitchell Austin Moreland,67,22,14,22,4,0,8,21,11,18
+377,morelmi01,SDN,Mitchell Austin Moreland,69,20,8,14,5,0,2,8,4,14
+378,morrilo01,MIL,Justis Logan Morrison,25,9,3,3,1,0,1,2,3,8
+379,mountry01,BAL,Ryan Lee Mountcastle,126,35,12,42,5,0,5,23,11,30
+380,moustmi01,CIN,Michael Christopher Moustakas,139,44,13,32,9,0,8,27,18,36
+381,mullice01,BAL,Boyce Cedric Mullins,140,48,16,38,4,3,3,12,8,37
+382,muncyma01,LAN,Maxwell Steven Muncy,203,58,36,39,4,0,12,27,39,60
+383,munozya01,BOS,Yairo Munoz,45,12,6,15,5,0,1,4,0,11
+384,murphda08,COL,Daniel Thomas Murphy,123,40,10,29,3,0,3,16,7,21
+385,murphjr01,PIT,John Ryan Murphy,58,25,6,10,2,0,0,2,4,28
+386,murphse01,OAK,Sean Michael Murphy,116,43,21,27,5,0,7,14,24,37
+387,myerswi01,SDN,William Bradford Myers,198,55,34,57,14,2,15,40,18,56
+388,naquity01,CLE,Tyler Wesley Naquin,133,40,15,29,8,1,4,20,5,40
+389,narvaom01,MIL,Omar David Narvaez,108,40,8,19,4,0,2,10,16,39
+390,navarbr01,MIA,Brian Eduardo Navarreto,5,2,0,2,0,0,0,0,0,1
+391,naylojo01,SDN,Joshua-Douglas James Naylor,36,18,4,10,0,1,1,4,1,4
+392,naylojo01,CLE,Joshua-Douglas James Naylor,61,22,9,14,3,0,0,2,4,8
+393,newmake01,PIT,Kevin Bradley Newman,156,44,12,35,5,0,1,10,12,21
+394,nidoto01,NYN,Tomas E. Nido,24,7,4,7,1,0,2,6,2,6
+395,nimmobr01,NYN,Brandon Tate Nimmo,186,55,33,52,8,3,8,18,33,43
+396,nogowjo01,SLN,John Francis Nogowski,4,1,0,1,0,0,0,0,0,1
+397,nolaau01,SEA,Austin Kyle Nola,98,29,15,30,5,1,5,19,9,17
+398,nolaau01,SDN,Austin Kyle Nola,63,19,9,14,4,0,2,9,9,17
+399,nollja01,WAS,Jacob Noll,17,7,2,6,1,0,0,0,0,4
+400,nottija01,MIL,Jacob Andrew Nottingham,48,20,8,9,1,0,4,13,5,20
+401,nunezed02,NYN,Eduardo Michelle Nunez,2,2,0,1,0,0,0,0,0,0
+402,nunezre01,BAL,Renato Rafael Nunez,195,52,29,50,10,0,12,31,17,64
+403,odomjo01,SEA,Joseph Caleb Odom,39,18,2,5,0,0,0,2,4,20
+404,odorro01,TEX,Rougned Roberto Odor,138,38,15,23,4,0,10,30,7,47
+405,ogradbr01,TBA,Brian O'Grady,5,2,2,2,1,0,0,0,0,1
+406,ohearry01,KCA,Ryan Patrick O'Hearn,113,42,7,22,6,0,2,18,18,37
+407,ohtansh01,LAA,Shohei Ohtani,153,46,23,29,6,0,7,24,22,50
+408,olivaed02,SDN,Edward Daniel Olivares,34,13,4,6,1,0,1,3,2,14
+409,olivaed02,KCA,Edward Daniel Olivares,62,18,5,17,1,1,2,7,2,11
+410,olivaja01,PIT,Jared Cole Oliva,16,6,0,3,0,0,0,0,0,6
+411,olsonma02,OAK,Matthew Kent Olson,210,60,28,41,4,1,14,42,34,77
+412,oneilty01,SLN,Tyler Alan O'Neill,139,50,20,24,5,0,7,19,15,43
+413,orfna01,OAK,Nathan Orf,7,6,1,0,0,0,0,0,0,1
+414,osunajo01,PIT,Jose Gregorio Osuna,78,26,6,16,3,0,4,11,4,16
+415,owingch01,COL,Christopher Scott Owings,41,17,9,11,1,0,2,5,3,11
+416,ozunama01,ATL,Marcell Ozuna,228,60,38,77,14,0,18,56,38,60
+417,pachecr01,ATL,Cristian Rafael Pache,4,2,0,1,0,0,0,0,0,2
+418,panikjo01,TOR,Joseph Matthew Panik,120,41,18,27,6,0,1,7,20,27
+419,paredis01,DET,Isaac Edgardo Paredes,100,34,7,22,4,0,1,6,8,24
+420,paytoma01,CIN,Mark D. Payton,18,8,0,3,1,0,0,0,2,5
+421,pederjo01,LAN,Joc Russell Pederson,121,43,21,23,4,0,7,16,11,34
+422,pencehu01,SFN,Hunter Andrew Pence,52,17,4,5,0,1,2,6,3,15
+423,peralda01,ARI,Senger David Peralta,203,54,19,61,10,1,5,34,13,45
+424,perazjo01,BOS,Jose Francisco Peraza,111,34,13,25,8,1,1,8,5,18
+425,perezhe01,CHN,Hernan Alejandro Perez,6,3,0,1,0,0,0,0,0,2
+426,perezmi03,TBA,Michael Perez,84,38,7,14,3,0,1,13,7,27
+427,perezro02,CLE,Roberto Andres Perez,97,32,6,16,2,0,1,5,11,38
+428,perezsa02,KCA,Salvador Johan Perez,150,37,22,50,12,0,11,32,3,36
+429,peterja01,MIL,Jace Ryan Peterson,45,26,6,9,1,0,2,5,15,20
+430,phamth01,SDN,Thomas James Pham,109,31,13,23,2,0,3,12,15,27
+431,phegljo01,CHN,Joshua Aaron Phegley,16,11,4,1,0,0,1,2,1,3
+432,phillbr02,KCA,Brett Maverick Phillips,31,18,8,7,0,1,1,2,3,8
+433,phillbr02,TBA,Brett Maverick Phillips,20,17,2,3,0,1,1,3,5,7
+434,pillake01,BOS,Kevin Andrew Pillar,117,30,20,32,7,2,4,13,8,23
+435,pillake01,COL,Kevin Andrew Pillar,91,24,14,28,5,1,2,13,5,18
+436,pinama01,MIL,Manuel Elias Pina,39,15,4,9,1,0,2,5,3,11
+437,pindech01,OAK,Chadwick Hudson Pinder,56,24,8,13,3,0,2,8,5,13
+438,piscost01,OAK,Stephen Edward Piscotty,159,45,17,36,6,0,5,29,9,53
+439,plaweke01,BOS,Kevin Jeffrey Plawecki,82,24,8,28,5,1,1,17,5,14
+440,polangr01,PIT,Gregory Polanco,157,50,12,24,6,0,7,22,13,65
+441,polanjo01,MIN,Jorge Luis Polanco,209,55,22,54,8,0,4,19,13,35
+442,polloaj01,LAN,Allen Lorenz Pollock,196,55,30,54,9,0,16,34,12,45
+443,profaju01,SDN,Jurickson Barthelomeus Profar,180,56,28,50,6,0,7,25,15,28
+444,puellce01,BOS,Cesar David Puello,8,5,1,3,0,0,0,0,2,2
+445,pujolal01,LAA,Jose Alberto Pujols,152,39,15,34,8,0,6,25,9,25
+446,quinnro01,PHI,Roman Tredarian Quinn,108,41,14,23,3,1,2,7,5,39
+447,ramirha02,MIA,Harold Andres Ramirez,10,3,2,2,0,0,0,1,1,2
+448,ramirjo01,CLE,Jose Enrique Ramirez,219,58,45,64,16,1,17,46,31,43
+449,ramoswi01,NYN,Wilson Abraham Ramos,142,45,13,34,6,0,5,15,10,31
+450,ravelra01,SLN,Rangel Ravelo,35,13,5,6,1,0,1,6,4,6
+451,realmjt01,PHI,Jacob Tyler Realmuto,173,47,33,46,6,0,11,32,16,48
+452,reddijo01,HOU,William Joshua Reddick,188,56,22,46,11,1,4,23,20,42
+453,refsnro01,TEX,Robert Daniel Refsnyder,30,15,4,6,1,0,0,1,2,11
+454,rendoan01,LAA,Anthony Michael Rendon,189,52,29,54,11,1,9,31,38,31
+455,renfrhu01,TBA,Dustin Hunter Renfroe,122,42,18,19,5,0,8,22,14,37
+456,rengilu01,LAA,Luis Jose Rengifo,90,33,12,14,1,0,1,3,14,26
+457,reyesfr01,CLE,Franmil Federico Reyes,211,59,27,58,10,0,9,34,24,69
+458,reyesvi01,DET,Victor Jose Reyes,202,57,30,56,7,2,4,14,9,45
+459,reynobr01,PIT,Bryan Patrick Reynolds,185,55,24,35,6,2,7,19,21,57
+460,reynoma03,KCA,Matthew William Reynolds,11,3,1,0,0,0,0,0,0,7
+461,rickajo01,SFN,Joseph Mark Rickard,5,4,1,0,0,0,0,0,1,1
+462,riddljt01,PIT,Joshua Travis Riddle,67,23,8,10,2,0,1,1,2,13
+463,rileyau01,ATL,Michael Austin Riley,188,51,24,45,7,1,8,27,16,49
+464,riosed01,LAN,Edwin Gabriel Rios,76,32,13,19,6,0,8,17,4,18
+465,riverre01,NYN,Rene Rivera,4,2,0,1,0,0,0,0,0,3
+466,riverya01,TEX,Yadiel Rivera,5,4,0,0,0,0,0,0,0,1
+467,rizzoan01,CHN,Anthony Vincent Rizzo,203,58,26,45,6,0,11,24,28,38
+468,roberda10,SFN,Daniel Ray Robertson,21,13,4,7,0,0,0,2,3,6
+469,roberlu01,CHA,Luis Robert,202,56,33,47,8,0,11,31,20,73
+470,roblevi01,WAS,Victor Enrique Robles,168,52,20,37,5,1,3,15,9,53
+471,rodgebr02,COL,Brendan Austin Rodgers,21,7,1,2,1,0,0,2,0,6
+472,rodrise01,MIA,Sean John Rodriguez,13,4,0,2,0,0,0,0,0,6
+473,rojasjo01,ARI,Joshua Luke Rojas,61,17,9,11,0,0,0,2,7,16
+474,rojasmi02,MIA,Miguel Elias Rojas,125,40,20,38,10,1,4,20,16,18
+475,rominan01,TEX,Andrew James Romine,4,2,1,1,1,0,0,0,0,1
+476,rominau01,DET,Austin Allen Romine,130,37,12,31,5,0,2,17,4,47
+477,rookebr01,MIN,Terry Brent Rooker,19,7,4,6,2,0,1,5,0,5
+478,rosaram01,NYN,German Amed Rosario,143,46,20,36,3,1,4,15,4,34
+479,rosared01,MIN,Eddie Manuel Rosario,210,57,31,54,7,0,13,42,19,34
+480,rufda01,SFN,Darin Cortland Ruf,87,40,11,24,6,0,5,18,13,23
+481,ruizke01,LAN,Keibert Jose Ruiz,8,2,1,2,0,0,1,1,0,3
+482,ruizri01,BAL,Rio Noble Ruiz,185,54,25,41,11,0,9,32,17,46
+483,sanchal04,NYN,Ali Miguel Sanchez,9,5,0,1,0,0,0,0,1,3
+484,sanchca01,CHA,Yolmer Carlos Sanchez,16,12,7,5,3,0,1,1,5,5
+485,sanchga02,NYA,Gary Sanchez,156,49,19,23,4,0,10,24,18,64
+486,sanchje02,MIA,Jesus Sanchez,25,10,1,1,1,0,0,2,4,11
+487,sandopa01,SFN,Pablo Emilio Sandoval,82,33,5,18,1,0,1,6,6,18
+488,sandopa01,ATL,Pablo Emilio Sandoval,2,1,0,0,0,0,0,0,2,1
+489,sanomi01,MIN,Miguel Angel Sano,186,53,31,38,12,0,13,25,18,90
+490,santaan02,BAL,Anthony Roger Santander,153,37,24,40,13,1,11,32,10,25
+491,santaca01,CLE,Carlos Santana,206,60,34,41,7,0,8,30,47,43
+492,santada01,TEX,Daniel Ernesto Santana,55,15,6,8,4,0,1,7,7,24
+493,santado01,CLE,Domingo Alberto Santana,70,24,6,11,3,0,2,12,13,25
+494,schebsc01,ATL,Scott Anthony Schebler,1,1,0,0,0,0,0,0,0,0
+495,schoojo01,DET,Jonathan Rufino Jezus Schoop,162,44,26,45,4,2,8,23,8,39
+496,schroma01,SLN,Max William Schrock,17,11,1,3,0,0,1,1,0,6
+497,schwaky01,CHN,Kyle Joseph Schwarber,191,59,30,36,6,0,11,24,30,66
+498,seageco01,LAN,Corey Drew Seager,212,52,38,65,12,1,15,41,17,37
+499,seageky01,SEA,Kyle Duerr Seager,203,60,35,49,12,0,9,40,32,33
+500,segurje01,PHI,Jean Carlos Enrique Segura,192,54,28,51,5,2,7,25,23,45
+501,semiema01,OAK,Marcus Andrew Semien,211,53,28,47,9,1,7,23,25,50
+502,senzeni01,CIN,Nicholas Peter Senzel,70,23,8,13,6,0,2,8,6,15
+503,severpe01,BAL,Pedro Severino,160,48,17,40,5,1,5,21,16,40
+504,shawtr01,TOR,Travis R. Shaw,163,50,17,39,10,0,6,17,16,50
+505,sierrma01,MIA,Magneuris Sierra,44,19,8,11,3,1,0,7,5,9
+506,simmoan01,LAA,Andrelton A. Simmons,118,30,19,35,7,0,0,10,8,16
+507,siscoch01,BAL,Chance Thomas Leo Sisco,98,36,11,21,4,0,4,10,17,41
+508,slateau01,SFN,Austin Thomas Slater,85,31,18,24,2,1,5,7,16,22
+509,smithdo02,NYN,Dominic David Rene Smith,177,50,27,56,21,1,10,42,14,45
+510,smithdw02,BAL,John Dwight Smith,63,21,9,14,3,0,2,6,7,19
+511,smithke04,TBA,Kevan Alan Smith,31,17,3,8,3,0,1,8,5,11
+512,smithma05,SEA,Mallex Lydell Smith,45,14,2,6,2,0,0,3,2,13
+513,smithpa04,ARI,Pavin Joe Smith,37,12,7,10,0,1,1,4,5,8
+514,smithwi05,LAN,William Dills Smith,114,37,23,33,9,0,8,25,20,22
+515,smoakju01,MIL,Justin Kyle Smoak,113,33,14,21,7,0,5,15,10,40
+516,smoakju01,SFN,Justin Kyle Smoak,6,3,0,0,0,0,0,0,0,2
+517,sogarer01,MIL,Eric Sidney Sogard,115,43,10,24,5,0,1,10,11,20
+518,solakni01,TEX,Nicholas Blake Solak,209,58,27,56,10,0,2,23,18,42
+519,solando01,SFN,Donovan Solano,190,54,22,62,15,1,3,29,10,39
+520,solerjo01,KCA,Jorge Carlos Soler,149,43,17,34,8,0,8,24,19,60
+521,sotoel01,LAA,Elliot S. Soto,6,3,2,2,1,0,0,0,1,1
+522,sotoju01,WAS,Juan Jose Soto,154,47,39,54,14,0,13,37,41,28
+523,souzast01,CHN,Steven Jeffrey Souza,27,11,3,4,2,0,1,5,4,15
+524,springe01,HOU,George Chelston Springer,189,51,37,50,6,2,14,32,24,38
+525,stallja01,PIT,Jacob Daniel Stallings,125,42,13,31,7,0,3,18,15,40
+526,stantmi03,NYA,Giancarlo Cruz-Michael Stanton,76,23,12,19,7,0,4,11,15,27
+527,starlbu01,KCA,Derek Starling,59,35,5,10,1,0,1,5,4,27
+528,stassma01,LAA,Max Robert Stassi,90,31,12,25,2,0,7,20,11,21
+529,stephty01,CIN,Tyler Robert Stephenson,17,8,4,5,0,0,2,6,2,9
+530,stevean01,WAS,Andrew Patrick Stevenson,41,15,11,15,7,1,2,12,5,11
+531,stewach02,DET,Christin Gaylin Harris Stewart,90,36,6,15,3,0,3,9,5,30
+532,stewadj01,BAL,Demetrius Jerome Stewart,88,31,13,17,2,0,7,15,20,38
+533,storytr01,COL,Trevor John Story,235,59,41,68,13,4,11,28,24,63
+534,strawmy01,HOU,Myles James Noble Straw,82,33,8,17,4,0,0,8,4,22
+535,stubbga01,HOU,Garrett Patrick Stubbs,8,14,1,1,0,0,0,1,0,0
+536,suareeu01,CIN,Eugenio Alejandro Suarez,198,57,29,40,8,0,15,38,30,67
+537,susacan01,PIT,Andrew John Susac,2,1,0,0,0,0,0,0,2,0
+538,suzukku01,WAS,Kurt Kiyoshi Suzuki,111,33,15,30,8,0,2,17,11,19
+539,swansda01,ATL,James Dansby Swanson,237,60,49,65,15,0,10,35,22,71
+540,tapiara01,COL,Raimel Antonio Tapia,184,51,26,59,8,2,1,17,14,38
+541,tatisfe02,SDN,Fernando Gabriel Tatis,224,59,50,62,11,2,17,45,27,61
+542,tauchmi01,NYA,Michael Robert Tauchman,95,43,18,23,6,0,0,14,14,26
+543,taverle01,TEX,Leody Taveras,119,33,20,27,6,1,4,6,14,43
+544,taylobe04,CLE,Beau Ritchie Taylor,21,7,1,1,0,0,0,2,2,9
+545,tayloch03,LAN,Christopher Armand Taylor,185,56,30,50,10,2,8,32,26,55
+546,taylomi02,WAS,Michael Anthony Taylor,92,38,11,18,6,0,5,16,6,27
+547,tayloty01,MIL,Tyrone Anthony Taylor,38,22,6,9,4,0,2,6,2,8
+548,tejedan01,TEX,Anderson Alexander Tejeda,75,23,7,19,4,1,3,8,2,30
+549,tellero01,TOR,Ryan John Tellez,113,35,20,32,5,0,8,23,11,20
+550,thaisma01,LAA,Matthew Kevin Thaiss,21,8,3,3,0,0,1,1,4,8
+551,thameer01,WAS,Eric Allyn Thames,123,41,10,25,5,0,3,12,14,42
+552,thomala02,SLN,Lane Michael Thomas,36,18,5,4,2,0,1,2,4,13
+553,toroab01,HOU,Abraham Josue Toro,87,33,13,13,2,0,3,9,3,23
+554,torregl01,NYA,Gleyber David Torres,136,42,17,33,8,0,3,16,22,28
+555,torrelu01,SDN,Luis Alfonso Torrens,11,7,0,3,1,0,0,0,1,2
+556,torrelu01,SEA,Luis Alfonso Torrens,59,18,5,15,4,0,1,6,6,13
+557,torrero01,PHI,Ronald Alcides Torreyes,7,4,1,1,1,0,0,0,0,0
+558,trevijo01,TEX,Jose Trevino,76,24,10,19,8,0,2,9,3,15
+559,trompch01,SFN,Chadwick Chandler Tromp,61,24,11,13,1,0,4,10,1,20
+560,troutmi01,LAA,Michael Nelson Trout,199,53,41,56,9,2,17,46,35,56
+561,tsutsyo01,TBA,Yoshitomo Tsutsugo,157,51,27,31,5,1,8,24,26,50
+562,tuckeco01,PIT,Cole Bryson Tucker,109,37,17,24,3,0,1,8,5,31
+563,tuckeky01,HOU,Kyle Daniel Tucker,209,58,33,56,12,6,9,42,18,46
+564,turneju01,LAN,Justin Matthew Turner,150,42,26,46,9,1,4,23,18,26
+565,turnetr01,WAS,Trea Vance Turner,233,59,46,78,15,4,12,41,22,36
+566,uptonju01,LAA,Justin Irvin Upton,147,42,20,30,5,0,9,22,11,43
+567,uriaslu01,MIL,Luis Fernando Urias,109,41,11,26,4,1,0,11,10,32
+568,uriasra01,BAL,Ramon Francisco Urias,25,10,3,9,2,0,1,3,2,6
+569,urshegi01,NYA,Giovanny Urshela,151,43,24,45,11,0,6,30,18,25
+570,valaipa01,BAL,Patrick Ryne Valaika,141,52,24,39,4,0,8,16,8,34
+571,vanmejo01,CIN,Josh Michael VanMeter,34,14,3,2,1,0,1,1,3,16
+572,vanmejo01,ARI,Josh Michael VanMeter,36,12,6,7,2,0,1,5,4,8
+573,vargail01,ARI,Ildemaro Jose Vargas,20,8,2,3,0,0,0,0,1,5
+574,vargail01,MIN,Ildemaro Jose Vargas,22,10,3,5,1,1,0,2,1,2
+575,vargail01,CHN,Ildemaro Jose Vargas,9,6,1,2,0,0,1,1,0,3
+576,varshda01,ARI,Daulton Varsho,101,37,16,19,5,2,3,9,12,33
+577,vazquch01,BOS,Christian Rafael Vazquez,173,47,22,49,9,0,7,23,16,43
+578,velazan01,BAL,Andrew Velazquez,63,40,11,10,1,1,0,3,10,23
+579,verdual01,BOS,Alexander Brady Verdugo,201,53,36,62,16,0,6,15,17,45
+580,villajo01,MIA,Jonathan Rafael Villar,116,30,10,30,4,0,2,9,10,32
+581,villajo01,TOR,Jonathan Rafael Villar,69,22,3,13,1,0,0,6,9,22
+582,vilorme01,KCA,Meibrys John Viloria,21,15,1,4,1,0,0,0,2,9
+583,vogelda01,SEA,Daniel Vogelbach,53,18,3,5,1,0,2,4,11,13
+584,vogelda01,TOR,Daniel Vogelbach,4,2,0,0,0,0,0,0,1,2
+585,vogelda01,MIL,Daniel Vogelbach,58,19,13,19,2,0,4,12,8,18
+586,vogtst01,ARI,Stephen Guy Vogt,72,26,6,12,5,0,1,7,8,18
+587,voitlu01,NYA,Louis Linwood Voit,213,56,41,59,5,0,22,52,17,54
+588,vottojo01,CIN,Joseph Daniel Votto,186,54,32,42,8,0,11,22,37,43
+589,wadela01,MIN,LaMonte Aaron Wade,39,16,3,9,3,0,0,1,4,9
+590,wadety01,NYA,Tyler Dean Wade,88,52,19,15,3,0,3,10,12,22
+591,walkech02,ARI,Christian Dickson Walker,218,57,35,59,18,1,7,34,19,50
+592,walkene01,PHI,Neil Martin Walker,39,18,5,9,3,0,0,3,1,13
+593,wallach01,MIA,Chad Arthur Wallach,44,15,4,10,3,0,1,6,3,12
+594,walshja01,LAA,Jared James Walsh,99,32,19,29,4,2,9,26,5,15
+595,waltodo01,SEA,Donovan R. Walton,13,5,0,2,1,0,0,3,1,5
+596,wardta01,LAA,Joseph Taylor Ward,94,34,16,26,6,2,0,5,8,28
+597,wendljo01,TBA,Joseph Patrick Wendle,168,50,24,48,9,2,4,17,10,35
+598,whiteaa01,MIN,Aaron James Whitefield,1,3,1,0,0,0,0,0,0,0
+599,whiteel04,TEX,Elijah Thomas White,48,19,5,9,2,0,0,3,3,16
+600,whiteev01,SEA,Evan McKee White,182,54,19,32,7,0,8,26,18,84
+601,wietema01,SLN,Matthew Richard Wieters,35,19,3,7,1,0,0,4,3,10
+602,williju02,SLN,Justin Paul Williams,5,3,0,1,0,0,0,0,1,2
+603,willima07,BAL,Mason Jordan Williams,18,10,0,2,0,1,0,0,0,9
+604,winkeje01,CIN,Jesse Winker,149,54,27,38,7,0,12,23,28,46
+605,wisdopa01,CHN,Patrick Ian-Cashel Wisdom,2,2,0,0,0,0,0,0,0,0
+606,wolteto01,COL,Anthony John Wolters,100,42,10,23,4,0,0,8,6,30
+607,wongko01,SLN,Kolten Kaha Wong,181,53,26,48,4,2,1,16,20,30
+608,yastrmi01,SFN,Michael Andrew Yastrzemski,192,54,39,57,14,4,10,35,30,55
+609,yelicch01,MIL,Christian Stephen Yelich,200,58,39,41,7,1,12,22,46,76
+610,youngan02,ARI,Andrew Jacob Young,26,12,3,5,2,0,1,4,5,10
+611,zimmebr01,CLE,Bradley Clarke Zimmer,37,20,3,6,0,0,1,3,7,14
+612,zuninmi01,TBA,Michael Accorsi Zunino,75,28,8,11,4,0,4,10,6,37
