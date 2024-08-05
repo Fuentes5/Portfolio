@@ -1,0 +1,363 @@
+---
+title: "Assignment 8: Oil Wells and Education"
+author: Jose Fuentes
+date: April 2024
+format: html
+self-contained: true
+editor: source
+theme: materia
+toc: true
+toc-depth: 2
+---
+
+# Introduction
+
+“More than 350,000 Californians live within 600 feet of unplugged wells, a Times/Public Integrity analysis of census data found. That’s the distance at which people are exposed to degraded air quality, according to a 2019 report from the office overseeing oil and gas in Los Angeles.
+
+Oil wells are known to emit likely carcinogens including benzene and formaldehyde. Uncapped, these wells also release a potent greenhouse gas, methane, that helps drive climate change.”
+
+-   Mark Olalde, Ryan Menezes, and the Center for Public Integrity in The LA Times
+
+The Los Angeles Times and the New York Times recently published separate articles about the hazards and recent issues related to oil wells in California. The former emphasized the dangers of unplugged oil wells that sit idle near homes, schools, hospital, along with the high expenses associated with plugging wells. The latter discussed the lack of action by California lawmakers to limit the distance of oil wells from vulnerable locations and populations, necessitated by the historically biased choice of locations for wells in low-income neighborhoods.
+
+As someone with close family and friends living in Los Angeles, you abhor the state of the law related to oil wells in California. And as someone interested in inequalities prevalent in public education, this line from the New York Times video stuck out to you: “…to make matters worse, my middle school was less than a few miles away from one of the biggest refineries west of the Mississippi.” Hearing about the relationship between the schools and oil wells is heartbreaking to you.
+
+-   What is the extent of this problem?
+-   How many students are affected? Are low-income schools are more affected?
+-   Is this only a Los Angeles thing? You want to find out more.
+
+# The Health Effects of Oil Wells
+
+The impacts of oil extraction on local soil (Pichtel, 2016), water (Ma et al., 2012; Moquet et al., 2014; Teng et al., 2013), and air pollution (Field et al., 2014; Stringfellow et al., 2017) and its influence on public health is relatively well known. Oil fields are estimated to impact over 600 million people worldwide (O’Callaghan-Gordo et al., 2016). Within the US alone, an estimated eight million residents live close enough to an active oil extraction site to be affected (Czolowski et al., 2017).
+
+The potential health effects are vast (Johnston et al., 2019). Public health research has shown an association between oil extraction and cancer (San et al., 2001; Hurtig and San Sebastián, 2002; Hurtig and Sebastián, 2004; McKenzie et al., 2017; Moolgavkar et al., 2014; Williams et al., 2020) and other acute, non-cancerous chronic health outcomes such as rheumatic disease, lupul, and respiratory and cardiovascular problems (Dahlgren et al., 2007), and alteration of immunicological functions (Dey et al., 2015; Yermukhanova et al., 2017). Multiple studies examining school-age children near the oil-production regions in Kazahstan found substantial enlargement of thyroid volume and the presence of allergic diseases when residing closer to oil fields (Kudabayeva et al., 2014; Yermukhanova et al., 2017). Most of these studies have pointed towards air pollution produced by oil extraction as a primary driver of negative health effects. Non-chronic health associations have been found relating to nasal and throat irritation, headaches, dizziness, and anemia (San et al., 2001; Kponee et al., 2015).
+
+Beyond the public health implications of oil extraction, there is also an empirical link between health and social, economic, and educational outcomes (Suhrcke and de Paz Nieves, n.d.; Gondek et al., 2018; Wang et al., 2016; Brekke and Reisel, 2017; Mikkonen et al., 2020; Chester et al., 2019). In particular, worse educational outcomes have been connected to asthma (Halterman et al., 2001; Bonilla et al., 2005), mental health (Currie and Stabile, 2007; Fletcher, 2008; McLeod and Kaiser, 2004; Mazzone et al., 2007; Van Ameringen et al., 2003), diseases such as Malaria (Jukes et al., 2006), diarrhea (Berkman et al., 2002), and anemia and worms (Bobonis et al., 2006). On its own, air pollution have also been shown to impact students negatively (Heissel et al., 2019; Persico and Venator, 2019; Komisarow and Pakhtigian, 2020).
+
+# Data
+
+You set out to figure out a few things about education and oil wells. You start by finding some necessary data. The California Department of Conservation have publicly available shapefiles on the locations of all active, idle, and plugged oil well
+
+-   (CA_wells folder contains the shapefile of point locations for each well, and oil_well_data.csv contains additional data on each well).
+
+GreatSchools.org have school quality indicators online and the Common Core of Data from the US Department of Education have plenty of school-level characteristic data. These are combined into CA_schools.csv. Note that you may not use all this data in your analysis, but it is available to you nonetheless.
+
+# Set your working directory
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_knit$set(root.dir = 'C:/Users/jfuentes1/Documents/myrstudio(Structural Injustice)/0.Datasets/assignment8')
+```
+
+# Task 1
+
+You import the school quality data - CA_schools.csv. Call this data frame “schools” and study the available variables.
+
+```{r}
+schools = read.csv("CA_schools.csv")
+
+
+```
+
+#Task 2
+
+You want to learn more about education in California. So, you first take a descriptive look at the school quality by using the ggplot2 package to examine the histogram of school quality ratings . You inspect the GreatSchools details on its ratings, and notice that schools rated as 1-4 are “below average,” 5-6 are “average,” and 7-10 is “above average.”
+
+```{r}
+library("ggplot2")
+table(schools$rating)
+
+
+ggplot(schools, aes(x = rating)) + 
+  geom_histogram() +
+  geom_vline(xintercept = 4.5, color = "black", linetype = "solid") +
+  geom_vline(xintercept = 6.5, color = "black", linetype = "solid") +
+  geom_rect(xmin = -Inf, xmax = 4.5, ymin = -Inf, ymax = Inf, fill = "lightcoral", alpha = 0.009) +
+  geom_rect(xmin = 4.5, xmax = 6.5, ymin = -Inf, ymax = Inf, fill = "orange", alpha = 0.009) +
+  geom_rect(xmin = 6.5, xmax = Inf, ymin = -Inf, ymax = Inf, fill = "lightgreen", alpha = 0.009) +
+  theme_light()+
+  labs(x = "School Rating",
+       title = "Distribution of School Ratings with Group Separations") +
+scale_x_continuous(breaks = 1:10)
+
+```
+
+# Task 3
+
+The first question you ask is: what are the differences in characteristics between good and bad schools in California? To give yourself an idea of the answer, you run some regressions using the rating as the independent variable to examine how it correlates with the frpl, enrollment, and each of the race/ethnicity variables \[use each of these as a dependent variable in separate regressions, then show in modelsummary\]. This would give you a rough idea into the differences between good and bad schools.
+
+```{r}
+library(modelsummary)
+
+models<- list()
+models[['frpl']] <- lm(frpl~rating, schools)
+models[['enrollment']] <- lm(enrollment~rating, schools)
+models[['white ']] <- lm(white~rating, schools)
+models[['black ']] <- lm(black~rating, schools)
+models[['hispanic']] <- lm(hispanic~rating, schools)
+models[['asian']] <- lm(asian~rating, schools)
+models[['multiracial']] <- lm(multiracial~rating, schools)
+models[['native_american']] <- lm(native_american~rating, schools)
+
+
+modelsummary(models, stars=TRUE, title="Regressions")
+
+
+
+```
+
+# Task 4
+
+Using ggplot, produce a scatterplot where rating is the X and frpl is the Y. Add a LOESS (this is a locally estimated scatterplot smoothing nonlinear curve) by adding “+ geom_smooth(method = "loess")” to your plot. You can also do this for as many other variables as you want.
+
+```{r}
+#Corelated with incrase rating
+ggplot(data = schools, aes(x = rating, y = multiracial)) +
+  geom_point() +
+  labs(x = "Rating", y = "multiracial") +
+  geom_smooth(method = "loess")
+
+
+ggplot(data = schools, aes(x = rating, y = asian)) +
+  geom_point() +
+  labs(x = "Rating", y = "asian ") +
+  geom_smooth(method = "loess")
+
+
+ggplot(data = schools, aes(x = rating, y = white)) +
+  geom_point() +
+  labs(x = "Rating", y = "white ") +
+  geom_smooth(method = "loess")
+
+
+ggplot(data = schools, aes(x = rating, y = enrollment)) +
+  geom_point() +
+  labs(x = "Rating", y = "enrollment ") +
+  geom_smooth(method = "loess")
+
+
+#Corelated with decrease rating
+
+ggplot(data = schools, aes(x = rating, y = frpl)) +
+  geom_point() +
+  labs(x = "Rating", y = "FRPL") +
+  geom_smooth(method = "loess")
+
+
+ggplot(data = schools, aes(x = rating, y = black)) +
+  geom_point() +
+  labs(x = "Rating", y = "black ") +
+  geom_smooth(method = "loess")
+
+
+ggplot(data = schools, aes(x = rating, y = hispanic)) +
+  geom_point() +
+  labs(x = "Rating", y = "hispanic ") +
+  geom_smooth(method = "loess")
+
+
+ggplot(data = schools, aes(x = rating, y = native_american)) +
+  geom_point() +
+  labs(x = "Rating", y = "native_american ") +
+  geom_smooth(method = "loess")
+
+
+
+
+
+
+```
+
+# Task 5
+
+What are some conclusions you make from these regressions and graph from Task 2 through Task 4? Specifically:
+
+-   If we broadly consider schools with school quality ratings of 7 or higher to be "good" schools, are most schools considered "good" or not "good"?
+
+-   What are school ratings positively or negatively correlated with? Why do you think this is the case?
+
+Answer:
+
+**If we broadly consider schools with quality ratings of 7 or higher to be "good" school, majority of school would not be considered good school. This means if our rating is 7 or higher, there are less of those school than the opposite.**
+
+**From the variables I checked school rating is positively correlated with enrollment, White, Asian, and multiracial. The rest of the variables show a negative correlation.**
+
+# Question 6
+
+-   You go on QGIS and **load the shape file for the locations of the wells** (Wells_All.shp), along with the locations of the schools (CA_schools.csv).
+-   **Filter** the oil wells layer to only see wells that are either **“active” or “idle.”**
+-   **Label** the **school** with their **names** \[Right Click on Layer \> Properties \> Labels\].
+-   **Add a base map** of the US using QuickMapServices.
+-   **Zoom in** on QGIS onto a **school** where an **active well** is nearby.
+
+Take a screenshot of it (i.e., snipping tool or QGIS save as png feature) and save the picture in your working directory. Install the package “knitr” and run the following code as a chunk, where wellsschools.png is your picture name (feel free to change this). This will show up on the final Quarto document after rendering. Note that it usually renders when you place the file in your working directory. If it does not, try placing your .png file in the same directory as your .qmd file, which is not necessarily where the working directory is, in order for it to render correctly.
+
+library(knitr) include_graphics("picture.png")
+
+```{r}
+library(knitr) 
+include_graphics("Screenshot.png")
+
+
+```
+
+# Task 7
+
+You want to conduct a distance matrix analysis. (Prior to doing so, make sure you filter wells data to only contain active and idle oil wells so that we only match schools to the closest active/idle wells, which you should've completed in the last Task).
+
+Then, you **conduct a distance matrix analysis where the input layer is the school** (ncescode as unique ID) **and the target layer is the wells** (where API is the unique ID). Use the nearest 1 target point. When you run the analysis, this creates a file where you can see each school and its closest active/idle well, along with the distance calculated between coordinates.
+
+Right click on the resulting distance matrix file, click on “make permanent” to save as a csv file and name it schools_wells.csv. Note that for the previous task, you were asked to filter the wells layer to only those that are active or idle. As long as you did this, the distance matrix will only include wells that are active or idle.
+
+\[There is no response to this; Task is done on QGIS. But you must do it to continue,\]
+
+You can, however, note any troubles you had completing this task.
+
+# Task 8
+
+Import schools_wells.csv into R and call this data frame "schools_wells". Rename the inputID to ncescode and TargetID to API. Create a new variable called “feet” that is the Distance variable multiplied by 3.28084. The feet variable is now the approximate number of feet between schools and wells.
+
+```{r}
+schools_wells = read.csv("C:/Users/jfuentes1/Documents/myrstudio(Structural Injustice)/Assignment 8 Oil Wells/file/schools_wells.csv")
+
+
+colnames(schools_wells)[1:2] = c("ncescode", "api") 
+
+schools_wells$Feet = schools_wells$Distance * 3.28084 #the approximate number of feet between schools and wells
+
+```
+
+# Task 9
+
+We now want the schools data merged with the oil wells data. You have to take the schools data in CA_schools.csv ("schools"), merge it with the distance matrix data showing the distance of the closest schools using the unique school ID (ncescode), then merge it with the rest of the oil wells data using the unique oil well ID (api). Specifically, do the following:
+
+-   Merge the schools data frame with the schools_wells data frame. This code would merge the schools data frame with the schools_wells data frame: merge \<- merge(schools, schools_wells, by='ncescode'). Note the we named this data frame object as "merge".
+
+-   Import the file oil_well_data.csv into R and call the data frame "wells." This file is available in the Case 2 data folder. This data set contain all the available oil well data, including the name, operator, county of location, start date (suddate), and status (wellstatus).
+
+-   Now, take the "merge" data frame and combine it with the wells data frame by using api as the unique ID. Name the new data frame "school_wells_all." Use the following code: school_wells_all \<- merge(merge, wells, by='api')
+
+```{r}
+merge <- merge(schools, schools_wells, by='ncescode')
+
+wells = read.csv("C:/Users/jfuentes1/Documents/myrstudio(Structural Injustice)/0.Datasets/assignment8/oil_well_data.csv")
+
+school_wells_all <- merge(merge, wells, by='api')
+
+```
+
+# Task 10
+
+Run a series of regressions with feet as the independent variable and each of the frpl, enrollment, and all the race/ethnicity variables as dependent variables. Show the results using the modelsummary() function. Also, describe whether these results are useful to you. Why or why not?
+
+Answer: These results are useful in the sense that it tells us that none of the following variables really matter. The result are significant by an alpha values of 0.1 but the results are 0 meaning that variables don't change depending on how far it is to a oil well.
+
+```{r}
+library(modelsummary)
+
+model2<- list()
+model2[['frpl']] <- lm(frpl~Feet, school_wells_all)
+model2[['enrollment']] <- lm(enrollment~Feet, school_wells_all)
+model2[['white ']] <- lm(white~Feet, school_wells_all)
+model2[['black ']] <- lm(black~Feet, school_wells_all)
+model2[['hispanic']] <- lm(hispanic~Feet, school_wells_all)
+model2[['asian']] <- lm(asian~Feet, school_wells_all)
+model2[['multiracial']] <- lm(multiracial~Feet, school_wells_all)
+model2[['native_american']] <- lm(native_american~Feet, school_wells_all)
+
+
+modelsummary(model2, stars=TRUE, title="Feet Regressions")
+```
+
+# Task 11
+
+You noted that certain research shows that being within 1200 feet of an oil well can cause health issues. Create a dummy variable called within1200ft in school_wells_all where it is a 1 if feet is at most 1200 and 0 otherwise. Run a series of regressions with within1200ft as the independent variable and each of the frpl, enrollment, and all the race/ethnicity variables as dependent variables. Show the results using the modelsummary() function.
+
+```{r}
+
+school_wells_all$within1200ft = ifelse(school_wells_all$Feet >= "1200", 1, 0)
+#View(school_wells_all[,c('within1200ft', 'Feet')])
+
+model3<- list()
+model3[['frpl']] <- lm(frpl~within1200ft, school_wells_all)
+model3[['enrollment']] <- lm(enrollment~within1200ft, school_wells_all)
+model3[['white ']] <- lm(white~within1200ft, school_wells_all)
+model3[['black ']] <- lm(black~within1200ft, school_wells_all)
+model3[['hispanic']] <- lm(hispanic~within1200ft, school_wells_all)
+model3[['asian']] <- lm(asian~within1200ft, school_wells_all)
+model3[['multiracial']] <- lm(multiracial~within1200ft, school_wells_all)
+model3[['native_american']] <- lm(native_american~within1200ft, school_wells_all)
+
+
+modelsummary(model3, stars=TRUE, title="within1200ft Regressions")
+
+
+
+```
+
+# Task 12
+
+You noticed that the NY Times opinion video was really talking about the city of Los Angeles and Los Angeles County. Subset school_wells_all such that all observations are only in Los Angeles County (county == ‘Los Angeles’). Re-run the regressions from \[11\] using this subset.
+
+```{r}
+
+la_county_schools_wells = subset(school_wells_all,county == "Los Angeles")
+
+model4<- list()
+model4[['frpl']] <- lm(frpl~within1200ft, la_county_schools_wells)
+model4[['enrollment']] <- lm(enrollment~within1200ft, la_county_schools_wells)
+model4[['white ']] <- lm(white~within1200ft, la_county_schools_wells)
+model4[['black ']] <- lm(black~within1200ft, la_county_schools_wells)
+model4[['hispanic']] <- lm(hispanic~within1200ft, la_county_schools_wells)
+model4[['asian']] <- lm(asian~within1200ft, la_county_schools_wells)
+model4[['multiracial']] <- lm(multiracial~within1200ft, la_county_schools_wells)
+model4[['native_american']] <- lm(native_american~within1200ft, la_county_schools_wells)
+
+
+modelsummary(model3, stars=TRUE, title="la_county_schools_wells Regressions")
+
+```
+
+# Task 13
+
+Now, subset school_wells_all such that all observations are only in the city of Los Angeles (city == ‘Los Angeles’). Re-run the regressions from \[11\] using this subset.
+
+```{r}
+la_city_schools_wells = subset(school_wells_all,city  == "Los Angeles")
+
+model4<- list()
+model4[['frpl']] <- lm(frpl~within1200ft, la_city_schools_wells)
+model4[['enrollment']] <- lm(enrollment~within1200ft, la_city_schools_wells)
+model4[['white ']] <- lm(white~within1200ft, la_city_schools_wells)
+model4[['black ']] <- lm(black~within1200ft, la_city_schools_wells)
+model4[['hispanic']] <- lm(hispanic~within1200ft, la_city_schools_wells)
+model4[['asian']] <- lm(asian~within1200ft, la_city_schools_wells)
+model4[['multiracial']] <- lm(multiracial~within1200ft, la_city_schools_wells)
+model4[['native_american']] <- lm(native_american~within1200ft, la_city_schools_wells)
+
+
+modelsummary(model3, stars=TRUE, title="la_city_schools_wells Regressions")
+
+```
+
+# Task 14
+
+Are active/idle oil wells in California and the Los Angeles area closer to schools with large minority and low-income populations? Use your regressions from Tasks 11 through 13 to back up your arguments.
+
+Answer:Our regression only shows that White students and Asian students are less likely to be near an oil well but not by that much of a significant amount.
+
+# Task 15
+
+As you can probably imagine, there are a number of additional analyses that you can do here. What else would you like find out using the data that we have? Attempt to run some additional regressions that are different from what you have done here; it can be using other subsets, using another variables or regression specifications, or anything else you can think of. What additional information do you find out from your analysis?
+
+Answer: A question we may want to try to find out is "Do school overall performance metrics (graduation rate, school ratings) in areas surrounding oil wells correlate with oil production?". This explores the potential monetary impact of oil extraction on the community and its education system.
+
+# Task 16
+
+In what ways do your results either align or do not align with the conclusions reached by the newspapers?
+
+Answer: Our conclusion only aligns somewhat because we were able to determine if Los Angeles Oil Wells were related to higer or lower enrollement of race in a school. We found that LA has mostly white and Asians farther away from oil wells than other races. So in that sense it did align a little.
+
+# Some goals of this assignment
+
+NOw that you have reached the end of this assignment, hopefully it gives you some idea as to how to (a) combine structured data (i.e., numerical, categorical) with geographic data, (b) incorporate geographic concepts into your models, and (c) incorporate multiple applications as part of your workflow. Typically, you will see someone coding in Python to ensure that the GIS work is replicable, but we do often have to incorporate multiple applications, databases, and languages in order to complete some work. For example, the data might come from a SQL database stored on a cloud server that requires SQL code to extract the proper data tables. Sometimes these come from multiple databases and thus have to be combined into a single data file. We might have to use Python to conduct some joins and distance matrices in a GIS platform using Python. Then, we might merge files and conduct analysis using descriptive statistics and models using R. All this work might then flow into a replicable report, whether using Quarto or another notebook product to output into PDF, Word, or HTML versions. Hope you took away something from this assignment!
