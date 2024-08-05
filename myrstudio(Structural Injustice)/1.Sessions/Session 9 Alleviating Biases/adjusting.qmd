@@ -1,0 +1,215 @@
+---
+title: "Adjusting for Biases"
+author: Eric Chan
+date: February 2024
+format: html
+self-contained: true
+editor: source
+theme: materia
+toc: true
+toc-depth: 2
+---
+
+
+```{r setup, include=FALSE}
+#| echo: true
+#| output-location: slide
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_knit$set(root.dir = "C:/Users/echan1/EC Babson Research Dropbox/Eric Chan/COURSE 3605 sp24/Sessions/session 9")
+```
+
+
+# Data Management
+
+We load the data, create dummy variables, and clean any other variables here.
+
+We summarize the numerical variables also.
+
+```{r}
+#Remove Global Environment
+rm(list=ls())
+
+#Packages needed
+#install.packages("modelsummary")
+library(modelsummary)
+
+#Read data file
+ACS <- read.csv("ACS.CSV")
+
+######### DUMMY VARIABLES
+
+ACS$female <- ifelse(ACS$sex == 'Female', 1, 0)
+ACS$married <- ifelse(ACS$marst == 'Married, spouse present' 
+                            | ACS$marst == 'Married, spouse absent', 1, 0)
+#Next, let's do fertyr, which is whether one had a child in the past year.
+ACS$child_lastyr <- ifelse(ACS$fertyr == 'Yes', 1, 0)
+ACS$white <- ifelse(ACS$race == 'White', 1, 0)
+ACS$black <- ifelse(ACS$race == 'Black/African American/Negro', 1, 0)
+ACS$hispanic <- ifelse(ACS$hispan == 'Mexican' | ACS$hispan == 'Puerto Rican'
+                             | ACS$hispan == 'Cuban' | ACS$hispan == 'Other', 1, 0)
+ACS$notworking <- ifelse(ACS$empstat=="Not in labor force" | ACS$empstat=="Unemployed",1,0)
+
+############# CLEANING ANY VARIABLES
+
+ACS$incwage[ACS$incwage>=999998] <-NA # Change all N/A or Missings to NA
+ACS$uhrswork <- as.integer(ACS$uhrswork) # Change hours worked to integer
+
+#Finally, let's look at our data summary again
+datasummary_skim(ACS, fmt = "%.3f")
+
+```
+
+
+# Models
+
+* Here, we subset the data such that we only have those who are of working age and those who are working ("Employed").
+
+* We then run some regression models. 
+
+```{r}
+#Start a list of models for modelsummary
+models <- list()
+
+#Run some different models with different controls.
+models[['income']] <- lm(incwage~female,ACS)
+models[['income wts']] <- lm(incwage~female,ACS,weight=perwt)
+models[['income+work wts']] <- lm(incwage~female+child_lastyr,ACS,weight=perwt)
+models[['income+others']] <- lm(incwage~female+child_lastyr+married,ACS,weight=perwt)
+
+
+#See all the models in one chart
+modelsummary(models, stars=TRUE, title="Female labor market estimates")
+
+```
+
+
+
+
+# Example of Imputation
+
+
+## Imputation with 0's
+
+What happens when we impute NA's with zeroes?? Is it likely that we over- or under-estimate the income gap between males and females? More importantly, what are some reasons you can think of why that would happen?
+
+```{r}
+# Clear Global Environment
+rm(list=ls())
+# Read in original data file again
+ACS <- read.csv("ACS.CSV")
+
+# Make same changes to file as before
+ACS$female <- ifelse(ACS$sex == 'Female', 1, 0)
+ACS$married <- ifelse(ACS$marst == 'Married, spouse present' 
+                            | ACS$marst == 'Married, spouse absent', 1, 0)
+#Next, let's do fertyr, which is whether one had a child in the past year.
+ACS$child_lastyr <- ifelse(ACS$fertyr == 'Yes', 1, 0)
+ACS$white <- ifelse(ACS$race == 'White', 1, 0)
+ACS$black <- ifelse(ACS$race == 'Black/African American/Negro', 1, 0)
+ACS$hispanic <- ifelse(ACS$hispan == 'Mexican' | ACS$hispan == 'Puerto Rican'
+                             | ACS$hispan == 'Cuban' | ACS$hispan == 'Other', 1, 0)
+ACS$notworking <- ifelse(ACS$empstat=="Not in labor force" | ACS$empstat=="Unemployed",1,0)
+ACS$uhrswork <- as.numeric(ACS$uhrswork)
+
+
+###################### IMPUTE WITH ZEROES
+
+# Now, let's change the incwage variable in ACS.
+ACS$incwage <- ifelse(ACS$incwage>=999998,0,ACS$incwage) # We remove all the NAs and Missing and impute with 0's
+#######################
+
+
+#Start a list of models for modelsummary
+models_impute <- list()
+
+#Run some different models with different controls.
+models_impute[['income']] <- lm(incwage~female,ACS)
+models_impute[['income, wts']] <- lm(incwage~female,ACS,weight=perwt)
+models_impute[['income + child, wts']] <- lm(incwage~female+child_lastyr,ACS,weight=perwt)
+models_impute[['income + IVs, wts']] <- lm(incwage~female+child_lastyr+married,ACS,weight=perwt)
+
+
+#See all the models in one chart
+modelsummary(models_impute, stars=TRUE, title="Female labor market estimates, with income imputed w/zeroes")
+
+```
+
+
+## Mean Imputation
+
+Alternatively, we can impute with the mean. Do you think this would over- or under- estimate the income gap between males and females? 
+
+```{r}
+# Clear Global Environment
+rm(list=ls())
+
+#Read in original data file again
+ACS <- read.csv("ACS.CSV")
+
+# Make same changes to file as before
+ACS$female <- ifelse(ACS$sex == 'Female', 1, 0)
+ACS$married <- ifelse(ACS$marst == 'Married, spouse present' 
+                            | ACS$marst == 'Married, spouse absent', 1, 0)
+#Next, let's do fertyr, which is whether one had a child in the past year.
+ACS$child_lastyr <- ifelse(ACS$fertyr == 'Yes', 1, 0)
+ACS$white <- ifelse(ACS$race == 'White', 1, 0)
+ACS$black <- ifelse(ACS$race == 'Black/African American/Negro', 1, 0)
+ACS$hispanic <- ifelse(ACS$hispan == 'Mexican' | ACS$hispan == 'Puerto Rican'
+                             | ACS$hispan == 'Cuban' | ACS$hispan == 'Other', 1, 0)
+ACS$notworking <- ifelse(ACS$empstat=="Not in labor force" | ACS$empstat=="Unemployed",1,0)
+ACS$uhrswork <- as.numeric(ACS$uhrswork)
+
+
+###################### IMPUTE WITH MEAN
+# Note that we need to calculate the mean without the 999998 and 999999 in incwage; otherwise it would be biases.
+# We can use ACS_subset to calculate the mean
+mean(ACS$incwage)
+# The mean is 56531.39
+
+# Now, let's change the incwage variable in ACS.
+ACS$incwage <- ifelse(ACS$incwage==999999,mean(ACS$incwage),ACS$incwage) # We change the missings to the mean in ACS_subset.
+# Note that you can also do "ACS$incwage <- ifelse(ACS$incwage==999999,56531.39,ACS$incwage)"
+#######################
+
+
+#Start a list of models for modelsummary
+models_impute <- list()
+
+#Run some different models with different controls.
+models_impute[['income']] <- lm(incwage~female,ACS)
+models_impute[['income, wts']] <- lm(incwage~female,ACS,weight=perwt)
+models_impute[['income + child, wts']] <- lm(incwage~female+child_lastyr,ACS,weight=perwt)
+models_impute[['income + IVs, wts']] <- lm(incwage~female+child_lastyr+married+uhrswork,ACS,weight=perwt)
+
+
+#See all the models in one chart
+modelsummary(models_impute, stars=TRUE, title="Female labor market estimates, with income imputed w/median")
+
+```
+
+
+# Example of: Is data missing at random?
+
+Is the uhrswork data missing at random, or does it differ by group? 
+
+```{r}
+ACS$uhrswork <- as.numeric(ACS$uhrswork)
+ACS$uhrswork_na <- ifelse(is.na(ACS$uhrswork)==TRUE, 1, 0)
+table(ACS$uhrswork_na)
+
+#Start a list of models for modelsummary
+models <- list()
+
+#Run some different models with different controls.
+models[['(1)']] <- lm(uhrswork_na~female,ACS)
+models[['(2)']] <- lm(uhrswork_na~black,ACS)
+models[['(3)']] <- lm(uhrswork_na~white,ACS)
+models[['(4)']] <- lm(uhrswork_na~hispanic,ACS)
+models[['(5)']] <- lm(uhrswork_na~child_lastyr,ACS)
+models[['(6)']] <- lm(uhrswork_na~notworking,ACS)
+
+#See all the models in one chart
+modelsummary(models, stars=TRUE, title="ACS Data: Missing usual hours worked")
+
+```
+

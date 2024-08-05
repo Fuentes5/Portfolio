@@ -1,0 +1,63 @@
+---
+title: "Schools and Oil Wells"
+author: Jose Fuentes
+date: April 2024
+format: pdf
+self-contained: true
+editor: source
+theme: materia
+toc: true
+toc-depth: 2
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_knit$set(root.dir = 'C:/Users/jfuentes1/Documents/myrstudio(Structural Injustice)/0.Datasets')
+```
+
+# Question 1
+## Are lower quality schools located closer to oil wells than high quality schools
+```{r}
+
+#import file
+schools <- read.csv("sch_tracts.csv")
+
+#load modelsummary
+library(modelsummary)
+
+attach(schools)
+#start model list
+models1 <- list()
+
+#Store the models
+models1[['model 1']] <- lm(distance~poverty_tract,data =schools)
+models1[['model 2']] <- lm(distance~rating_sch, data = schools)
+
+# Let's see the summary of all the models
+modelsummary(models1, stars=TRUE, title="Are lower quality schools located closer to oil wells than high quality schools?")
+
+
+
+```
+
+
+# Question 2
+## Are there more underrepresented minorities in schools closer to oil wells than non-underpresented minorities?
+Note: Generally, the term "underrepresented minorities" in the US do not include Asians, although many Asian groups are among the poorest in the US.
+
+```{r}
+
+#start model list
+models2 <- list()
+
+attach(schools)
+#Store the models
+models2[['model name']] <- lm(INSERT YOUR MODEL HERE)
+
+# Let's see the summary of all the models
+modelsummary(models2, stars=TRUE, title="Are there more minorities in schools closer to oil wells than non-minorities?")
+
+
+```
+
+

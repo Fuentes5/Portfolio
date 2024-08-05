@@ -1,0 +1,366 @@
+---
+title: "Maps in R"
+author: Eric Chan
+date: April 2024
+format: pdf
+self-contained: true
+editor: source
+theme: materia
+toc: true
+toc-depth: 2
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_knit$set(root.dir = 'C:/Users/ericw/EC Babson Research Dropbox/Eric Chan/COURSE 3605 sp24/sessions/session 22')
+```
+
+# Basics of Mapping in R
+
+## Packages
+
+The maps package provide us with pre-drawn maps data. They also have it for some countries (i.e., Italy, France, New Zealand)
+
+```{r}
+# install necessary packages
+#install.packages("maps")
+#install.packages("ggmap")
+#install.packages("mapproj")
+#install.packages("dplyr")
+#install.packages("ggplot2")
+
+# load packages
+library(maps)
+library(ggplot2)
+library(ggmap)
+library(mapproj)
+library(dplyr)
+
+
+states <- map_data("state")   
+    #the maps package allow us to get pre-drawn maps at state and county levels
+names(states) #look at variable names
+View(states)   #look at data
+
+```
+
+## Create a blank state map
+
+We will use ggplot to plot a US map with the state borders.
+
+```{r}
+
+
+# ggplot is layer-based. It tends to start with the back
+p <- ggplot(data=states, mapping=aes(x=long,y=lat, group=group)) 
+  #in aes() you must always tell it the x and y, in this case we use the long and lat
+  # which are the "points". Then the "mapping" tells R to draw lines between points,
+  # but for the maps package, we also need to define the groups, because this will tell it
+  # when to "lift the pen" to draw the next state ("group")
+
+p  #see what we we just from ggplot()
+
+#when using ggplot, you can add layers using "geoms."
+#for example, geom_polygon will create polygons with some fill
+# we can then add this to ggplot to "layer"" it on top
+p + geom_polygon(fill="blue", color="gray90", size=0.1) +   # fill with dark orange, color lines gray, size of borders=0.1
+  coord_map(projection="albers", lat0=39, lat1=45) # changes CRS to better one (Need mapproj package)
+  # Notice that there are also other options for coord_map, which changes the CRS.
+
+
+#Alternative CRS - Mercator
+p + geom_polygon(fill="blue", color="gray90", size=0.1) +   # fill with dark orange, color lines gray, size of borders=0.1
+  coord_map(projection="mercator") # changes CRS to better one (Need mapproj package)
+  # Notice that there are also other options for coord_map, which changes the CRS.
+
+```
+
+## Import state level data
+Here, we have oil production data by state. 
+
+```{r}
+
+oil <- read.csv("oil_states.csv")
+names(oil)
+#Note that by default, the state names in the state data is lower caps.
+# In order to merge data properly, we need to make sure the cases are the same.
+
+oil$State <- tolower(oil$State)
+names(oil)
+View(oil)
+#Also, the best case is to have the same variable/column name to merge
+# Here, in the states data, the variable is called region.
+# I'll create a new variable called region that is the states
+oil$region <-  oil$State
+
+# Now we can merge the states to the oil production data
+
+# We can use the dplyr package to do a merge
+# left join allows us to keep all the data for the left dataframe (here, the oil data) and add to that dataset while not keeping anything extra beyond that which the right-side data frame contains.
+library(dplyr) #dplyr let's us do a left_join()
+states_oil<- left_join(oil, states) 
+View(states_oil)
+
+
+
+```
+
+
+## Create a map by density
+
+```{r}
+
+# Let's think about density rather than raw production
+# On a per-capita basis, how much oil production does each state have?
+
+states_oil$oil_per1000 <- states_oil$oilprod_2018*1000/states_oil$pop_2018
+
+# Now let's start with ggplot and layer it
+p <- ggplot(data=states_oil,
+            aes(x=long, y=lat, group=group, fill=oil_per1000))
+
+p
+
+# Here, we layer ggplot with a bunch of stuff using different functions.
+p + geom_polygon(color="gray90", size=0.1) +   # color lines gray, size of borders=0.1
+  coord_map(projection="albers", lat0=39, lat1=45) + # Projection system to use
+  labs(title="Per-Capita Oil Production (Barrels) By State, 2018") +   # title
+  labs(fill="Oil production (Per 1000 pop) ") + #legend label
+  scale_fill_gradient(low="orange", high="dark red")   #gradient of fill coloring
+  
+
+```
+
+
+## Subset of states or locations
+How can we just choose to show a subset of states or locations?
+
+```{r}
+# Here, we can subset the dataset to be of only certain states
+states_oil_tx <- subset(states_oil, region=="texas" | region=="oklahoma" | region=="new mexico" | region=="arizona" | region=="california" | region=="nevada" | region=="colorado" | region =="oregon" | region=="utah")
+
+# we will then ggplot it. notice that we need the "fill" option now
+p <- ggplot(data=states_oil_tx,
+            aes(x=long, y=lat, group=group, fill=oil_per1000))
+
+# and then add the other options
+p + geom_polygon(color="gray90", size=0.1) +   # DO NOT fill now, color lines gray, size of borders=0.1
+  coord_map(projection="albers", lat0=39, lat1=45) + # Projection system to use
+  labs(title="Per-Capita Oil Production (Barrels) By State, 2018") +   # title
+  labs(fill="Per-capita oil production") + #legend label
+  scale_fill_gradient(low="white", high="dark red") +   #gradient of fill coloring
+  theme_classic() #theme
+
+```
+
+
+# Mapping by a smaller level (Counties!)
+
+Now, let's try to do this by county instead of state.
+
+```{r}
+
+# We will take county borders from the maps package
+counties <-map_data("county")
+View(counties)   #Notice that these counties are only first names! Does not include "County"
+ca_counties <- subset(counties,region=="california")  #Keep only California counties
+View(ca_counties)
+names(ca_counties)
+
+# Then we have another data set at the county level. Let's take a look
+unemploy <- read.csv("CA_unempl.csv")
+names(unemploy)
+head(unemploy)
+unemploy <- subset(unemploy, FIPS>6000) # get rid of the state overall numbers for CA (not a county but in data)
+unemploy$subregion <- tolower(unemploy$Name) # we'll need lower case county names for merging, new variable called subregion to match ca_counties data. Always prior to merging data frames, make sure the variable name and formats are the same!
+View(unemploy)
+
+# We can use the dplyr package to do a merge
+# left join allows us to keep all the data for the left dataframe (hwere, ca_counties) and add to that dataset while not keeping anything extra beyong that that may be in the right data frame.
+library(dplyr)
+ca_cnty_unemp <- left_join(ca_counties,unemploy) 
+    #for any merging, make sure the merging ID is the same variable/case/format on both data frame
+View(ca_cnty_unemp)
+
+# No, let's start ggplot again
+p <- ggplot(data=ca_cnty_unemp,
+            aes(x=long, y=lat, group=group, fill=med_hh_income)) #the "fill" is the var of interest
+
+#add options to ggplot
+p + geom_polygon(color="gray90", size=0.1) +   # DO NOT fill now, color lines gray, size of borders=0.1
+  coord_map(projection="albers", lat0=39, lat1=45) + # Projection system to use
+  labs(title="Median Household Income in California") +   # title
+  labs(fill="Median HH income") + #legend label
+  scale_fill_gradient(low="white", high="dark red") +  #gradient of fill coloring
+  theme_bw()
+  
+
+```
+
+
+
+
+## Counties with regression estimates!
+you can also do this with other maps (like the state-level ones too!)
+
+Suppose we want to look at the relationship between two (or more) variables. For example, here we might want to look at the relationship between median household income (the y) and the unemployment rate in 2019 (x1) while controlling for the unemployment rate in 2019. Then map out the predictions. Let's do it!
+
+This is not a great example (since it doesn't really make sense), but it shows what you can do with the data.
+
+```{r}
+
+#get county data just like above
+counties <-map_data("county")
+View(counties)   #Notice that these counties are only first names! Does not include "County"
+ca_counties <- subset(counties,region=="california")  #Keep only California counties
+View(ca_counties)
+names(ca_counties)
+
+# get unemployment data just like above
+unemploy <- read.csv("CA_unempl.csv")
+names(unemploy)
+head(unemploy)
+unemploy <- subset(unemploy, FIPS>6000) # get rid of the state overall numbers for CA
+unemploy$subregion <- tolower(unemploy$Name) # lower case county names for merging, new variable called subregion to match ca_counties data
+View(unemploy)
+
+#run a desired regression
+reg <- lm(med_hh_income ~ unem_2019 + unem_2018, data=unemploy)
+summary(reg)
+
+# generate a variable in unemploy with the predictions from model
+unemploy$predicted_income <- predict(reg, unemploy)
+View(unemploy)
+
+#do a merge (see previous sections for instructions)
+library(dplyr)
+ca_cnty_unemp <- left_join(ca_counties,unemploy) 
+    #for any merging, make sure the merging ID is the same variable/case/format on both data frame
+View(ca_cnty_unemp)
+
+#start ggplot
+p <- ggplot(data=ca_cnty_unemp,
+            aes(x=long, y=lat, group=group, fill=predicted_income)) #the "fill" is the var of interest
+
+# add options
+p + geom_polygon(color="gray90", size=0.1) +   # DO NOT fill now, color lines gray, size of borders=0.1
+  coord_map(projection="albers", lat0=39, lat1=45) + # Projection system to use
+  labs(title="Predicted Median Household Income in California", subtitle="Controlled for baseline unemployment") +   # title
+  labs(fill="Predicted Median HH income") + #legend label
+  scale_fill_gradient(low="white", high="dark red") +  #gradient of fill coloring
+  theme_classic()
+
+```
+
+
+# Mapping Using State bins
+One cool way to depict one continuous variable is with state bins.
+
+
+```{r}
+# install.packages("statebins")
+library(statebins)
+
+# For statebins, we need the name of the state in this format: Massachusetts (with single cap)
+oil <- read.csv("oil_states.csv")
+oil$oil_per1000 <- oil$oilprod_2018*1000/oil$pop_2018
+names(oil)
+
+statebins(state_data=oil,
+          state_col = "State",
+          value_col="oil_per1000") +
+          theme_statebins(legend_position="right")
+
+ggsave("oilprod_bins.png")
+
+
+```
+
+
+
+# Maps with Panel or Time Data!
+
+```{r}
+edfunding <- read.csv("ed_spending_time.csv")
+names(edfunding)
+edfunding$state <- tolower(edfunding$state)
+names(edfunding)
+
+#Also, the best case is to have the same variable/column name to merge
+# Here, in the states data, the variable is called region.
+# I'll create a new variable called region that is the states
+edfunding$region <-  edfunding$state
+
+# Now we can merge the states to the oil production data
+
+# We can use the dplyr package to do a merge
+# left join allows us to keep all the data for the left dataframe (here, the oil data) and add to that dataset while not keeping anything extra beyong that that may be in the right data frame.
+library(dplyr) #dplyr let's us do a left_join()
+states_edfunding<- left_join(states,edfunding) 
+
+View(states_edfunding)
+
+```
+
+## Create a map for one year
+
+Here, we create a chloropleth map for one year first (2012).
+
+```{r}
+
+# Let's think about the raw total spending number in dollars only for 2012
+# Subset for 2012
+states_edfunding_2012 <- subset(states_edfunding, year==2012)
+
+
+# Now let's start with ggplot and layer it
+p <- ggplot(data=states_edfunding_2012,
+            aes(x=long, y=lat, group=group, fill=tot_spending))
+
+# Here, we layer ggplot with a bunch of stuff using different functions.
+p + geom_polygon(color="gray90", size=0.1) +   # color lines gray, size of borders=0.1
+  coord_map(projection="albers", lat0=39, lat1=45) + # Projection system to use
+  labs(title="Per-Pupil Spending By State, 2012") +   # title
+  labs(fill="Per-Pupil Spending By State, 2012 ") + #legend label
+  scale_fill_gradient(low="darkolivegreen1", high="darkolivegreen")   #gradient of fill coloring
+  
+
+```
+
+
+
+## Create a map by time using FACETS
+
+```{r}
+#install.packages("viridis")
+library(viridis) # package allows you to choose color scale
+
+# Subset for 2013-2018
+states_edfunding_sub <- subset(states_edfunding, year>2012)
+
+# Now let's start with ggplot and layer it
+p0 <- ggplot(data=states_edfunding_sub,
+            mapping=aes(x=long, y=lat, group=group, fill=tot_spending))
+
+p0
+
+p1 <- p0 + geom_polygon(color="gray90",size=0.05) +
+  coord_map(projection="albers", lat0=39, lat1=45)
+
+p1 # Notice that this map does not make sense! It is only either for one year or R is calculating means by year or something??? We don't know what it is doing!
+
+p2 <- p1+scale_fill_viridis_c(option="brewer blues") # The package viridis allows you to choose a color scale
+      # look at https://cran.r-project.org/web/packages/viridis/vignettes/intro-to-viridis.html for color options
+
+p2
+
+
+p2 + facet_wrap(~year,ncol=3) + #allows you to set the time variable and the number of columns
+  theme(legend.position="bottom", strip.background=element_blank()) +  #legend placement and background
+  labs(fill="Ed Spending (Total US $)", title="Ed Spending, 2013-2018")
+
+
+```
+
+

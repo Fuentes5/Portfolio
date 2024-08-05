@@ -1,0 +1,343 @@
+---
+title: "Biases 1"
+author: Jose Fuentes
+date: February 2023
+format: html
+self-contained: true
+editor: source
+theme: materia
+toc: true
+toc-depth: 2
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_knit$set(root.dir = 'C:/Users/jfuentes1/Documents/myrstudio(Structural Injustice)/0.Datasets')
+```
+
+# Data Management
+
+```{r}
+rm(list=ls())
+
+# Packages to install and load
+# We will need the model summary package today
+# install.packages("modelsummary")
+library(modelsummary)
+
+# We will also use the dplyr package to use the sample_n
+#  function, which allows us to take a random sample
+# install.packages("dplyr")
+library(dplyr)
+```
+
+## Import Data
+
+```{r}
+#Read the ACS CSV data into R
+ACS <- read.csv("ACS.CSV")
+```
+
+
+# Examining and Cleaning Raw Data
+
+* Here, we take a look at the data, its structure, and descriptive statistics.
+
+* We also ask: what variables do we want to clean or change?
+
+* Here, we can create some dummy variables for categorical variables.
+
+## Get Familiar with the Data
+
+```{r}
+######### VIEW AND SEE STRUCTURE
+head(ACS)
+names(ACS)
+View(ACS)
+str(ACS)
+
+```
+
+## Data Structure
+
+```{r}
+############ CHANGE DATA STRUCTURE
+#  As I look through data, age looks like a character variable. I want age to be numeric (R considered it a character), so let's change it to numeric
+table(ACS$age)
+ACS$age <- as.numeric(ACS$age)
+table(ACS$age)
+# What happens to our age variable when we forced a structure change?
+
+```
+
+## Create some dummy variables
+
+```{r}
+
+######### DUMMY VARIABLES
+
+# We might also want a dummy variable for gender.
+table(ACS$sex)
+#  Let's Create the female dummy variable, where 1 is female, and 0 otherwise, from the "sex" variable (which is not numerical)
+#   Best practice for dummies: Call the dummy whatever is represented by a 1 in your data (i.e., for us, female is 1)
+ACS$female <- ifelse(ACS$sex == 'Female', 1, 0)
+
+# Next, let's create a dummy for marital status, specifically being married!
+table(ACS$marst) # see what the categories are
+#  This is an analytical decision; you can create one for divorce instead if you wanted to, or not married.
+#  However, the point is that if you have a categorical variable beyond 2 categories, 
+#   you can create some or create more dummy variables for this exercise.
+#  You are not relegated to the n-1 rule for dummy variables since we are not using it as an independent variable.
+#  Also, you can always generate dummy variables for 'ease' of interpretation without needing to use all the categories.
+ACS$married <- ifelse(ACS$marst == 'Married, spouse present' 
+                            | ACS$marst == 'Married, spouse absent', 1, 0)
+# Now, we have a dummy variable for married!
+
+#Next, let's do fertyr, which is whether one had a child in the past year.
+table(ACS$fertyr) # see what the categories are
+ACS$child_lastyr <- ifelse(ACS$fertyr == 'Yes', 1, 0)
+
+# Let's see the same for race/ethnicity!
+table(ACS$race)
+
+#Let's do the same for the race variable: Here I chose White, Black, and Hispanic. 
+# Note that hispanic is generally regarded as a separate variable outside of race.
+ACS$white <- ifelse(ACS$race == 'White', 1, 0)
+
+#Let's do the same for Black
+ACS$black <- ifelse(ACS$race == 'Black/African American/Negro', 1, 0)
+
+#Let's do the same for the Hispanic variable
+table(ACS$hispan)
+ACS$hispanic <- ifelse(ACS$hispan == 'Mexican' | ACS$hispan == 'Puerto Rican'
+                             | ACS$hispan == 'Cuban' | ACS$hispan == 'Other', 1, 0)
+
+```
+
+
+
+
+
+
+
+# Run Descriptive Statistics
+
+```{r}
+# Let's run some basic descriptive statistics at this point
+# make sure to load "modelsummary" package first
+# are there any obsvious issues that you see?
+datasummary_skim(ACS, fmt = "%.3f")
+# We can see that not all the variables are included! That is okay, as data summary only tries to calculate descriptives for numeric variables.
+```
+
+# Further Data Cleaning
+
+```{r}
+
+############# CLEANING ANY VARIABLES
+
+#Now, let's do income, which we noticed is skewed!
+hist(ACS$incwage)
+# Any number that is 999998 and bigger is just missing data or problematic data.
+# Let's change incwage >= 999998 to missing 
+#   we want clean numerical estimates here
+ACS$incwage[ACS$incwage>=999998] <-NA
+
+```
+
+## Run Descriptive Statistics Again
+
+```{r}
+#Finally, let's look at our data summary again
+datasummary_skim(ACS, fmt = "%.3f")
+```
+
+
+
+# Is my sample representative?
+
+## Create a Template for a Dummy
+
+* Let's call the data we have the "population"
+
+* Let's create the "sample dummy" we talked about in class
+
+* This dummy will be all 0's for our population data. Later on, we will create a representative subset represented by 1's in the sample dummy.
+
+* The end product later on will be a dummy being 1 representing the sample and 0 representing the population
+
+* We do the latter later on!
+
+```{r}
+ACS$sample <- 0
+```
+
+## Setting up a random sample
+
+Here, we'll set up a random sample, then append it to the population because we want to test for how representative our sample is to the population.
+
+* Make sure to set a seed prior to randomizing!
+
+* The dplyr package allows us to take a random sample called "ACS_rep". Here, we will take half of the sample.
+
+* We also generate a complete dummy variable for sample. After we finish randomizing, we take the "ACS_rep" data frame and append it with our population.
+
+```{r}
+# Randomly selecting from our "population" data
+set.seed(18) # When randomizing anything, always set a seed! Setting a seed will allow the random sample to be replicated later on.
+library(dplyr) #need to load dplyr package for sampling
+ACS_rep <- sample_n(ACS, 500000) #ACS_rep is a randomized sample of 500,000 observations from ACS!
+ACS_rep$sample <- 1  # This creates a dummy variable, where all of the sample will have a variable sample==1. This will make more sense when we append the data set with our population.
+
+
+#Add observations (rowbind)to a data set (only if you know variables are EXACTLY the same)
+ACS_compare <- rbind(ACS, ACS_rep) # This is the rowbind command which binds rows (i.e. observations) together. 
+  #NOte that we are creating a separate data frame for this particular data so as to not mess with the others.
+  # NOte also that we can use multiple data frames in a single list of models in modelsummary
+
+
+```
+
+## See differences between groups!
+
+Using the "modelsummary" package. Now, to store a model you need to tell R the following:
+
+1.  The model list that we previously created, which is models_rep
+
+2. Two brackets and some ' around the title of the model. Give your model a name (i.e., 'female'). In many regression tables, it makes sense to do so as the outcome (dependent) variable
+
+3. You can then let it know what linear model to store as we have done before.
+
+After this, you can "see" whether the sample is representative of the population.How can you tell??
+
+```{r}
+# Let's use modelsummary package to produce a table of regressions!
+#   We will call this list models_rep to say that it is models for our representative data set.
+models_compare <- list()
+
+# Let's use several variables to test for representativeness
+models_compare[['female']] <- lm(female ~ sample, data=ACS_compare)
+models_compare[['age']] <- lm(age ~ sample, data=ACS_compare)
+models_compare[['married']] <- lm(married ~ sample, data=ACS_compare)
+models_compare[['child last yr']] <- lm(child_lastyr ~ sample, data=ACS_compare)
+models_compare[['white']] <- lm(white ~ sample, data=ACS_compare)
+models_compare[['black']] <- lm(black ~ sample, data=ACS_compare)
+models_compare[['hispanic']] <- lm(hispanic ~ sample, data=ACS_compare)
+models_compare[['income']] <- lm(incwage ~ sample, data=ACS_compare)
+
+#The modelsummary() function will give us a summary of our collection of models!
+modelsummary(models_compare, stars=TRUE, title="Statistical Differences w/Representative Sample")
+# Note that there are no statistical differences based on the sample dummy variable!
+
+```
+
+
+
+# Selection Bias
+
+Let's take a look at the differences between the population and only those who are selected into employment.
+
+* Do you see any differences between those employed and those who from the general population??!
+
+```{r}
+# Let's subset for the employees who are employed
+table(ACS$empstat) #what are the categories?
+
+# Create a new subset for employed people
+ACS_employed <- subset(ACS, empstat == "Employed")
+ACS_employed$sample <- 1
+
+#Add observations to original ACS data, where sample == 0 (only if you know variables are EXACTLY the same)
+ACS_bias <- rbind(ACS, ACS_employed)
+
+# several models
+models_bias <- list()
+models_bias[['female']] <- lm(female ~ sample, data=ACS_bias)
+models_bias[['age']] <- lm(age ~ sample, data=ACS_bias)
+models_bias[['married']] <- lm(married ~ sample, data=ACS_bias)
+models_bias[['child last yr']] <- lm(child_lastyr ~ sample, data=ACS_bias)
+models_bias[['White']] <- lm(white ~ sample, data=ACS_bias)
+models_bias[['black']] <- lm(black ~ sample, data=ACS_bias)
+models_bias[['hispanic']] <- lm(hispanic ~ sample, data=ACS_bias)
+models_bias[['income']] <- lm(incwage ~ sample, data=ACS_bias)
+
+modelsummary(models_bias, stars=TRUE, 
+             title="Statistical Differences w/ Selection Bias (selected into by employment)")
+
+
+```
+
+
+## Extension to Missing Data
+
+If data was missing at random, it would not be an issue. However, this is rarely the case. If we can show that differences in groups have different share of missing data, this means that data is highly unlikely to be missing at random. 
+
+* For example, if males and females were to have significant differences in missing data, that means data is not missing at random. Group characteristics are in fact a driver of missing data!
+
+* A couple of obvious areas of differences between males and females could be missing data related to having a baby and missing data from income and wages. 
+
+* Let's see if this is true:
+
+```{r}
+#Let's see missing data differences by gender!
+# Although you can really check by many different categories
+
+#fertyr
+table(ACS$fertyr)
+ACS$fertyr_na <- ifelse(ACS$fertyr == 'N/A', 1, 0)  
+table(ACS$fertyr_na)
+
+#income
+#Notice that I am using the unsubsetted ACS data frame here because we had subsetted based on missing incwage data
+ACS$incwage_na <- ifelse(is.na(ACS$incwage)==TRUE, 1, 0) 
+table(ACS$incwage_na)
+
+# just two linear models here
+models_na <- list()
+
+models_na[['child last yr NA']] <- lm(fertyr_na ~ female, data=ACS)
+models_na[['income NA']] <- lm(incwage_na ~ female, data=ACS)
+
+modelsummary(models_na, stars=TRUE, title="Statistical Differences in missing data by gender")
+```
+
+
+
+
+## Extension to Proxy Variables
+
+Often, proxy variables can hide differences. Consider the Hispanic variable:
+
+*  In the ACS, people can specify under Hispanic whether they are Not Hispanic, Mexican, Puerto Rican, Cuban, or Other Hispanic
+
+*  In reality, the cultures listed as Hispanic can vary greatly, and thus affected differently by socia/economic policies!
+
+*  Let's take a look at how using the Hispanic proxy variable can mask differences in survey estimates.
+
+```{r}
+
+ACS_hispanic <- subset(ACS, hispanic==1 )
+
+
+# several models
+models_hispanic <- list()
+
+#income
+ACS_hispanic$mexican <- ifelse(ACS_hispanic$hispan == 'Mexican', 1, 0)
+models_hispanic[['income-Mexican']] <- lm(incwage ~ mexican, data=ACS_hispanic)
+
+ACS_hispanic$puertorican <- ifelse(ACS_hispanic$hispan == 'Puerto Rican', 1, 0)
+models_hispanic[['income-Puerto Rican']] <- lm(incwage ~ puertorican, data=ACS_hispanic)
+
+ACS_hispanic$cuban <- ifelse(ACS_hispanic$hispan == 'Cuban', 1, 0)
+models_hispanic[['income-Cuban']] <- lm(incwage ~ cuban, data=ACS_hispanic)
+
+ACS_hispanic$other <- ifelse(ACS_hispanic$hispan == 'Other', 1, 0)
+models_hispanic[['income-Other']] <- lm(incwage ~ other, data=ACS_hispanic)
+
+modelsummary(models_hispanic, stars=TRUE, title="Statistical Differences by Hispanic types")
+# See the heterogeneity by Hispanic types!
+```
+
+
+
