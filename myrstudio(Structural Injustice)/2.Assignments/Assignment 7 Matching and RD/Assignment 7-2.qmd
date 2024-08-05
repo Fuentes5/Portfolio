@@ -1,0 +1,488 @@
+---
+title: "Assignment 7: Matching and RD"
+author: Jose Fuentes
+date: March 2024
+format: html
+self-contained: true
+editor: source
+theme: materia
+toc: true
+toc-depth: 2
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_knit$set(root.dir = 'C:/Users/jfuentes1/Documents/myrstudio(Structural Injustice)/0.Datasets')
+```
+
+# Introduction
+
+In developing countries, one major issue affecting the health and socioeconomic well-being of citizens is malaria. Malaria is transmitted by a very efficient mosquito in tropical and subtropical areas, and these mosquitos often carry a parasite that can cause severe malaria. 
+
+In 2020, about 241 million people went to a clinic or hospital for malaria treatment and 627,000 people died of malaria. Most episodes were in children and 95% of deaths occured in sub-Saharan Africa. This is after many global nonprofits and resources have already helped decrease malaria deaths by 36% between 2010 and 2020. Malaria has imposed substantial costs to individuals and their families, governments, and economic growth of countries.
+
+One of the most effective resource for fighting malaria has been insecticide-treated mosquito nets (often referred to as ITNs) and Long-lasting insecticide-treated nets (LLTNs). These mosquito nets are placed around beds and sleeping areas such that mosquitos have trouble entering the sleeping domain of those most at risk, such as children and pregnant women and the elderly. 
+
+There have been many studies, an randomized experiments, that have proved the effectiveness of mosquito nets against malaria. Depending on the type of mosquito nets and types of mosquitos, equipping the population of a developing area can decrease malaria cased between 24% and 97%. 
+
+In this case, you have been provided data in mosquitonets.csv. While this data is fake, it reflects the reality of the effectiveness of mosquito nets in Sub-Saharan Africa and is based on many studies that have been conducted up to this point. 
+
+Pretend that the data is reflects an area in Sub-Saharan Africa where malaria is a big problem. In this context, some families have access to mosquito nets, whereas others do not. You were able to go from home to home in several local villages to collect the following data, then returned to the same households a year later to measure which households had at least one instance of malaria during that year:
+
+- householdid: A unique ID for each household
+- mnet: (treatment variable) Whether the family has access to at least one mosquito net (1 or 0)
+- female: (baseline variable) Whether the head of household is a female (1 or 0)
+- num_children: (baseline variable) The number of children in the household.
+- age: (baseline variable) The age of the head of household.
+- eth_minority: (baseline variable) Whether the head of household is an ethnic minority (1 or 0)
+- rural: (baseline variable) Whether the neighborhood is rural (1 or 0)
+- clinic_within10km: (baseline variable) Whether the family lives within 10km of a health clinic (1 or 0)
+- income: (baseline variable) The amount the family makes in local currency (you can think of these as dollars for now)
+- malaria: (outcome variable) Whether the family had at least one instance of malaria in the following year
+
+Since you did not run a randomized experiment, you are wondering whether you can use a matching method to estimate the causal effects of mosquito nets. Complete the following tasks.
+
+First, you will run propensity score matching below. Then, you will try other methods.
+
+# Propensity Score Matching
+
+## Task 1
+
+Set your working directory above, import the data, and familiarize yourself with the data set. Make sure to name your data frame "mosquitos".
+
+```{r}
+
+mosquitos = read.csv("mosquitonets.csv")
+
+
+library("modelsummary")
+datasummary_skim(mosquitos)
+
+
+
+```
+
+## Task 2
+
+Estimate two models (and use modelsummary() to show them):
+
+A. A naive model where malaria is the outcome and mnet is the treatment variable.
+
+B. A naive model with all the baseline variables as control/covariate variables.
+
+C. What did you estimate as the effect of the mosquito nets (i.e., how much did it increase/decrease malaria)? From what you know about the context, how credible is your estimate?
+
+Answer: In the model with only mnet we have a decrease in malaria of 0.95 percentage points, and with the control variables added we get a decrease in malaria cases by 10.1 pp from mnets. From this I think that mnets play a significan't role in the decrease of malaria.
+```{r}
+#A
+naive_model <- list()
+naive_model[['mnet']] <- lm(malaria~mnet, mosquitos)
+modelsummary(naive_model, stars=TRUE, title="A naive model where malaria is the outcome and mnet is the treatment variable")
+
+#B
+variable_model <- list()
+variable_model[['householdid']]<- lm(householdid~malaria, mosquitos)
+variable_model[['mnet']]<- lm(mnet~malaria, mosquitos)
+variable_model[['female']]<- lm(female~malaria, mosquitos)
+variable_model[['num_children']]<- lm(num_children~malaria, mosquitos)
+variable_model[['age']]<- lm(age~malaria, mosquitos)
+variable_model[['eth_minority']]<- lm(eth_minority~malaria, mosquitos)
+variable_model[['rural']]<- lm(rural~malaria, mosquitos)
+variable_model[['clinic_within10km']]<- lm(clinic_within10km~malaria, mosquitos)
+variable_model[['income']]<- lm(income~malaria, mosquitos)
+
+
+modelsummary(variable_model, stars=TRUE, title="A naive model with all the baseline variables as control/covariate variables")
+
+
+
+
+```
+
+## Task 3
+
+Using modelsummary() and simple regressions, show the differences in all the baseline variables by treatment status. What do you find?
+
+Answer: I find that income and mnet have a statistical significance in malaria cases.
+
+```{r}
+
+models_regression <- list()
+models_regression[['Simple Regression']] <- lm(malaria ~ income + clinic_within10km + rural + eth_minority + age + num_children + female + mnet + householdid, mosquitos)
+
+modelsummary(models_regression, stars=TRUE, title="models_regression")
+
+
+
+```
+
+
+## Task 4
+
+Use the proper code to do the following:
+
+A. Estimate the logistic regression for PSM. Feel free to use any number of baseline that you feel are appropriate. Then make the predictions using that model for the entire data frame such that you now have the propensity scores.
+
+B. Match units using a one-to-one match using the propensity scores. Your data frame with the matched units should be called "matched".
+
+```{r}
+
+#A
+logistic_model = glm(formula = malaria ~ income+ mnet, family = binomial(), data = mosquitos)
+
+predictions = predict(logistic_model, mosquitos)
+mosquitos = cbind(mosquitos, predictions)
+
+#B
+library(MatchIt)
+match_model <- matchit(malaria ~ income+ mnet,method = "nearest", data = mosquitos)
+matched <- match.data(match_model)
+
+
+
+```
+
+## Task 5
+
+Use code to assess the differences in baseline variables again by treatment status. How much better (or worse) is this control group compared to the previous control group without PSM?
+
+Answer: The control got worse because there aren't any significant variables that we can use.
+
+```{r}
+
+library(modelsummary)
+models_matched <- list()
+models_matched[['householdid']]<- lm(householdid~malaria, matched)
+models_matched[['mnet']]<- lm(mnet~malaria, matched)
+models_matched[['female']]<- lm(female~malaria, matched)
+models_matched[['num_children']]<- lm(num_children~malaria, matched)
+models_matched[['age']]<- lm(age~malaria, matched)
+models_matched[['eth_minority']]<- lm(eth_minority~malaria, matched)
+models_matched[['rural']]<- lm(rural~malaria, matched)
+models_matched[['clinic_within10km']]<- lm(clinic_within10km~malaria, matched)
+models_matched[['income']]<- lm(income~malaria, matched)
+
+modelsummary(models_matched, stars=TRUE, title="Differences between treatment and control group, Matched Sample")
+```
+
+## Task 6
+
+Check if there is "common support" between treatment and control groups. What do you find?
+
+Answer: I think there is some common support between the treatment and control groups. It's not perfect, but this is better than nothing.
+
+```{r}
+
+library(ggplot2)
+
+#common Support
+Matched_Baseline<- ggplot(matched,aes(x=predictions)) + 
+  geom_histogram(data=subset(matched,malaria == 1),fill = "black", alpha = 0.7) +
+  geom_histogram(data=subset(matched,malaria == 0),fill = "blue", alpha = 0.7) +
+  xlab("Probability of Grant") +
+  ggtitle("Common Support") +
+  theme_bw()
+
+Matched_Baseline
+
+
+
+```
+
+## Task 7
+
+Estimate effects using PSM sample. First, estimate the effects without any controls, then do so with all the baseline controls. What do you find? Thinking about what you have found with internal validity, how credible are your estimates and why?
+
+Answer: From what my model tells me, I couldn't find any significant variables. I think that i might've made a mistake in my previous code to get here, but there aren't any variables that show an effect on malaria. My estimates are not credible and I would need a higher up to check through my work, this is due to lack of practice and from being a novice.
+
+```{r}
+
+
+library(modelsummary)
+models_effects <- list()
+models_effects[['Effects']] <- lm(malaria ~ mnet, matched)
+models_effects[['Effects + Contols']] <- lm(malaria ~ income + clinic_within10km + rural + eth_minority + age + num_children + female + mnet + householdid , matched)
+modelsummary(models_effects, stars=TRUE, title="Effects w/PSM")
+
+```
+
+
+
+
+# Entropy Balancing
+
+Now, you want to run entropy balancing to get a better control group match. 
+
+## Task 8 
+
+Clear the global environment, import the data again, and run the appropriate code in R to obtain the entropy balancing weights.
+
+```{r}
+rm(list = ls()) # clear environment
+
+mosquitos = read.csv("mosquitonets.csv")
+
+models_cov_balance <- list()
+models_cov_balance[['householdid']]<- lm(householdid~malaria, mosquitos)
+models_cov_balance[['mnet']]<- lm(mnet~malaria, mosquitos)
+models_cov_balance[['female']]<- lm(female~malaria, mosquitos)
+models_cov_balance[['num_children']]<- lm(num_children~malaria, mosquitos)
+models_cov_balance[['age']]<- lm(age~malaria, mosquitos)
+models_cov_balance[['eth_minority']]<- lm(eth_minority~malaria, mosquitos)
+models_cov_balance[['rural']]<- lm(rural~malaria, mosquitos)
+models_cov_balance[['clinic_within10km']]<- lm(clinic_within10km~malaria, mosquitos)
+models_cov_balance[['income']]<- lm(income~malaria, mosquitos)
+
+modelsummary(models_cov_balance, stars=TRUE, title="Covariate Balance WITHOUT entropy weights")
+
+#will use mnet as my only weight
+
+library(ebal)
+
+variables <- c("mnet")
+weights <- ebalance(Treatment = mosquitos$malaria,X = mosquitos[,variables]) 
+
+
+#control
+mosquitos_control <- subset(mosquitos,malaria==0)
+entropy_weights <- weights$w
+mosquitos_control <- cbind(mosquitos_control,entropy_weights)
+
+# treatment
+mosquitos_treatment <- subset(mosquitos,malaria==1)
+mosquitos_treatment$entropy_weights <- 1
+
+# bind treatment and control
+mosquitos<-rbind(mosquitos_control,mosquitos_treatment)
+
+#View(mosquitos)
+
+
+```
+
+
+## Task 9
+
+You now have entropy balancing weights. Using these as weights for your regressions, use modelsummary() to assess the differences in baseline covariates by treatment status. Compare this to the similar table you had created using the PSM matched units. Which is better? Are either of them showing no (or very little) differences between treatment and control group?
+
+Answer: There IS a difference between the weights and without them.Without the weights the significant variable was mnet, which decreased malaria by 10.1pp.After adding the weights our new variable is income, which increases the chance of malaria when income is below 188.293 dollars. (i might've said it wrong 😅)
+
+
+
+```{r}
+
+library(modelsummary)
+models_cov_balance <- list()
+
+models_cov_balance[['householdid']]<- lm(householdid~malaria, mosquitos, weights=entropy_weights)
+models_cov_balance[['mnet']]<- lm(mnet~malaria, mosquitos, weights=entropy_weights)
+models_cov_balance[['female']]<- lm(female~malaria, mosquitos, weights=entropy_weights)
+models_cov_balance[['num_children']]<- lm(num_children~malaria, mosquitos, weights=entropy_weights)
+models_cov_balance[['age']]<- lm(age~malaria, mosquitos, weights=entropy_weights)
+models_cov_balance[['eth_minority']]<- lm(eth_minority~malaria, mosquitos, weights=entropy_weights)
+models_cov_balance[['rural']]<- lm(rural~malaria, mosquitos, weights=entropy_weights)
+models_cov_balance[['clinic_within10km']]<- lm(clinic_within10km~malaria, mosquitos, weights=entropy_weights)
+models_cov_balance[['income']]<- lm(income~malaria, mosquitos, weights=entropy_weights)
+
+modelsummary(models_cov_balance, stars=TRUE, title="Covariate Balance WITH entropy weights")
+
+
+
+
+
+
+```
+
+## Task 10
+
+Estimate the effects of mosquito nets using the entropy balancing weights. First, estimate it without any baseline control. Then, estimate it with baseline controls. What do you find?
+
+Answer: I find that when I add the weights, the models seems to ignore mnets (it doesn't think it's significant). I think this is due to creating the weights out of only mnets and not any other variable so in turn, when i add the weights, it's already included in the outcome. I chose to use only mnets for my weights because it was the only significant variable i saw.
+
+```{r}
+
+
+library(modelsummary)
+models_outcomes <- list()
+models_outcomes[['Malaria- Nets - no weights']] <- lm(mnet~malaria, mosquitos)
+models_outcomes[['Malaria - Nets - weighted']] <- lm(mnet~malaria, mosquitos, weights=entropy_weights)
+modelsummary(models_outcomes, stars=TRUE, title="Effect Estimates")
+
+
+
+```
+
+## Task 11
+
+Having seen both your PSM and EB matching results, did you find either to be fully credible based on internal validity? Let's further assume that you have no statistical differences in baseline variables between treatment and control groups, what is the most important issue with both of these methods (that we mentioned in class) that can greatly affect internal validity regardless of how well the baseline covariates balance?
+
+Answer: based on internal validity, both of the matching methods have high internal validity. This means we can only observe what we can see, not what we cannot see. This forces observable to be similar, which can be bad but requires unique cases to be useful.
+
+
+# Regression Discontinuity
+
+You know the PSM and EB results are not perfect. However, you did notice that treatment is strongly correlated with income. So you go out to speak to the villagers. They tell you that the government had passed out free mosquito nets for any citizen making at most 2000 (dollars). Suddenly, you realized you can estimate a regression discontinuity model!
+
+
+# Task 12
+
+Clear the global environment and import the data again. I have done this for you in the code provided. Run this code.
+
+```{r}
+rm(list = ls()) # clear environment
+
+mosquitos = read.csv("mosquitonets.csv")
+names(mosquitos)
+```
+
+
+## Task 13
+
+The running variable is income, where the threshold/cutoff is 2000 (dollars). Let's plot this with the treatment variable as the Y in the code provided below. Notice that this is a fuzzy RD, as there are some households above the threshold that have their own mosquito nets. However, it is encouraging that everyone below the threshold received their mosquito nets!
+
+Notice: Even though this is a fuzzy RD instead of a sharp RD, we can actually get a pretty good estimate if we treat it as a sharp RD (as we learned it in Session 17) since there is very little non-compliance anyways. 
+
+```{r}
+
+#mosquitos$threshold <- ifelse(mosquitos$income <= '2000', 1, 0)
+#View(mosquitos)
+library(ggplot2)
+
+
+ggplot(data=mosquitos, aes(x = income, y = malaria)) +  
+  geom_point(alpha = .1) +
+  geom_vline(xintercept = 2000, linetype="dotted", 
+                color = "blue", size=1.5) +
+  theme_classic()
+
+
+```
+
+# Task 14
+
+Plot the outcome variable as the Y, and running variable as the X, with the regression lines for above and below the cutoff. Does it look like the treatment had an effect on malaria? How do you know?
+
+```{r}
+
+income_malaria= ggplot(data=mosquitos, aes(x = income, y = malaria)) +
+  stat_summary_bin(fun='mean', bins=28,
+                   color='orange', size=2, geom='point') +
+  geom_vline(xintercept = 2000, linetype="dotted", 
+                color = "blue", size=1.5) +
+  theme_light() +
+  geom_smooth(data=mosquitos[mosquitos$income >= 2000,], method='lm',formula=y~x) +    # plot lines
+  geom_smooth(data=mosquitos[mosquitos$income < 2000,], method='lm',formula=y~x) 
+
+
+
+
+
+
+income_net = ggplot(data=mosquitos, aes(x = income, y = mnet)) +
+  stat_summary_bin(fun='mean', bins=28,
+                   color='orange', size=2, geom='point') +
+  geom_vline(xintercept = 2000, linetype="dotted", 
+                color = "blue", size=1.5) +
+  theme_light() +
+  geom_smooth(data=mosquitos[mosquitos$income >= 2000,], method='lm',formula=y~x) +    # plot lines
+  geom_smooth(data=mosquitos[mosquitos$income < 2000,], method='lm',formula=y~x) 
+
+
+
+income_net
+income_malaria
+
+```
+
+## Task 15
+
+Do the following:
+
+A. Center the running variable.
+
+B. Estimate the effects without any control variables and without any limitations on bandwidth.
+
+C. What do you estimate to be the effect of the treatment?
+
+Answer: Malaria does decrease by 10.3pp with every mnet, but incomes does not really affect the decrease or increase of malaria. From my little understanding of RD, this means the program isn't working.
+
+```{r}
+
+#A
+mosquitos$gate_score_centered <- mosquitos$income - 2000
+
+
+#B
+library(modelsummary)
+models_outcomes <- list()
+models_outcomes[['income']] <- lm(income ~ malaria + gate_score_centered, mosquitos)
+models_outcomes[['mnet']] <- lm(mnet~malaria + gate_score_centered, mosquitos)
+modelsummary(models_outcomes, stars=TRUE, title="Estimated Effects, Using all data")
+
+
+
+```
+
+
+
+# Task 16
+
+Re-estimate the effects using a bandwidth within 150 dollars of the cutoff. 
+
+A. What do you find?
+B. Do you believe this estimate to be more reasonable than the previous estimate in Task 15? Explain.
+
+Answer: I think it's good to have a bandwidth, but the estimates are around the same.
+
+```{r}
+mosquitos_subset <- mosquitos[mosquitos$gate_score_centered>=-150 & mosquitos$gate_score_centered <=150,]
+
+library(modelsummary)
+models_outcomes <- list()
+models_outcomes[['income']] <- lm(income ~ malaria + gate_score_centered, mosquitos_subset)
+models_outcomes[['mnet']] <- lm(mnet~malaria + gate_score_centered, mosquitos_subset)
+modelsummary(models_outcomes, stars=TRUE, title="Estimated Effects, Using +/- 150 around threshold")
+
+
+
+```
+
+##  Task 17
+
+How similar are units below and above thresholds? Use the +/- 150 dollars threshold units only. Note that there are multiple possible ways to check!
+
+Answer: going from a 10.1pp difference to a 14.9pp, from a +/- 150 dollars threshold difference, is pretty big in my opinion.
+
+
+```{r}
+
+```
+
+
+## Task 18
+
+Reflect on your RD estimate. Note that we saw it was a fuzzy RD. Thinking back to our lessons in randomized experiments, should be think of our RD estimates as closer to a intent-to-treat (ITT) estimate or treated-on-the-treated (TOT) estimate? Explain.
+
+Answer: We should think of it as intent-to-treat. Because we got a fuzzy RD, we want our outcome to be excluded from internal validity and therefore we should look at all participants.
+
+# Reflection
+
+## Task 19
+
+Which effect estimate (PSM, EB, RD) do you believe in the most? Why?
+
+Answer: Personally, I would believe the PSM more, in the context of my work. ONLY BECAUSE that was the one i had more confidence in coding. IF i had more practice in the other methods, i would most likely believe the RD results because that method is the better one out of the three.
+
+## Task 20 
+
+Think about external validity. Why might each of these methods suffer in regards to external validity?
+
+Answer: They would suffer because without TRUE randomness, like in the random experiment, we cannot observe what we cannot see. RD is good, but not as good as random experiment. There is internal validity in our models.
+
+## Task 21
+
+Why would a properly randomized experiment still be superior to each of the methods we used here? You should speak specifically to each method.
+
+Answer: Because with a randomized experiment we can "simulate" what it's like in the real world to figure out whether a variable has significant impact on an outcome. Although still not perfect, it's the best we have. PSM, EB, and RD all have high internal validity because we're using the data given to us. Personally my favorite method is RD, due to its versatility.
+
