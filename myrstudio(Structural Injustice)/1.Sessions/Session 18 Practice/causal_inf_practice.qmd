@@ -1,0 +1,140 @@
+---
+title: "Causal Inference Practice"
+author: Jose Fuentes
+date: March 2024
+format: pdf
+self-contained: true
+editor: source
+theme: materia
+toc: true
+toc-depth: 2
+---
+
+```{r setup}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_knit$set(root.dir = 'C:/Users/jfuentes1/Documents/myrstudio(Structural Injustice)/0.Datasets')
+
+```
+
+# Data Information
+
+As a goodwill to the community it works in, a company gives out college scholarships to students in the form of grants. They would like to know whether the grants affect outcomes such as graduating from college and starting salaries. However, there is new director of the program and unfortunately this person did not immediately know the mechanism by which scholarships are distributed.
+
+You are given the following data and variables:
+
+-   id: an identification number
+-   fam_income: household income
+-   female: applicant student is female
+-   hs_gpa: high school GPA (out of 4.0)
+-   parents_num: number of parents in household
+-   SAT: SAT scores
+-   hh_children: number of children in household
+-   grant: the treatment variable; whether a student receives a grant.
+-   salary_starting: starting salary for first job
+-   graduate: graduated college
+
+# Question 1
+
+Clear your global environment and import the grant.csv data.
+
+```{r}
+df=read.csv("grant.csv")
+
+```
+
+# Question 2
+
+-   What percent of the observations are males?
+-   What is the average SAT score?
+-   What is the median starting salary?
+-   Is there any missing data?
+-   What percent of students received a grant?
+
+```{r}
+library("modelsummary")
+datasummary_skim(df)
+
+
+
+
+
+```
+
+# Question 3
+
+The company wants to get a sense of the effect of the grant program, but as we said, the program director does not yet know how the money is distributed to students.
+
+You are still unsure of which method is best. Since it feels more like observational data, try to implement PSM or EB and see what you find.
+
+```{r}
+models <- list()
+models[['graduate']] <- lm(graduate ~ grant, df)
+models[['salary_starting']] <- lm(salary_starting ~ grant, df)
+models[['hh_children	']] <- lm(hh_children ~ grant, df)
+models[['SAT']] <- lm(SAT ~ grant, df)
+models[['parents_num']] <- lm(parents_num ~ grant, df)
+models[['hs_gpa']] <- lm(hs_gpa ~ grant, df)
+models[['female']] <- lm(female ~ grant, df)
+models[['fam_income']] <- lm(fam_income ~ grant, df)
+
+
+modelsummary(models, stars=TRUE, title="Raw differences between treatment and control group")
+
+
+
+
+
+logistic_model = glm(formula = grant ~ graduate+ salary_starting+hh_children+SAT+parents_num+hs_gpa+female+fam_income, family = binomial(), data = df)
+
+
+predictions = predict(logistic_model, df)
+
+df = cbind(df, predictions)
+
+library(ggplot2)
+ggplot(df,aes(x = predictions)) +
+  geom_histogram(color = "black") +
+  facet_wrap(~grant) +
+  xlab("Probability of treatment") +
+  theme_bw()
+
+
+
+library(MatchIt)
+match_model <- matchit(grant ~ graduate+salary_starting+hh_children+SAT+parents_num+hs_gpa+female+fam_income,
+                       method = "nearest", data = df)
+
+matched <- match.data(match_model)
+
+
+#common Support
+ggplot(matched,aes(x=predictions)) + 
+  geom_histogram(data=subset(matched,grant == 1),fill = "black", alpha = 0.7) +
+  geom_histogram(data=subset(matched,grant == 0),fill = "blue", alpha = 0.7) +
+  xlab("Probability of Grant") +
+  ggtitle("Common Support") +
+  theme_bw()
+
+```
+
+# Question 4
+
+Again, think about the four ways in which we have assessed causality (randomized experiments, matching (PSM and EB), and Regression Discontinuity). Examine the data and assess which is the best way to assess causality.
+
+-   Once you know the mechanism, what does the DAG look like?
+
+# Question 5
+
+Implement the correct method to elicit causal estimates. Make sure to check any assumptions.
+
+```{r}
+
+```
+
+# Question 6
+
+Think about the internal and external validity of the RDD you just ran.
+
+# Question 7
+
+Think about the implications and consequences of running the wrong method.

@@ -1,0 +1,126 @@
+---
+title: "Causal Inference 1: Police Stops"
+author: Eric Chan
+date: February 2023
+format: html
+self-contained: true
+editor: source
+theme: materia
+toc: true
+toc-depth: 2
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_knit$set(root.dir = 'C:/Users/echan1/EC Babson Research Dropbox/Eric Chan/COURSE 3605 sp24/sessions/session 10')
+```
+
+# Import File
+
+```{r}
+# Import Data
+nashville <- read.csv("nashville.csv")
+```
+
+# Does race correlate with REASON for traffic stop?
+
+Let's take a look at how race correlates with REASONS for traffic stops, such as moving violations, equipment issues, safety issues, seatbelts, and investigations. 
+
+## Linear Probability Models (LPMs)
+
+```{r}
+
+# Run models to test the differences of demographic variables.
+library(modelsummary)
+models_reasons <- list()
+
+models_reasons[['moving']] <- lm(moving~black, data=nashville)
+models_reasons[['equipment']] <- lm(equipment~black, data=nashville)
+models_reasons[['safety']] <- lm(safety~black, data=nashville)
+models_reasons[['seatbelt']] <- lm(seatbelt~black, data=nashville)
+models_reasons[['investigate']] <- lm(investigate~black, data=nashville)
+
+modelsummary(models_reasons, stars=TRUE, title="Table 1. Police Stops: Is race predictive of reasons for stop? (LPMs)")
+```
+
+
+## Logistic Regression Models
+
+```{r}
+# Run models to test the differences of demographic variables.
+library(modelsummary)
+models_reasons <- list()
+
+models_reasons[['moving']] <- glm(moving~black, data=nashville, family="binomial")
+models_reasons[['equipment']] <- glm(equipment~black, data=nashville, family="binomial")
+models_reasons[['safety']] <- glm(safety~black, data=nashville, family="binomial")
+models_reasons[['seatbelt']] <- glm(seatbelt~black, data=nashville, family="binomial")
+models_reasons[['investigate']] <- glm(investigate~black, data=nashville, family="binomial")
+
+modelsummary(models_reasons, stars=TRUE, title="Table 2. Police Stops: Is race predictive of reasons for stop? (Logistic)")
+```
+
+
+
+# Does race correlate with OUTCOMES of traffic stops?
+
+Let's take a look at race and outcomes like frsiking, searching, warning, citation, and being arrested.
+
+## Linear Probability Models
+
+```{r}
+models_outcomes <- list()
+models_outcomes[['frisk']] <- lm(frisk~black, data=nashville)
+models_outcomes[['search']] <- lm(search~black, data=nashville)
+models_outcomes[['warning']] <- lm(warning~black, data=nashville)
+models_outcomes[['citation']] <- lm(citation~black, data=nashville)
+models_outcomes[['arrest']] <- lm(arrest~black, data=nashville)
+
+modelsummary(models_outcomes, stars=TRUE, title="Table 3. Nashville Police Stops: Is race predictive of outcomes of stop? (LPM)")
+```
+
+
+## Logistic Regression Models
+
+```{r}
+models_outcomes <- list()
+models_outcomes[['frisk']] <- glm(frisk~black, data=nashville, family="binomial")
+models_outcomes[['search']] <- glm(search~black, data=nashville, family="binomial")
+models_outcomes[['warning']] <- glm(warning~black, data=nashville, family="binomial")
+models_outcomes[['citation']] <- glm(citation~black, data=nashville, family="binomial")
+models_outcomes[['arrest']] <- glm(arrest~black, data=nashville, family="binomial")
+
+modelsummary(models_outcomes, stars=TRUE, title="Table 4. Nashville Police Stops: Is race predictive of outcomes of stop? (Logistic)")
+```
+
+# How do demographics of whose who receive a citation differ from those who do not recieve a citation?
+
+General demographics of whose who gets stopped, then receive a citation vs. not.
+
+## Linear Probability Models
+
+```{r}
+models_demo <- list()
+models_demo[['Black']] <- lm(black~citation, data=nashville)
+models_demo[['White']] <- lm(white~citation, data=nashville)
+models_demo[['Hispanic']] <- lm(hispanic~citation, data=nashville)
+models_demo[['Male']] <- lm(male~citation, data=nashville)
+models_demo[['Age']] <- lm(subject_age~citation, data=nashville)
+
+modelsummary(models_demo, stars=TRUE, title="Table 5. Demographics for receiving a citation (LPM, where applicable)")
+```
+
+## Logistic Regression Models
+
+```{r}
+models_demo <- list()
+models_demo[['Black']] <- glm(black~citation, data=nashville, family="binomial")
+models_demo[['White']] <- glm(white~citation, data=nashville, family="binomial")
+models_demo[['Hispanic']] <- glm(hispanic~citation, data=nashville, family="binomial")
+models_demo[['Male']] <- glm(male~citation, data=nashville, family="binomial")
+models_demo[['Age']] <- lm(subject_age~citation, data=nashville)
+
+modelsummary(models_demo, stars=TRUE, title="Table 6. Demographics for receiving a citation (Logistic, where applicable)")
+```
+
+

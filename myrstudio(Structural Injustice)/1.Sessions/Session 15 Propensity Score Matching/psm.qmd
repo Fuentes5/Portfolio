@@ -1,0 +1,181 @@
+---
+title: "Propensity Score Matching"
+author: Eric Chan
+date: March 2024
+format: pdf
+self-contained: true
+editor: source
+theme: materia
+toc: true
+toc-depth: 2
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_knit$set(root.dir = 'C:/Users/jfuentes1/Documents/myrstudio(Structural Injustice)/0.Datasets')
+```
+
+# Import data
+
+```{r, message=FALSE, warning=FALSE}
+childcare <- read.csv("childcare.csv")
+table(childcare$treat)
+
+```
+
+# Estimate models with original observational data
+
+```{r}
+library(modelsummary)
+
+models_naive <- list()
+models_naive[['Naive']] <- lm(ppvtr36 ~ treat, childcare)
+models_naive[['Naive + Contols']] <- lm(ppvtr36 ~ treat + bw + bwg + hispanic + black + bmarr + lths + hs + ltcoll + workdur + prenatal + male + first + preterm + momage + dayskidh + income, childcare)
+
+modelsummary(models_naive, stars=TRUE, title="Naive Models")
+```
+
+
+# Examine differences between treatment and control for bias
+
+```{r}
+
+library(modelsummary)
+models_naive <- list()
+models_naive[['birthweight']] <- lm(bw ~ treat, childcare)
+models_naive[['low birthweight']] <- lm(bwg ~ treat, childcare)
+models_naive[['hispanic']] <- lm(hispanic ~ treat, childcare)
+models_naive[['black']] <- lm(black ~ treat, childcare)
+models_naive[['mom married']] <- lm(bmarr ~ treat, childcare)
+models_naive[['mom some hs']] <- lm(lths ~ treat, childcare)
+models_naive[['mom hs']] <- lm(hs ~ treat, childcare)
+models_naive[['mom college']] <- lm(ltcoll ~ treat, childcare)
+models_naive[['mom worked']] <- lm(workdur ~ treat, childcare)
+models_naive[['prenatal care']] <- lm(prenatal ~ treat, childcare)
+models_naive[['child male']] <- lm(male ~ treat, childcare)
+models_naive[['child first']] <- lm(first ~ treat, childcare)
+models_naive[['child premature']] <- lm(preterm ~ treat, childcare)
+models_naive[['mom age']] <- lm(momage ~ treat, childcare)
+models_naive[['day in hospital']] <- lm(dayskidh ~ treat, childcare)
+models_naive[['income']] <- lm(income ~ treat, childcare)
+
+modelsummary(models_naive, stars=TRUE, title="Raw differences between treatment and control group")
+
+
+```
+
+How can we balance these groups to compare apples to apple, match the untreated to
+the treated.
+
+
+# Estimate and Extract Propensity Scores
+
+```{r}
+#set.seed(1234)
+
+#### Estimating the propensity score
+logistic_model = glm(formula = treat ~ bw + bwg + hispanic + black + bmarr + lths + hs + ltcoll + workdur + prenatal + male + first + preterm + momage + dayskidh + income, family = binomial(), data = childcare)
+
+#summary(logistic_model)
+
+
+# make predictions and store in 'predictions'
+predictions = predict(logistic_model, childcare) #this is the score
+
+# column bind with predictions
+childcare = cbind(childcare, predictions)
+
+library(ggplot2)
+ggplot(childcare,aes(x = predictions)) +
+  geom_histogram(color = "black") +
+  facet_wrap(~treat) +
+  xlab("Probability of treatment") +
+  theme_bw()
+
+
+
+```
+
+
+#This is the core of the lesson
+# Match units in a one-to-one match using PSM
+
+```{r}
+#MatchIt function does not allow for missing data, so best to check if we have any.
+library(modelsummary)
+datasummary_skim(childcare)
+    #make sure not to have missing data, if you do have missing data make sure to remove it.
+
+#install.packages("MatchIt")
+library(MatchIt)
+
+# Use matchit to match treatment/control on defined observable covariates
+match_model <- matchit(treat ~ bw + bwg + hispanic + black + 
+                         bmarr + lths + hs + ltcoll + workdur + 
+                         prenatal + male + first + preterm + momage + 
+                         dayskidh + income,method = "nearest", data = childcare)
+
+# Create a data frame with only matched observations
+matched <- match.data(match_model)
+
+```
+
+# How well did the match go?
+
+## Check Common Support
+
+```{r}
+# See Common Support
+library(ggplot2)
+ggplot(matched,aes(x=predictions)) + 
+  geom_histogram(data=subset(matched,treat == 1),fill = "black", alpha = 0.7) +
+  geom_histogram(data=subset(matched,treat == 0),fill = "blue", alpha = 0.7) +
+  xlab("Probability of Treatment") +
+  ggtitle("Common Support") +
+  theme_bw()
+```
+
+## Check Baseline Covariates
+
+```{r}
+# Examine differences between treatment and control after matching
+# Put the models into model summary
+library(modelsummary)
+models_matched <- list()
+models_matched[['birthweight']] <- lm(bw ~ treat, matched)
+models_matched[['low birthweight']] <- lm(bwg ~ treat, matched)
+models_matched[['hispanic']] <- lm(hispanic ~ treat, matched)
+models_matched[['black']] <- lm(black ~ treat, matched)
+models_matched[['mom married']] <- lm(bmarr ~ treat, matched)
+models_matched[['mom some hs']] <- lm(lths ~ treat, matched)
+models_matched[['mom hs']] <- lm(hs ~ treat, matched)
+models_matched[['mom college']] <- lm(ltcoll ~ treat, matched)
+models_matched[['mom worked']] <- lm(workdur ~ treat, matched)
+models_matched[['prenatal care']] <- lm(prenatal ~ treat, matched)
+models_matched[['child male']] <- lm(male ~ treat, matched)
+models_matched[['child first']] <- lm(first ~ treat, matched)
+models_matched[['child premature']] <- lm(preterm ~ treat, matched)
+models_matched[['mom age']] <- lm(momage ~ treat, matched)
+models_matched[['day in hospital']] <- lm(dayskidh ~ treat, matched)
+models_matched[['income']] <- lm(income ~ treat, matched)
+
+modelsummary(models_matched, stars=TRUE, title="Differences between treatment and control group, Matched Sample")
+```
+
+
+# Estimate effects using PSM sample
+
+Note that we don't truly need controls here, though you can still put them in to get a more precise estimate.
+
+```{r}
+
+library(modelsummary)
+models_effects <- list()
+models_effects[['Effects']] <- lm(ppvtr36 ~ treat, matched)
+models_effects[['Effects + Contols']] <- lm(ppvtr36 ~ treat + bw + bwg + hispanic + black + bmarr + lths + hs + ltcoll + workdur + prenatal + male + first + preterm + momage + dayskidh + income, matched)
+modelsummary(models_effects, stars=TRUE, title="Effects w/PSM")
+ 
+```
+
+
+

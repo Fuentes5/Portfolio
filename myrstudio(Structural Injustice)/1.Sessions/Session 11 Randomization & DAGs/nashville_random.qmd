@@ -1,0 +1,85 @@
+---
+title: "Nashville Randomization"
+author: Eric Chan
+date: February 2024
+format: html
+self-contained: true
+editor: source
+theme: united
+toc: true
+toc-depth: 2
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_knit$set(root.dir = 'C:/Users/jfuentes1/Documents/myrstudio(Structural Injustice)/0.Datasets')
+```
+
+# Import File
+
+```{r}
+# Import Data
+nashville <- read.csv("nashville.csv")
+```
+
+
+# How do demographics of whose who receive a citation differ from those who do not recieve a citation?
+
+```{r}
+library(modelsummary)
+
+models_baseline <- list()
+models_baseline[['Black']] <- lm(black~citation, data=nashville)
+models_baseline[['White']] <- lm(white~citation, data=nashville)
+models_baseline[['Hispanic']] <- lm(hispanic~citation, data=nashville)
+models_baseline[['Male']] <- lm(male~citation, data=nashville)
+models_baseline[['Age']] <- lm(subject_age~citation, data=nashville)
+
+modelsummary(models_baseline, stars=TRUE, title="Baseline demographics for receiving a citation")
+```
+
+
+# Randomize
+
+Here, we randomly allocate each person to one of two groups.
+
+Let's say that we call the ones the "treatment" group and the zeros the "control" group.
+
+In theory, there should now be no significant difference between the treatment and control groups along baseline demographics, observed or unobserved (in theory). (Note that "baseline" means data that are generated in real life prior to the treatment, such as demographics). The two groups should now be "balanced". See if that is true. 
+
+If your treatment is giving everyone a citation in the treatment group, then the two groups are now "balanced." As a result, there should be no support/evidence of discrimination. 
+
+```{r}
+set.seed(1800)
+N <- nrow(nashville) # store number of rows in data
+treatmentSize <- round(N*0.5) # store 50%*N into treatmentSize
+treatmentCases <- sample(N, treatmentSize) # randomly select; out of N observations, select treatmentSize
+treatment <- nashville[treatmentCases,] # store the treatment cases into new data frame
+  treatment$treatment <- 1 # create a dummy variable to indicate treatment group
+control <- nashville[-treatmentCases,] # store the control cases into separate data frame
+  control$treatment <- 0  # create a dummy variable to indicate control group
+
+randomized <- rbind(treatment, control) # bind data into a df called randomized
+```
+
+
+# Now, we can check if randomization "worked"
+
+We can do this by examining the differences in baseline demographics, for example.
+
+There should not be consistent differences across the treatment and control groups. Note that, by chance, there will occassionally be some that are significantly different, but at long as we randomized correctly, this is not a concern in practice. 
+
+```{r}
+# Is there a difference between groups?
+models_baseline_rand <- list()
+
+models_baseline_rand[['Black']] <- lm(black~treatment, data=randomized)
+models_baseline_rand[['White']] <- lm(white~treatment, data=randomized)
+models_baseline_rand[['Hispanic']] <- lm(hispanic~treatment, data=randomized)
+models_baseline_rand[['Male']] <- lm(male~treatment, data=randomized)
+models_baseline_rand[['Age']] <- lm(subject_age~treatment, data=randomized)
+
+modelsummary(models_baseline_rand, stars=TRUE, title="Baseline demographics for treatment/control groups")
+```
+

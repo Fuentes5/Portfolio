@@ -1,0 +1,120 @@
+---
+title: "Entropy Balancing"
+author: Eric Chan
+date: March 2024
+format: pdf
+self-contained: true
+editor: source
+theme: materia
+toc: true
+toc-depth: 2
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_knit$set(root.dir = 'C:/Users/jfuentes1/Documents/myrstudio(Structural Injustice)/0.Datasets')
+```
+
+# Covariate Balance without EB Weights
+
+```{r}
+
+college2018<- read.csv("college_2018.csv")
+names(college2018)
+
+library(modelsummary)
+models_cov_balance <- list()
+models_cov_balance[['tuition']] <- lm(tuition~treatment, college2018)
+models_cov_balance[['ACT']] <- lm(act75th~treatment, college2018)
+models_cov_balance[['# Applicants']] <- lm(applicants~treatment, college2018)
+models_cov_balance[['PHD granting']] <- lm(phd~treatment, college2018)
+models_cov_balance[['Research 1 Inst']] <- lm(r1~treatment, college2018)
+models_cov_balance[['Stu to Fac']] <- lm(stu_to_faculty~treatment, college2018)
+models_cov_balance[['Blk %']] <- lm(blk_perc_enrolled~treatment, college2018)
+models_cov_balance[['White %']] <- lm(white_perc_enrolled~treatment, college2018)
+models_cov_balance[['Asian %']] <- lm(asian_perc_enrolled~treatment, college2018)
+modelsummary(models_cov_balance, stars=TRUE, title="Covariate Balance WITHOUT entropy weights")
+
+```
+
+# Entropy Balancing
+
+```{r}
+
+#install.packages("ebal")
+library(ebal)
+
+# INSERT VARIABLES YOU WANT TO BALANCE IN THE MODEL HERE
+variables <- c("tuition", "act75th", "phd", "r1", "blk_perc_enrolled", "applicants", "stu_to_faculty", "asian_perc_enrolled")
+
+
+weights <- ebalance(Treatment = college2018$treatment,X = college2018[,variables])   
+  # Treatment option is the treatment dummy
+  # X option is where you want to keep only the variables from the dataset that you want in the model
+
+# The ebalance function only keeps the weights of all the control group data
+# The treatment should all have weights of 1.0
+# Below, I subset my data by treatment and control
+# I store the weights separately from the rest of the EB weights information
+# Then, I bind control data with weights from entropy balancing
+# I then create the weight for my treatment group separately, then bind the treatment and control groups back together
+college2018_control <- subset(college2018,treatment==0)
+entropy_weights <- weights$w
+college2018_control <- cbind(college2018_control,entropy_weights)
+
+# treatment group only with entropy weights
+college2018_treatment <- subset(college2018,treatment==1)
+college2018_treatment$entropy_weights <- 1
+
+# bind treatment and control
+college2018<-rbind(college2018_control,college2018_treatment)
+
+# Now let's take a look at the final data
+View(college2018)
+
+```
+
+
+# See differences
+
+```{r}
+
+library(modelsummary)
+models_cov_balance <- list()
+models_cov_balance[['tuition']] <- lm(tuition~treatment, college2018, weights=entropy_weights)
+models_cov_balance[['ACT']] <- lm(act75th~treatment, college2018, weights=entropy_weights)
+models_cov_balance[['# Applicants']] <- lm(applicants~treatment, college2018, weights=entropy_weights)
+models_cov_balance[['PHD granting']] <- lm(phd~treatment, college2018, weights=entropy_weights)
+models_cov_balance[['Research 1 Inst']] <- lm(r1~treatment, college2018, weights=entropy_weights)
+models_cov_balance[['Stu to Fac']] <- lm(stu_to_faculty~treatment, college2018, weights=entropy_weights)
+models_cov_balance[['Blk %']] <- lm(blk_perc_enrolled~treatment, college2018, weights=entropy_weights)
+models_cov_balance[['White %']] <- lm(white_perc_enrolled~treatment, college2018, weights=entropy_weights)
+models_cov_balance[['Asian %']] <- lm(asian_perc_enrolled~treatment, college2018, weights=entropy_weights)
+modelsummary(models_cov_balance, stars=TRUE, title="Covariate Balance WITH entropy weights")
+
+```
+
+
+```{r}
+
+# Bring in the outcome variables for each college and merge them with the data
+college2019<- read.csv("college_2019.csv")
+college<-merge(college2018,college2019)
+names(college)
+college$perc_freshman_pell_grants_2019 <- college$perc_freshman_pell_grants_2019/100
+
+library(modelsummary)
+models_outcomes <- list()
+models_outcomes[['% Pell Grant - Freshman - no weights']] <- lm(perc_freshman_pell_grants_2019~treatment, college)
+models_outcomes[['% Pell Grant - Freshman - weighted']] <- lm(perc_freshman_pell_grants_2019~treatment, college, weights=entropy_weights)
+modelsummary(models_outcomes, stars=TRUE, title="Effect Estimates")
+```
+
+
+
+
+
+
+
+
+

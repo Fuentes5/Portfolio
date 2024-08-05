@@ -1,0 +1,202 @@
+---
+title: "Regression Discontinuity"
+author: Eric Chan
+date: March 2024
+format: html
+self-contained: true
+editor: source
+theme: materia
+toc: true
+toc-depth: 2
+---
+
+```{r setup}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_knit$set(root.dir = 'C:/Users/jfuentes1/Documents/myrstudio(Structural Injustice)/0.Datasets')
+```
+
+hispa# Import data
+
+```{r}
+gt <- read.csv("giftedtalented.csv")
+names(gt)
+```
+
+# Plot the running variable
+
+```{r}
+library(ggplot2)
+
+ggplot(data=gt, aes(x = gate_score, y = accepted)) +  
+  geom_point(alpha = .1) +
+  geom_vline(xintercept = 93, linetype="dotted", 
+                color = "blue", size=1.5) +
+  theme_classic()
+
+```
+
+## Plot with bins
+
+```{r}
+ggplot(data=gt, aes(x = gate_score, y = accepted)) +  
+  geom_point(alpha = .1) +   
+  stat_summary_bin(fun='mean', bins=28,
+                   color='orange', size=2, geom='point') +
+  geom_vline(xintercept = 93, linetype="dotted", 
+                color = "blue", size=1.5) +
+  theme_classic()
+```
+
+```{r}
+ggplot(data=gt, aes(x = gate_score, y = accepted)) +
+  stat_summary_bin(fun='mean', bins=28,
+                   color='orange', size=2, geom='point') +
+  geom_vline(xintercept = 93, linetype="dotted", 
+                color = "blue", size=1.5) +
+  theme_classic()
+```
+
+# Plot the outcome
+
+## Plot first outcome: going to college
+
+```{r}
+ggplot(data=gt, aes(x = gate_score, y = college)) +
+  stat_summary_bin(fun='mean', bins=28,
+                   color='orange', size=2, geom='point') +
+  geom_vline(xintercept = 93, linetype="dotted", 
+                color = "blue", size=1.5) +
+  theme_light() 
+```
+
+### Plot outcome (college) with smoothed line
+
+```{r}
+ggplot(data=gt, aes(x = gate_score, y = college)) +
+  stat_summary_bin(fun='mean', bins=28,
+                   color='orange', size=2, geom='point') +
+  geom_vline(xintercept = 93, linetype="dotted", 
+                color = "blue", size=1.5) +
+  theme_light() +
+  geom_smooth(data=gt[gt$gate_score >= 93,], method='lm',formula=y~x) +    # plot lines
+  geom_smooth(data=gt[gt$gate_score < 93,], method='lm',formula=y~x) 
+```
+
+## Plot 2nd outcome: Earnings
+
+```{r}
+ggplot(data=gt, aes(x = gate_score, y = earnings)) +
+  stat_summary_bin(fun='mean', bins=28,
+                   color='orange', size=2, geom='point') +
+  geom_vline(xintercept = 93, linetype="dotted", 
+                color = "blue", size=1.5) +
+  theme_light() 
+```
+
+### Plot outcome (earnings) with smoothed line
+
+```{r}
+ggplot(data=gt, aes(x = gate_score, y = earnings)) +
+  stat_summary_bin(fun='mean', bins=20,
+                   color='orange', size=2, geom='point') +
+  geom_vline(xintercept = 93, linetype="dotted", 
+                color = "blue", size=1.5) +
+  theme_light() +
+  geom_smooth(data=gt[gt$gate_score >= 93,], method='lm',formula=y~x) +    # plot lines
+  geom_smooth(data=gt[gt$gate_score < 93,], method='lm',formula=y~x) 
+```
+
+# Modeling
+
+## Center the running variable
+
+```{r}
+# center the running variable
+gt$gate_score_centered <- gt$gate_score - 93
+
+# We already have a dummy variable for whether they were accepted into the gifted and talented program: "accepted"
+
+```
+
+## Estimating the effects
+
+Note that we have two coefficients in the below model: one for accepted and another for gate_score_centered.
+
+The "average treatment effect" for college enrollment is estimated to be 0.116, the coefficient of accepted. This would be interpreted as "if someone was accepted into the gifted and talented program, they are 11.6 pp more likely to go to college." We can interpret this as a causal effect as long as assumptions hold.
+
+The average treatment effect of earnings is insignificant. This means there are no effects of the GT program on earnings at age 30.
+
+```{r}
+library(modelsummary)
+models_outcomes <- list()
+models_outcomes[['college']] <- lm(college ~ accepted + gate_score_centered, gt)
+models_outcomes[['earnings']] <- lm(earnings ~ accepted + gate_score_centered, gt)
+modelsummary(models_outcomes, stars=TRUE, title="Estimated Effects, Using all data")
+```
+
+# Sensitivity: Modeling with different bandwidths
+
+Note that in the above scenario, I am modeling with ALL the data, which is not necessarily always appropriate. The assumption of RD is that the closer the test scores are to the threshold, the more likely the units are to be highly similar.
+
+Here we can subset only for those who are +/- 3 points away from the threshold, then we re-estimate the model. We can also choose other windows,such as +/- 5. But we always want to have enough data!
+
+The estimate for going to college around this bandwidth is 10.5pp. Slighly smaller, but still very interesting! The estimate for earnings at age 30 around this bandwidth is still insignificant!
+
+```{r}
+gt_subset <- gt[gt$gate_score_centered>=-3 & gt$gate_score_centered <=3,]
+
+library(modelsummary)
+models_outcomes <- list()
+models_outcomes[['college']] <- lm(college ~ accepted + gate_score_centered, gt_subset)
+models_outcomes[['earnings']] <- lm(earnings ~ accepted + gate_score_centered, gt_subset)
+modelsummary(models_outcomes, stars=TRUE, title="Estimated Effects, Using +/13 around threshold")
+```
+
+# Check assumptions
+
+## How similar are units below and above thresholds?
+
+We can ask how similar units are between those who are just above and those who are just below the threshold.
+
+Let's use modelsummary() and the subsetted data using +/- 3 points around the threshold!
+
+```{r}
+
+library(modelsummary)
+models_balance <- list()
+models_balance[['hispanic']] <- lm(hispanic ~ accepted, gt_subset)
+models_balance[['black']] <- lm(black ~ accepted, gt_subset)
+models_balance[['english_learner']] <- lm(english_learner ~ accepted, gt_subset)
+models_balance[['special_ed']] <- lm(special_ed ~ accepted, gt_subset)
+models_balance[['frpl']] <- lm(frpl ~ accepted, gt_subset)
+models_balance[['male']] <- lm(male ~ accepted, gt_subset)
+
+modelsummary(models_balance, stars=TRUE, title="Differences between treatment and control group")
+
+```
+
+## Graph the covariates around the threshold
+
+We can also check the assumption that baseline covariates should be very similar just below and just above the threshold.
+
+```{r}
+ggplot(data=gt, aes(x = gate_score, y = english_learner)) +
+  stat_summary_bin(fun='mean', bins=20,
+                   color='orange', size=2, geom='point') +
+  geom_vline(xintercept = 93, linetype="dotted", 
+                color = "blue", size=1.5) +
+  theme_light() +
+  geom_smooth(data=gt[gt$gate_score >= 93,], method='lm',formula=y~x) +    # plot lines
+  geom_smooth(data=gt[gt$gate_score < 93,], method='lm',formula=y~x) 
+```
+
+```{r}
+ggplot(data=gt, aes(x = gate_score, y = male)) +
+  stat_summary_bin(fun='mean', bins=20,
+                   color='orange', size=2, geom='point') +
+  geom_vline(xintercept = 93, linetype="dotted", 
+                color = "blue", size=1.5) +
+  theme_light() +
+  geom_smooth(data=gt[gt$gate_score >= 93,], method='lm',formula=y~x) +    # plot lines
+  geom_smooth(data=gt[gt$gate_score < 93,], method='lm',formula=y~x) 
+```
