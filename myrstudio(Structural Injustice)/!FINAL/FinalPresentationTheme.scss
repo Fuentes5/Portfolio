@@ -1,0 +1,63 @@
+/*-- scss:defaults --*/
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&display=swap');
+
+/*-- Define colors for later use --*/
+$black: #000000;
+$blue: #a3c3d1;
+$red: #e6c7c6;
+$brown: #e8e0d9;
+$white: #f6f3eb;
+
+
+
+
+/*-- Define Bootstrap color variables --*/
+
+// The page text color.
+$body-bg: $white;
+$body-color: $black;
+$font-family-sans-serif: "alatsi", "Comfortaa";
+
+$code-block-bg: $brown;
+
+
+/*-- TEXT ALIGN --*/
+.center-text {text-align: center;}
+.reveal-L {text-align: left;}
+.reveal-R {text-align: right;}
+
+
+
+
+/*-- MARGIN --*/
+.reveal-section-h1 {
+    margin-bottom: 80px;
+} 
+
+.top-margin {margin-top: 50px;}
+.top-margin-light {margin-top: 20px;}
+
+
+/*-- Font Size --*/
+.decreasefont { 
+    font-size: 0.8em; /* Reduce to 80% of the default */
+}
+
+
+/*-- TEXT --*/
+.bold {font-weight: bold;}
+
+.light {font-weight: 10;}
+
+
+
+.normal-font {font-weight: normal;}
+.bold-font {font-weight: bold;}
+.light-font {font-weight: 200;}
+
+
+
+
+
+
+

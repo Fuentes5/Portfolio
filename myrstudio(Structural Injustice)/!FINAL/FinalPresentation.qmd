@@ -1,0 +1,520 @@
+---
+slide-number: true
+execute:
+  echo: false
+format: 
+  revealjs:
+     theme: 
+     - FinalPresentationTheme.scss
+     - default
+     auto-stretch: false
+     auto-animate-easing: ease-in-out
+     menu:
+      side: left
+editor: visual
+---
+
+##  {background-image="https://static.timesofisrael.com/www/uploads/2023/06/img-20230605-wa0014.jpg" background-size="50%" background-position="left"}
+
+::: columns
+::: {.column width="50%"}
+:::
+
+::: {.column width="50%" style="margin-top: 200px"}
+## Do Large Vehicles Cause More Accidents?
+
+########### By Jose Fuentes
+:::
+:::
+
+# Introduction {.center-text .fade-in auto-animate="true" auto-animate-easing="ease-in-out"}
+
+## **Why This Topic?** {auto-animate="true" auto-animate-easing="ease-in-out"}
+
+::: {.fragment .reveal-L .top-margin .light}
+If you don’t own a car in the USA, you will soon face the challenge of traveling anywhere here. Along with the bad public transport and lack of walkable cities, having a car has become essential. With this in mind, we can’t ignore the hazards that come when being behind the wheel.
+
+![](https://www.iconpacks.net/icons/1/free-car-icon-1057-thumb.png){position="bottom" width="300" height="300"}
+:::
+
+## **Why This Topic?** {auto-animate="true" auto-animate-easing="ease-in-out"}
+
+::: {.reveal-L .top-margin .light}
+If you don’t own a car in the USA, you will soon face the challenge of traveling anywhere here. Along with the bad public transport and lack of walkable cities, having a car has become essential. With this in mind, we can’t ignore the hazards that come when being behind the wheel.
+
+![](https://www.iconpacks.net/icons/1/free-car-icon-1057-thumb.png){.absolute bottom="0" right="50" width="300" height="300"}
+:::
+
+## **The Data** {.reveal-L}
+
+::: {.fragment .reveal-L .top-margin-light .light-font}
+In the city of New York police are required to report a collision under the following conditions:
+
+-   If there was someone killed or injured.
+-   If there was at least \$1,000 worth of damage.
+
+Although the data was very messy, I knew that it would be perfect for what I was trying to research.
+
+```{r}
+#| echo: true
+
+
+setwd("C:/Users/jfuentes1/Documents/myrstudio(Structural Injustice)/!FINAL")
+
+
+Start = read.csv("Motor_vehicle_Collisions_Crashes.csv")
+```
+:::
+
+::: center-text
+# Cleaning The Data
+:::
+
+## Removing Unnecessary or Repetitive Columns {.reveal-L}
+
+```{r}
+#| echo: true
+
+columns_to_nullify = c('CRASH.DATE', 
+                       'CRASH.TIME',
+                       'BOROUGH',
+                       'ZIP.CODE',
+                       'LATITUDE',
+                       'LONGITUDE',
+                       'LOCATION',
+                       'ON.STREET.NAME',
+                       'OFF.STREET.NAME', 
+                       'CROSS.STREET.NAME',
+                       'NUMBER.OF.PEDESTRIANS.INJURED',
+                       'NUMBER.OF.PEDESTRIANS.KILLED',
+                       'NUMBER.OF.CYCLIST.INJURED',
+                       'NUMBER.OF.CYCLIST.KILLED',
+                       'NUMBER.OF.MOTORIST.INJURED',
+                       'NUMBER.OF.MOTORIST.KILLED',
+                       'CONTRIBUTING.FACTOR.VEHICLE.1',
+                       'CONTRIBUTING.FACTOR.VEHICLE.2',
+                       'CONTRIBUTING.FACTOR.VEHICLE.3',
+                       'CONTRIBUTING.FACTOR.VEHICLE.4',
+                       'CONTRIBUTING.FACTOR.VEHICLE.5',
+                       'COLLISION_ID',
+                       'VEHICLE.TYPE.CODE.2',
+                       'VEHICLE.TYPE.CODE.3',
+                       'VEHICLE.TYPE.CODE.4',
+                       'VEHICLE.TYPE.CODE.5')
+                       
+Start[columns_to_nullify] = NULL
+
+```
+
+## Repetitive Categories {.reveal-L}
+
+::: {.reveal-L .top-margin}
+After removing redundant columns, we're still left with similar categorical values in the vehicle column.
+
+-   Here's a word cloud to show you
+
+```{r}
+#| echo: true
+#| output-location: slide
+#| warning: false
+
+library(wordcloud)
+word_freqs1 = table(Start$VEHICLE.TYPE.CODE.1)
+wordcloud(words = names(word_freqs1), freq = word_freqs1)
+```
+:::
+
+## Repetitive Categories {auto-animate="true"}
+
+::: {.reveal-L .top-margin}
+To deal with this:
+
+-   First, I want to remove any variable that appears less than or equal to 30 times.
+
+-   Second, I want to lowercase the values to make it easy to combine similar characters.
+
+```{r}
+#| echo: true
+
+frequency = table(Start$VEHICLE.TYPE.CODE.1)
+df_filtered = Start[Start$VEHICLE.TYPE.CODE.1 %in% names(frequency[frequency > 30]), ]
+```
+:::
+
+## Repetitive Categories {auto-animate="true"}
+
+::: {.reveal-L .top-margin}
+To deal with this:
+
+-   First, I want to remove any variable that appears less than or equal to 30 times.
+
+-   Second, I want to lowercase the values to make it easy to combine similar characters.
+
+```{r}
+#| echo: true
+#| warning: false
+
+
+frequency = table(Start$VEHICLE.TYPE.CODE.1)
+df_filtered = Start[Start$VEHICLE.TYPE.CODE.1 %in% names(frequency[frequency > 30]), ]
+
+df_filtered$VEHICLE.TYPE.CODE.1 = tolower(df_filtered$VEHICLE.TYPE.CODE.1)#lower casing it
+```
+:::
+
+## Combining Similar Values {auto-animate="true"}
+
+```{r}
+#| echo: true
+
+
+#Two Wheeled Vehicles_______________________________________________
+df_filtered$VEHICLE.TYPE.CODE.1[df_filtered$VEHICLE.TYPE.CODE.1 %in% 
+                                  c(
+                                    "bike", "e-bike","minibike","motorbike","e-bik","bicycle",
+                                    "scooter","scoot","motorscooter","e-scooter","e-sco",
+                                    "moped","motorcycle","pedicab"
+                                  )] = "two_wheeler"
+```
+
+## Combining Similar Values {auto-animate="true"}
+
+```{r}
+#| echo: true
+
+
+#Two Wheeled Vehicles_______________________________________________
+df_filtered$VEHICLE.TYPE.CODE.1[df_filtered$VEHICLE.TYPE.CODE.1 %in% 
+                                  c(
+                                    "bike", "e-bike","minibike","motorbike","e-bik","bicycle",
+                                    "scooter","scoot","motorscooter","e-scooter","e-sco",
+                                    "moped","motorcycle","pedicab"
+                                  )] = "two_wheeler"
+
+#2-Door Sedans______________________________________________________
+df_filtered$VEHICLE.TYPE.CODE.1[df_filtered$VEHICLE.TYPE.CODE.1 %in% 
+                                  c(
+                                    "2 dr sedan","3-door","open body"
+                                  )] = "2_door_sedan"
+```
+
+## Combining Similar Values {auto-animate="true"}
+
+```{r}
+#| echo: true
+
+#Two Wheeled Vehicles_______________________________________________
+df_filtered$VEHICLE.TYPE.CODE.1[df_filtered$VEHICLE.TYPE.CODE.1 %in% 
+                                  c(
+                                    "bike", "e-bike","minibike","motorbike","e-bik","bicycle",
+                                    "scooter","scoot","motorscooter","e-scooter","e-sco",
+                                    "moped","motorcycle","pedicab"
+                                  )] = "two_wheeler"
+
+#2-Door Sedans______________________________________________________
+df_filtered$VEHICLE.TYPE.CODE.1[df_filtered$VEHICLE.TYPE.CODE.1 %in% 
+                                  c(
+                                    "2 dr sedan","3-door","open body"
+                                  )] = "2_door_sedan"
+#4-Door Sedans______________________________________________________
+df_filtered$VEHICLE.TYPE.CODE.1[df_filtered$VEHICLE.TYPE.CODE.1 %in% 
+                                  c(
+                                    "4 dr sedan", "subn","taxi","small com veh(4 tires)"
+                                  )] = "4_door_sedan"
+```
+
+## Combining Similar Values {auto-animate="true"}
+
+```{r}
+#| echo: true
+
+
+#Trucks_____________________________________________________________
+df_filtered$VEHICLE.TYPE.CODE.1[df_filtered$VEHICLE.TYPE.CODE.1 %in% 
+                                  c(
+                                    "pick-up truck", "truck","pick",
+                                    "pick up","pickup with mounted camper",
+                                    "tow t","tow truck","van",
+                                    "van camper", 
+                                    "station wagon/sport utility vehicle",
+                                    "sport utility / station wagon"
+                                  )] = "trucks"
+```
+
+## Combining Similar Values {auto-animate="true"}
+
+```{r}
+#| echo: true
+
+#Trucks_____________________________________________________________
+df_filtered$VEHICLE.TYPE.CODE.1[df_filtered$VEHICLE.TYPE.CODE.1 %in% 
+                                  c(
+                                    "pick-up truck", "truck","pick",
+                                    "pick up","pickup with mounted camper",
+                                    "tow t","tow truck","van",
+                                    "van camper", 
+                                    "station wagon/sport utility vehicle",
+                                    "sport utility / station wagon"
+                                  )] = "trucks"
+
+#Commercial Vehicles________________________________________________
+df_filtered$VEHICLE.TYPE.CODE.1[df_filtered$VEHICLE.TYPE.CODE.1 %in% 
+                                  c(
+                                    "tow truck / wrecker", 
+                                    "tractor truck diesel",
+                                    "tractor truck gasoline",
+                                    "trail",
+                                    "trailer","usps",
+                                    "refrigerated van",
+                                    "school bus","posta",
+                                    "multi-wheeled vehicle",
+                                    "lunch wagon","livery vehicle",
+                                    "limo",
+                                    "large com veh(6 or more tires)",
+                                    "garbage or refuse","garba",
+                                    "flat rack","fire","fire truck",
+                                    "firet","firetruck","flat bed",
+                                    "fdny","fdny ambul","fdny truck", 
+                                    "amb","ambu","ambul",
+                                    "ambulance","beverage truck",
+                                    "box t","box truck","box" ,
+                                    "bulk agriculture",
+                                    "bus","com","comme",
+                                    "commercial","concrete mixer",
+                                    "dump","delv","deliv"
+                                  )] = "commercial_vehicles"
+```
+
+## Clean Dataset
+
+```{r}
+#| echo: true
+
+
+#Remove everything except on the ones I just made____________________________________
+
+df_filtered$VEHICLE.TYPE.CODE.1[
+  df_filtered$VEHICLE.TYPE.CODE.1 != c(
+    "2_door_sedan","commercial_vehicles","trucks","4_door_sedan","two_wheeler")
+] = NA
+
+#New DataFrame_________________________
+values_to_keep <- c("2_door_sedan", "commercial_vehicles", "trucks", 
+"4_door_sedan", "two_wheeler")
+
+df <- df_filtered[df_filtered$VEHICLE.TYPE.CODE.1 %in% values_to_keep, ]
+
+```
+
+## New Word Cloud
+
+```{r}
+#| echo: true
+#| output-location: fragment
+#| warning: false
+
+library(wordcloud)
+word_freqs = table(df$VEHICLE.TYPE.CODE.1)
+wordcloud(words = names(word_freqs), freq = word_freqs)
+colnames(df)[c(1:3)] <- c("injured", "killed","vehicle") 
+```
+
+## Creating Dummy Variables
+
+```{r}
+#| echo: true
+
+#killed Or Injured
+df$injured = ifelse(df$injured >= 1, 1, 0)
+df$killed = ifelse(df$killed >= 1, 1, 0)
+
+#small Cars
+df$fourDoor = ifelse(df$vehicle == '4_door_sedan', 1, 0)
+df$twoWheel = ifelse(df$vehicle == 'two_wheeler', 1, 0)
+df$twoDoor = ifelse(df$vehicle == '2_door_sedan', 1, 0)
+
+#big cars
+df$comVeh = ifelse(df$vehicle == 'commercial_vehicles', 1, 0)
+df$trucks = ifelse(df$vehicle == 'trucks', 1, 0)
+```
+
+::: decreasefont
+-   The first chunk will show us whether someone was killed, or injured.
+-   The second and third chuck will show us whether the car was big or small.
+:::
+
+# Fundamental Problem with Casual Inference {.center-text}
+
+## Fundamental Problem
+
+::: top-margin-light
+-   The fundamental problem with causal Inference is that we can't observe both potential outcomes for the same unit.
+
+-   We can never measure or test the outcome for the same person both with and without a car crash.
+
+-   How can we estimate the causal effect of a person killed or injured if we can't test it?
+:::
+
+# Method {.center-text}
+
+## Propensity Score Matching (PSM)
+
+::: top-margin-light
+-   The best method to use in this case would be Propensity Score Matching.
+-   Our topic of car collisions doesn't contain a set threshold, therefore we cannot utilize Regression Discontinuity.
+-   We develop a score that predicts the likelihood of a unit receiving the treatment (whether the car is big) based on their characteristic.
+:::
+
+## Creating Treatment Variable
+
+::: top-margin-light
+-   To run a Propensity Score Match, we need a treatment variable.
+-   Our treatment variable will be whether the car is big or not.
+    -   Trucks and Commercial Vehicles will be our big vehicles in this case.
+:::
+
+```{r}
+#| echo: true
+
+
+df$treatment <- ifelse(df$vehicle %in% c("commercial_vehicles", "trucks"), 1, 0) #1 if the car falls under big, 0 if it doesn't
+
+df<- na.omit(df)
+
+```
+
+## Propensity Score
+
+::: columns
+::: {.column width="50%"}
+We have to get the Propensity score by predicting the log odds of whether the car was big or small from the following characteristics.
+:::
+
+::: {.column width="50%"}
+-   2-doors
+-   Sedan
+-   commercial Vehicles
+-   Truck
+-   2 Wheel
+:::
+:::
+
+```{r}
+#| echo: true
+
+logistic_model = glm(formula = treatment ~ fourDoor+twoDoor+twoWheel+comVeh+trucks, family = binomial(), data = df)
+predictions = predict(logistic_model, df)
+```
+
+## Propensity Score (Visualized)
+
+```{r}
+#| echo: true
+
+
+library(ggplot2)
+ggplot(df,aes(x = predictions)) +
+  geom_histogram(color = "black") +
+  facet_wrap(~killed) +
+  xlab("Probability of being killed") +
+  theme_bw()
+```
+
+# Matching {.center-text}
+
+## Matching {.top-margin-light}
+
+Matching these individual results will tell us if someone died or was injured.
+
+``` r
+
+library(MatchIt)
+match_model <- matchit(treatment ~ fourDoor+twoDoor+twoWheel+comVeh+trucks , method = "nearest", data = df)
+
+matched <- match.data(match_model)
+
+
+#common Support
+#ggplot(matched,aes(x=predictions)) + 
+#  geom_histogram(data=subset(matched,treatment == 1),fill = "black", alpha = 0.8) +
+#  geom_histogram(data=subset(matched,treatment == 0),fill = "blue", alpha = 0.5) +
+#  xlab("Probability of Kill") +
+#  ggtitle("Common Support") +
+#  theme_bw()
+```
+
+## Matching {.top-margin-light}
+
+This section shows our common support in the model.
+
+``` r
+  
+library(MatchIt)
+match_model <- matchit(treatment ~ fourDoor+twoDoor+twoWheel+comVeh+trucks , method = "nearest", data = df)
+
+matched <- match.data(match_model)
+
+
+#common Support
+ggplot(matched,aes(x=predictions)) + 
+  geom_histogram(data=subset(matched,treatment == 1),fill = "black", alpha = 0.8) +
+  geom_histogram(data=subset(matched,treatment == 0),fill = "blue", alpha = 0.5) +
+  xlab("Probability of Kill") +
+  ggtitle("Common Support") +
+  theme_bw()
+```
+
+## Matching
+
+![](Common%20Support.png){.center-text}
+
+# Conclusion {.center-text}
+
+## Conclusion
+
+-   From first view of our model we can see that I didn't have enough data on different characteristics to show more detail on our matches
+
+-   Vehicles that are similar to in characteristics will match exactly due to the way I cleaned the data.
+
+## Conclusion
+
+-   Let's run a regression against whether someone will get injured or killed on a larger vehicle!
+
+``` r
+
+library(modelsummary)
+
+models_effects <- list()
+models_effects[['Effects on Killed']] <- lm(killed ~ treatment, matched)
+models_effects[['Effects on Injured']] <- lm(injured ~ treatment, matched)
+
+modelsummary(models_effects, stars=TRUE, title="Effects w/PSM")
+```
+
+# Results {.center-text}
+
+## Results
+
+![](Regression.png){.center-text}
+
+## Results
+
+-   If we looked at death as the variable, we find that bigger cars decrease the probability that you will die in a collision all things held constant.
+
+-   If we look at injuries, we find that bigger car decrease the probability that you will get injured in a collision by 6.7% percentage points.
+
+These findings suggest a potential safety benefit associated with larger vehicles. Possible explanations could include increased structural protection and greater visibility on the road.
+
+# Final Thoughts {.center-text}
+
+## Final Thoughts
+
+-   While larger cars may offer some safety benefits, it's crucial to acknowledge potential trade-offs. Larger cars can have higher environmental impact, may be more difficult to maneuver in some situations, and could potentially pose an increased risk to other road users.
+
+-   While the study used propensity score matching to account for observable factors, there may be unmeasured factors influencing the relationship between car size and injury/death risk.
+
+# Thank you {.center-text}
+
+# Links {.center-text}
+
+[Primary Data](https://catalog.data.gov/dataset/motor-vehicle-collisions-crashes){preview-link="false"}
